@@ -104,14 +104,28 @@ fun BasisEpicCalendar(
                 Spacer(modifier = Modifier.height(rowsSpacerHeight))
             }
 
-            state.daysMatrix.forEachIndexed { rowIndex, days ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    days.forEach { day ->
+            LazyVerticalGrid(
+                modifier = Modifier.fillMaxWidth(),
+                state = state.daysGridState,
+                columns = GridCells.Fixed(count = 7),
+                verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                userScrollEnabled = false,
+                contentPadding = PaddingValues(
+                    top = if (state.displayDaysOfWeek) 0.dp else contentPaddingTop,
+                    start = contentPaddingStart,
+                    end = contentPaddingEnd,
+                    bottom = contentPaddingBottom
+                )
+            ) {
+                state.daysMatrix.forEachIndexed { rowIndex, days ->
+                    itemsIndexed(
+                        items = days,
+                        key = { index, key -> key?.toString() ?: "[$index][$rowIndex]" },
+                        contentType = { _, _ -> "day" }
+                    ) { _, day ->
                         Box(
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
                             Box(
@@ -133,50 +147,6 @@ fun BasisEpicCalendar(
                     }
                 }
             }
-
-//            LazyVerticalGrid(
-//                modifier = Modifier.fillMaxWidth(),
-//                state = state.daysGridState,
-//                columns = GridCells.Fixed(count = 7),
-//                verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                userScrollEnabled = false,
-//                contentPadding = PaddingValues(
-//                    top = if (state.displayDaysOfWeek) 0.dp else contentPaddingTop,
-//                    start = contentPaddingStart,
-//                    end = contentPaddingEnd,
-//                    bottom = contentPaddingBottom
-//                )
-//            ) {
-//                state.daysMatrix.forEachIndexed { rowIndex, days ->
-//                    itemsIndexed(
-//                        items = days,
-//                        key = { index, key -> key?.toString() ?: "[$index][$rowIndex]" },
-//                        contentType = { _, _ -> "day" }
-//                    ) { _, day ->
-//                        Box(
-//                            modifier = Modifier.fillMaxWidth(),
-//                            contentAlignment = Alignment.Center
-//                        ) {
-//                            Box(
-//                                Modifier
-//                                    .clip(dayOfMonthViewShape)
-//                                    .height(dayOfMonthViewHeight)
-//                                    .width(columnWidth)
-//                                    .let {
-//                                        if (onDayOfMonthClick == null || day == null) it
-//                                        else it.clickable {
-//                                            onDayOfMonthClick(day)
-//                                        }
-//                                    },
-//                                contentAlignment = Alignment.Center
-//                            ) {
-//                                dayOfMonthComposable(day)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
         }
     }
 }
