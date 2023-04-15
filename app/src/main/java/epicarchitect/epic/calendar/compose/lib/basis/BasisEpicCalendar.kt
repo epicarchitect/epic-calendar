@@ -1,6 +1,5 @@
 package epicarchitect.epic.calendar.compose.lib.basis
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
@@ -106,28 +104,14 @@ fun BasisEpicCalendar(
                 Spacer(modifier = Modifier.height(rowsSpacerHeight))
             }
 
-            LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth(),
-                state = state.daysGridState,
-                columns = GridCells.Fixed(count = 7),
-                verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                userScrollEnabled = false,
-                contentPadding = PaddingValues(
-                    top = if (state.displayDaysOfWeek) 0.dp else contentPaddingTop,
-                    start = contentPaddingStart,
-                    end = contentPaddingEnd,
-                    bottom = contentPaddingBottom
-                )
-            ) {
-                state.daysMatrix.forEachIndexed { rowIndex, days ->
-                    itemsIndexed(
-                        items = days,
-                        key = { index, key -> key?.toString() ?: "[$index][$rowIndex]" },
-                        contentType = { _, _ -> "day" }
-                    ) { _, day ->
+            state.daysMatrix.forEachIndexed { rowIndex, days ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    days.forEach { day ->
                         Box(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
                             Box(
@@ -149,6 +133,50 @@ fun BasisEpicCalendar(
                     }
                 }
             }
+
+//            LazyVerticalGrid(
+//                modifier = Modifier.fillMaxWidth(),
+//                state = state.daysGridState,
+//                columns = GridCells.Fixed(count = 7),
+//                verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
+//                horizontalArrangement = Arrangement.SpaceBetween,
+//                userScrollEnabled = false,
+//                contentPadding = PaddingValues(
+//                    top = if (state.displayDaysOfWeek) 0.dp else contentPaddingTop,
+//                    start = contentPaddingStart,
+//                    end = contentPaddingEnd,
+//                    bottom = contentPaddingBottom
+//                )
+//            ) {
+//                state.daysMatrix.forEachIndexed { rowIndex, days ->
+//                    itemsIndexed(
+//                        items = days,
+//                        key = { index, key -> key?.toString() ?: "[$index][$rowIndex]" },
+//                        contentType = { _, _ -> "day" }
+//                    ) { _, day ->
+//                        Box(
+//                            modifier = Modifier.fillMaxWidth(),
+//                            contentAlignment = Alignment.Center
+//                        ) {
+//                            Box(
+//                                Modifier
+//                                    .clip(dayOfMonthViewShape)
+//                                    .height(dayOfMonthViewHeight)
+//                                    .width(columnWidth)
+//                                    .let {
+//                                        if (onDayOfMonthClick == null || day == null) it
+//                                        else it.clickable {
+//                                            onDayOfMonthClick(day)
+//                                        }
+//                                    },
+//                                contentAlignment = Alignment.Center
+//                            ) {
+//                                dayOfMonthComposable(day)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }

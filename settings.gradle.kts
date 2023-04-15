@@ -12,5 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "EpicCalendarCreation"
-include ':app'
+include(":app")
