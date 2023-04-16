@@ -4,21 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -56,9 +46,9 @@ fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
     state: BasisEpicCalendar.State = BasisEpicCalendar.LocalState.current
         ?: BasisEpicCalendar.rememberState(),
+    config: BasisEpicCalendar.Config = BasisEpicCalendar.LocalConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((EpicDayOfWeek) -> Unit)? = null,
-    config: BasisEpicCalendar.Config = BasisEpicCalendar.LocalConfig.current,
     dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
     dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
 ) = with(config) {
@@ -66,67 +56,48 @@ fun BasisEpicCalendar(
         BasisEpicCalendar.LocalConfig provides config,
         BasisEpicCalendar.LocalState provides state
     ) {
-        val layoutDirection = LocalLayoutDirection.current
-        val contentPaddingTop = contentPadding.calculateTopPadding()
-        val contentPaddingStart = contentPadding.calculateStartPadding(layoutDirection)
-        val contentPaddingEnd = contentPadding.calculateEndPadding(layoutDirection)
-        val contentPaddingBottom = contentPadding.calculateBottomPadding()
-
-        Column(modifier) {
+        LazyVerticalGrid(
+            modifier = modifier,
+            columns = GridCells.Fixed(count = 7),
+            verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            userScrollEnabled = false,
+            contentPadding = contentPadding
+        ) {
             if (state.displayDaysOfWeek) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top = contentPaddingTop,
-                            start = contentPaddingStart,
-                            end = contentPaddingEnd,
-                        ),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-
-                    ) {
-                    state.dateGridInfo.daysOfWeek.forEach { dayOfWeek ->
+                state.dateGridInfo.daysOfWeek.forEach { dayOfWeek ->
+                    item {
                         Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .clip(dayOfWeekViewShape)
-                                .height(dayOfWeekViewHeight)
-                                .let {
-                                    if (onDayOfWeekClick == null) it
-                                    else it.clickable {
-                                        onDayOfWeekClick(dayOfWeek)
-                                    }
-                                },
+                            modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-                            dayOfWeekComposable(dayOfWeek)
+                            Box(
+                                modifier = Modifier
+                                    .clip(dayOfWeekViewShape)
+                                    .height(dayOfWeekViewHeight)
+                                    .width(columnWidth)
+                                    .let {
+                                        if (onDayOfWeekClick == null) it
+                                        else it.clickable {
+                                            onDayOfWeekClick(dayOfWeek)
+                                        }
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                dayOfWeekComposable(dayOfWeek)
+                            }
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(rowsSpacerHeight))
             }
 
-            LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth(),
-                columns = GridCells.Fixed(count = 7),
-                verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                userScrollEnabled = false,
-                contentPadding = PaddingValues(
-                    top = if (state.displayDaysOfWeek) 0.dp else contentPaddingTop,
-                    start = contentPaddingStart,
-                    end = contentPaddingEnd,
-                    bottom = contentPaddingBottom
-                )
-            ) {
-                state.dateGridInfo.dateMatrix.forEachIndexed { rowIndex, rowDates ->
-                    itemsIndexed(
-                        items = rowDates,
-                        key = { index, key -> "[$rowIndex][$index]" },
-                        contentType = { _, _ -> "date" }
-                    ) { _, date ->
-                        if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
+            state.dateGridInfo.dateMatrix.forEachIndexed { rowIndex, rowDates ->
+                rowDates.forEachIndexed { columnIndex, date ->
+                    if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
+                        item(
+                            key = "[$rowIndex][$columnIndex]",
+                            contentType = "date"
+                        ) {
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
@@ -148,6 +119,11 @@ fun BasisEpicCalendar(
                                 }
                             }
                         }
+                    } else {
+                        item(
+                            key = "[$rowIndex][$columnIndex]",
+                            contentType = "empty"
+                        ) {}
                     }
                 }
             }
