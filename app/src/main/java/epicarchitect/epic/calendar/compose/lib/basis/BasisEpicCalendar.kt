@@ -39,13 +39,16 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
 import epicarchitect.epic.calendar.compose.lib.EpicDayOfWeek
 import epicarchitect.epic.calendar.compose.lib.EpicMonth
+import epicarchitect.epic.calendar.compose.lib.calculateEpicDateGridInfo
 import epicarchitect.epic.calendar.compose.lib.contains
+import epicarchitect.epic.calendar.compose.lib.epicMonth
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 
-typealias BasisDayOfMonthComposable = @Composable BoxScope.(LocalDate?) -> Unit
+typealias BasisDayOfMonthComposable = @Composable BoxScope.(LocalDate) -> Unit
 typealias BasisDayOfWeekComposable = @Composable BoxScope.(EpicDayOfWeek) -> Unit
 
 @Composable
@@ -82,7 +85,7 @@ fun BasisEpicCalendar(
                     horizontalArrangement = Arrangement.SpaceBetween,
 
                     ) {
-                    state.daysOfWeek.forEach { dayOfWeek ->
+                    state.dateGridInfo.daysOfWeek.forEach { dayOfWeek ->
                         Box(
                             modifier = Modifier
                                 .weight(1f)
@@ -118,30 +121,32 @@ fun BasisEpicCalendar(
                     bottom = contentPaddingBottom
                 )
             ) {
-                state.daysMatrix.forEachIndexed { rowIndex, days ->
+                state.dateGridInfo.dateMatrix.forEachIndexed { rowIndex, rowDates ->
                     itemsIndexed(
-                        items = days,
-                        key = { index, key -> key?.toString() ?: "[$index][$rowIndex]" },
-                        contentType = { _, _ -> "day" }
-                    ) { _, day ->
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
+                        items = rowDates,
+                        key = { index, key -> "[$rowIndex][$index]" },
+                        contentType = { _, _ -> "date" }
+                    ) { _, date ->
+                        if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
                             Box(
-                                Modifier
-                                    .clip(dayOfMonthViewShape)
-                                    .height(dayOfMonthViewHeight)
-                                    .width(columnWidth)
-                                    .let {
-                                        if (onDayOfMonthClick == null || day == null) it
-                                        else it.clickable {
-                                            onDayOfMonthClick(day)
-                                        }
-                                    },
+                                modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                dayOfMonthComposable(day)
+                                Box(
+                                    modifier = Modifier
+                                        .clip(dayOfMonthViewShape)
+                                        .height(dayOfMonthViewHeight)
+                                        .width(columnWidth)
+                                        .let {
+                                            if (onDayOfMonthClick == null) it
+                                            else it.clickable {
+                                                onDayOfMonthClick(date)
+                                            }
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    dayOfMonthComposable(date)
+                                }
                             }
                         }
                     }
@@ -153,17 +158,15 @@ fun BasisEpicCalendar(
 
 object BasisEpicCalendar {
     val DefaultDayOfMonthComposable: BasisDayOfMonthComposable = { date ->
-        if (date != null) {
-            val state = LocalState.current!!
-            Text(
-                modifier = Modifier.alpha(
-                    if (date in state.currentMonth) 1.0f
-                    else 0.5f
-                ),
-                text = date.dayOfMonth.toString(),
-                textAlign = TextAlign.Center
-            )
-        }
+        val state = LocalState.current!!
+        Text(
+            modifier = Modifier.alpha(
+                if (date in state.currentMonth) 1.0f
+                else 0.5f
+            ),
+            text = date.dayOfMonth.toString(),
+            textAlign = TextAlign.Center
+        )
     }
 
     val DefaultDayOfWeekComposable: BasisDayOfWeekComposable = { dayOfWeek ->
@@ -206,14 +209,10 @@ object BasisEpicCalendar {
         override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
         override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
 
-        private val firstDayOfWeek get() = EpicDayOfWeek.firstDayOfWeekByCurrentLocale()
+        private val firstDayOfWeek get() = EpicDayOfWeek.firstDayOfWeekByLocale()
 
-        override val daysOfWeek by derivedStateOf {
-            EpicDayOfWeek.entriesSortedByFirstDayOfWeek(firstDayOfWeek)
-        }
-
-        override val daysMatrix by derivedStateOf {
-            calculateDaysMatrix(
+        override val dateGridInfo by derivedStateOf {
+            calculateEpicDateGridInfo(
                 currentMonth = currentMonth,
                 displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
                 firstDayOfWeek = firstDayOfWeek
@@ -247,8 +246,7 @@ object BasisEpicCalendar {
         val currentMonth: EpicMonth
         var displayDaysOfAdjacentMonths: Boolean
         var displayDaysOfWeek: Boolean
-        val daysOfWeek: List<EpicDayOfWeek>
-        val daysMatrix: List<List<LocalDate?>>
+        val dateGridInfo: EpicCalendarGridInfo
     }
 
     interface Config {

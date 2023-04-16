@@ -136,7 +136,7 @@ fun EpicCalendarPager(
     onDayOfWeekClick: ((EpicDayOfWeek) -> Unit)? = null,
     dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
     dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
-) = with(config) {
+) {
     CompositionLocalProvider(
         EpicCalendarPager.LocalConfig provides config,
         EpicCalendarPager.LocalState provides state

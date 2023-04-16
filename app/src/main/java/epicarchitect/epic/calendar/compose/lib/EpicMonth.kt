@@ -2,7 +2,6 @@ package epicarchitect.epic.calendar.compose.lib
 
 import androidx.compose.runtime.Immutable
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
@@ -15,13 +14,8 @@ data class EpicMonth(
     val year: Int,
     val month: Month
 ) : Comparable<EpicMonth> {
-    companion object {
-        fun now(timeZone: TimeZone): EpicMonth {
-            val now = Clock.System.now()
-            val date = now.toLocalDateTime(timeZone)
-            return EpicMonth(date.year, date.month)
-        }
-    }
+
+    val numberOfDays = month.length(isLeapYear(year.toLong()))
 
     override fun compareTo(other: EpicMonth): Int {
         var cmp = year - other.year
@@ -29,6 +23,11 @@ data class EpicMonth(
             cmp = month.value - other.month.value
         }
         return cmp
+    }
+
+    companion object {
+        fun now(timeZone: TimeZone = TimeZone.currentSystemDefault()) =
+            Clock.System.now().toLocalDateTime(timeZone).date.epicMonth
     }
 }
 
@@ -44,21 +43,15 @@ fun EpicMonth.addMonths(monthsToAdd: Int): EpicMonth {
     return EpicMonth(newYear, Month(newMonth))
 }
 
-
-fun EpicMonth.length() = month.length(isLeapYear(year.toLong()))
-
 fun EpicMonth.previous(): EpicMonth = addMonths(-1)
 
 fun EpicMonth.next(): EpicMonth = addMonths(1)
 
-val LocalDate.monthOfYear: EpicMonth get() = EpicMonth(year, month)
-
-fun Instant.monthOfYear(timeZone: TimeZone): EpicMonth =
-    toLocalDateTime(timeZone).date.monthOfYear
+val LocalDate.epicMonth: EpicMonth get() = EpicMonth(year, month)
 
 fun EpicMonth.atDay(dayOfMonth: Int) = LocalDate(year, month, dayOfMonth)
 
-fun EpicMonth.lastDayOfWeek() = atDay(length()).dayOfWeek.toEpic()
+fun EpicMonth.lastDayOfWeek() = atDay(numberOfDays).dayOfWeek.toEpic()
 
 // copied from IsoChronology
 fun isLeapYear(year: Long): Boolean {
@@ -67,7 +60,7 @@ fun isLeapYear(year: Long): Boolean {
 
 operator fun EpicMonth.contains(date: LocalDate): Boolean {
     val start = LocalDateTime(year, month, 1, 0, 0, 0).date
-    val end = LocalDateTime(year, month, length(), 23, 59, 59).date
+    val end = LocalDateTime(year, month, numberOfDays, 23, 59, 59).date
     return date in start..end
 }
 

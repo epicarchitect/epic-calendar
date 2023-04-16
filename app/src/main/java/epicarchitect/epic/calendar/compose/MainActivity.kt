@@ -74,7 +74,8 @@ class MainActivity : ComponentActivity() {
                                     pageCount = 55
                                 ) { page ->
                                     Text(
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier
+                                            .fillMaxWidth()
                                             .height(100.dp),
                                         text = " alkjd adsjlk asdj askdjklas djajd kd jksad jsjadjsad kdkj fhgjhgjg  fhshg djkfhgjfhghdfuhsfhiuhkjsssjfhajhfhskfjhfsjf sfhs dfhsfh djf gjs fkegskgf dlhfiqwhfoidfhbnvldkv"
                                     )
@@ -190,9 +191,7 @@ fun PagerTesting() {
 
 @Composable
 fun DatePickerTesting() {
-    val state = EpicDatePicker.rememberState(
-        selectionMode = EpicDatePicker.SelectionMode.Range
-    )
+    val state = EpicDatePicker.rememberState()
 
     EpicDatePicker(
         modifier = Modifier.border(1.dp, Color.Red),
@@ -286,5 +285,21 @@ fun DatePickerTesting() {
         )
 
         Text("displayDaysOfWeek")
+    }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Single }) {
+            Text("Single")
+        }
+
+        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Multi(3) }) {
+            Text("Multi(3)")
+        }
+
+        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Range }) {
+            Text("Range")
+        }
     }
 }

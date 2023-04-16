@@ -1,6 +1,7 @@
 package epicarchitect.epic.calendar.compose.lib
 
 import androidx.compose.runtime.Immutable
+import kotlinx.datetime.LocalDate
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
@@ -22,8 +23,9 @@ enum class EpicDayOfWeek {
         DayOfWeek.values()[ordinal].getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
 
     companion object {
-        fun firstDayOfWeekByCurrentLocale() =
-            WeekFields.of(Locale.getDefault()).firstDayOfWeek.toEpic()
+        fun firstDayOfWeekByLocale(
+            locale: Locale = Locale.getDefault()
+        ) = WeekFields.of(locale).firstDayOfWeek.toEpic()
 
         fun entriesSortedByFirstDayOfWeek(firstDayOfWeek: EpicDayOfWeek) =
             DayOfWeek.values().map(DayOfWeek::toEpic).let {
@@ -32,6 +34,8 @@ enum class EpicDayOfWeek {
             }
     }
 }
+
+val LocalDate.epicDayOfWeek get() = dayOfWeek.toEpic()
 
 
 internal fun DayOfWeek.toEpic() = when (this) {
@@ -45,7 +49,7 @@ internal fun DayOfWeek.toEpic() = when (this) {
 }
 
 fun EpicDayOfWeek.countDaysToEndOfWeek(
-    firstDayOfWeek: EpicDayOfWeek = EpicDayOfWeek.firstDayOfWeekByCurrentLocale()
+    firstDayOfWeek: EpicDayOfWeek = EpicDayOfWeek.firstDayOfWeekByLocale()
 ) = when (firstDayOfWeek) {
     EpicDayOfWeek.MONDAY -> value - 1
     EpicDayOfWeek.SUNDAY -> {
@@ -56,7 +60,7 @@ fun EpicDayOfWeek.countDaysToEndOfWeek(
 }
 
 fun EpicDayOfWeek.index(
-    firstDayOfWeek: EpicDayOfWeek = EpicDayOfWeek.firstDayOfWeekByCurrentLocale()
+    firstDayOfWeek: EpicDayOfWeek = EpicDayOfWeek.firstDayOfWeekByLocale()
 ) = when (firstDayOfWeek) {
     EpicDayOfWeek.MONDAY -> value - 1
     EpicDayOfWeek.SUNDAY -> {
