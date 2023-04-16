@@ -8,8 +8,8 @@ class EpicCalendarGridInfo(
     val daysOfWeek: List<EpicDayOfWeek>,
     val dateMatrix: List<List<LocalDate>>,
     val dateInfoMap: Map<LocalDate, DateInfo>,
-    val previousMonth: EpicMonth?,
-    val nextMonth: EpicMonth?,
+    val previousMonth: EpicMonth,
+    val nextMonth: EpicMonth,
     val currentMonth: EpicMonth,
     val firstDayOfWeek: EpicDayOfWeek,
     val maxPosition: EpicGridPosition
@@ -26,8 +26,6 @@ data class EpicGridPosition(
     val row: Int,
     val column: Int
 )
-
-operator fun EpicCalendarGridInfo.get(row: Int, column: Int) = dateMatrix[row][column]
 
 fun calculateEpicDateGridInfo(
     currentMonth: EpicMonth,

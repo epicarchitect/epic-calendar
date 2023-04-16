@@ -3,6 +3,7 @@ package epicarchitect.epic.calendar.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -99,7 +100,7 @@ fun PagerTesting() {
     val state = EpicCalendarPager.rememberState()
 
     EpicCalendarPager(
-        modifier = Modifier.border(1.dp, Color.Red),
+        modifier = Modifier.border(1.dp, Color.Red).animateContentSize(),
         state = state,
     )
 
@@ -194,7 +195,7 @@ fun DatePickerTesting() {
     val state = EpicDatePicker.rememberState()
 
     EpicDatePicker(
-        modifier = Modifier.border(1.dp, Color.Red),
+        modifier = Modifier.border(1.dp, Color.Red).animateContentSize(),
         state = state,
         config = EpicDatePicker.DefaultConfig.copy(
             selectionContentColor = Color.White,

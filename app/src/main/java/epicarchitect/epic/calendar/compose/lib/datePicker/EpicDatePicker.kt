@@ -2,12 +2,12 @@ package epicarchitect.epic.calendar.compose.lib.datePicker
 
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.lazy.grid.LazyGridItemInfo
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +27,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
-import epicarchitect.epic.calendar.compose.lib.EpicGridPosition
 import epicarchitect.epic.calendar.compose.lib.atDay
 import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfMonthComposable
 import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfWeekComposable
@@ -60,15 +59,42 @@ fun EpicDatePicker(
             state.selectionMode is EpicDatePicker.SelectionMode.Range
                     && state.selectedDates.size > 1
 
-        fun mustDrawAsSingle() =
+        fun mustDrawAsSingles() =
             state.selectionMode !is EpicDatePicker.SelectionMode.Range
                     || state.selectedDates.size == 1
 
-        @Suppress("UNUSED_PARAMETER")
         fun pageModifier(page: Int) = Modifier.composed {
             val basisState = BasisEpicCalendar.LocalState.current!!
             val gridInfo = basisState.dateGridInfo
-            val month = basisState.currentMonth
+
+            val selectionInfoList by remember(page) {
+                derivedStateOf {
+                    if (mustDrawAsRange()) {
+                        val startDate = state.selectedDates.min()
+                        val endDate = state.selectedDates.max()
+
+                        listOf(
+                            SelectedRangeInfo.calculate(
+                                startDate = startDate,
+                                endDate = endDate,
+                                gridInfo = gridInfo,
+                                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths
+                            )
+                        )
+                    } else if (mustDrawAsSingles()) {
+                        state.selectedDates.map {
+                            SelectedRangeInfo.calculate(
+                                startDate = it,
+                                endDate = it,
+                                gridInfo = gridInfo,
+                                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths
+                            )
+                        }
+                    } else {
+                        emptyList()
+                    }
+                }
+            }
 
             drawBehind {
                 val dayOfWeekHeightPx = pagerConfig.basisConfig.dayOfWeekViewHeight.toPx()
@@ -86,43 +112,15 @@ fun EpicDatePicker(
                     left = contentPaddingStart.toPx(),
                     right = contentPaddingEnd.toPx()
                 ) {
-                    if (mustDrawAsRange()) {
-                        val startDate = state.selectedDates.min()
-                        val endDate = state.selectedDates.max()
-
-                        SelectedRangeInfo.calculateRangeInfo(
-                            startDate = startDate,
-                            endDate = endDate,
-                            gridInfo = gridInfo,
-                            displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths
-                        ).let {
-                            drawRangeBackground(
-                                selectedRangeInfo = it,
-                                color = selectionContainerColor,
-                                itemContainerWidthPx = columnWidthPx,
-                                itemContainerHeightPx = dayOfMonthViewHeightPx,
-                                horizontalSpaceBetweenItemsPx = gridItemWidth - columnWidthPx,
-                                rowsSpacerHeightPx = rowsSpacerHeightPx
-                            )
-                        }
-                    } else if (mustDrawAsSingle()) {
-                        state.selectedDates.forEach {
-                            SelectedRangeInfo.calculateRangeInfo(
-                                startDate = it,
-                                endDate = it,
-                                gridInfo = gridInfo,
-                                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths
-                            ).let {
-                                drawRangeBackground(
-                                    selectedRangeInfo = it,
-                                    color = selectionContainerColor,
-                                    itemContainerWidthPx = columnWidthPx,
-                                    itemContainerHeightPx = dayOfMonthViewHeightPx,
-                                    horizontalSpaceBetweenItemsPx = gridItemWidth - columnWidthPx,
-                                    rowsSpacerHeightPx = rowsSpacerHeightPx
-                                )
-                            }
-                        }
+                    selectionInfoList.forEach { info ->
+                        drawRangeBackground(
+                            selectedRangeInfo = info,
+                            color = selectionContainerColor,
+                            itemContainerWidthPx = columnWidthPx,
+                            itemContainerHeightPx = dayOfMonthViewHeightPx,
+                            horizontalSpaceBetweenItemsPx = gridItemWidth - columnWidthPx,
+                            rowsSpacerHeightPx = rowsSpacerHeightPx
+                        )
                     }
                 }
             }
@@ -138,21 +136,6 @@ fun EpicDatePicker(
             dayOfWeekComposable = dayOfWeekComposable
         )
     }
-}
-
-private fun EpicGridPosition.toOffset(
-    drawSize: Size,
-    gridInfo: EpicCalendarGridInfo
-) = Offset(
-    x = column * drawSize.width / (gridInfo.maxPosition.column + 1),
-    y = row * drawSize.height / (gridInfo.maxPosition.row + 1),
-)
-
-private fun List<LazyGridItemInfo>.filterBy(
-    dates: List<LocalDate>,
-    gridInfo: EpicCalendarGridInfo
-) = filter {
-    gridInfo.dateMatrix[it.row][it.column] in dates
 }
 
 object EpicDatePicker {
@@ -313,13 +296,14 @@ object EpicDatePicker {
     }
 }
 
+@Immutable
 internal class SelectedRangeInfo(
     val gridCoordinates: Pair<IntOffset?, IntOffset?>,
     val firstIsSelectionStart: Boolean,
     val lastIsSelectionEnd: Boolean
 ) {
     companion object {
-        fun calculateRangeInfo(
+        fun calculate(
             displayDaysOfAdjacentMonths: Boolean,
             gridInfo: EpicCalendarGridInfo,
             startDate: LocalDate,

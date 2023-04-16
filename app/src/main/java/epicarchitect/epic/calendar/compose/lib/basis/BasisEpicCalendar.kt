@@ -109,7 +109,6 @@ fun BasisEpicCalendar(
 
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxWidth(),
-                state = state.daysGridState,
                 columns = GridCells.Fixed(count = 7),
                 verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -183,19 +182,15 @@ object BasisEpicCalendar {
         displayDaysOfWeek: Boolean = true,
         displayDaysOfAdjacentMonths: Boolean = true
     ): State {
-        val gridState = rememberLazyGridState()
-
         return remember(
             currentMonth,
             displayDaysOfWeek,
-            displayDaysOfAdjacentMonths,
-            gridState,
+            displayDaysOfAdjacentMonths
         ) {
             DefaultState(
                 currentMonth = currentMonth,
                 displayDaysOfWeek = displayDaysOfWeek,
-                displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths,
-                daysGridState = gridState,
+                displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths
             )
         }
     }
@@ -203,8 +198,7 @@ object BasisEpicCalendar {
     class DefaultState(
         override val currentMonth: EpicMonth,
         displayDaysOfAdjacentMonths: Boolean,
-        displayDaysOfWeek: Boolean,
-        override val daysGridState: LazyGridState
+        displayDaysOfWeek: Boolean
     ) : State {
         override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
         override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
@@ -242,7 +236,6 @@ object BasisEpicCalendar {
     ) : Config
 
     interface State {
-        val daysGridState: LazyGridState
         val currentMonth: EpicMonth
         var displayDaysOfAdjacentMonths: Boolean
         var displayDaysOfWeek: Boolean
