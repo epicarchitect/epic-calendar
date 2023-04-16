@@ -136,8 +136,9 @@ object BasisEpicCalendar {
         val state = LocalState.current!!
         Text(
             modifier = Modifier.alpha(
-                if (date in state.currentMonth) 1.0f
-                else 0.5f
+                alpha = remember(date, state.currentMonth) {
+                    if (date in state.currentMonth) 1.0f else 0.5f
+                }
             ),
             text = date.dayOfMonth.toString(),
             textAlign = TextAlign.Center

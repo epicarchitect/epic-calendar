@@ -136,7 +136,7 @@ fun EpicCalendarPager(
     onDayOfWeekClick: ((EpicDayOfWeek) -> Unit)? = null,
     dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
     dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
-) {
+) = with(config) {
     CompositionLocalProvider(
         EpicCalendarPager.LocalConfig provides config,
         EpicCalendarPager.LocalState provides state
@@ -144,7 +144,9 @@ fun EpicCalendarPager(
         HorizontalPager(
             modifier = modifier,
             state = state.pagerState,
-            pageCount = state.monthRange.size(),
+            pageCount = remember(state.monthRange) {
+                state.monthRange.size()
+            },
             verticalAlignment = Alignment.Top
         ) { page ->
             val basisState = BasisEpicCalendar.rememberState(
@@ -158,6 +160,7 @@ fun EpicCalendarPager(
             BasisEpicCalendar(
                 modifier = pageModifier(page),
                 state = basisState,
+                config = basisConfig,
                 onDayOfMonthClick = onDayOfMonthClick,
                 onDayOfWeekClick = onDayOfWeekClick,
                 dayOfMonthComposable = dayOfMonthComposable,

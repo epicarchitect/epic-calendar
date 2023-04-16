@@ -74,7 +74,7 @@ fun EpicDatePicker(
                         val endDate = state.selectedDates.max()
 
                         listOf(
-                            SelectedRangeInfo.calculate(
+                            SelectionInfo.calculate(
                                 startDate = startDate,
                                 endDate = endDate,
                                 gridInfo = gridInfo,
@@ -83,7 +83,7 @@ fun EpicDatePicker(
                         )
                     } else if (mustDrawAsSingles()) {
                         state.selectedDates.map {
-                            SelectedRangeInfo.calculate(
+                            SelectionInfo.calculate(
                                 startDate = it,
                                 endDate = it,
                                 gridInfo = gridInfo,
@@ -114,7 +114,7 @@ fun EpicDatePicker(
                 ) {
                     selectionInfoList.forEach { info ->
                         drawRangeBackground(
-                            selectedRangeInfo = info,
+                            selectionInfo = info,
                             color = selectionContainerColor,
                             itemContainerWidthPx = columnWidthPx,
                             itemContainerHeightPx = dayOfMonthViewHeightPx,
@@ -297,7 +297,7 @@ object EpicDatePicker {
 }
 
 @Immutable
-internal class SelectedRangeInfo(
+internal class SelectionInfo(
     val gridCoordinates: Pair<IntOffset?, IntOffset?>,
     val firstIsSelectionStart: Boolean,
     val lastIsSelectionEnd: Boolean
@@ -308,7 +308,7 @@ internal class SelectedRangeInfo(
             gridInfo: EpicCalendarGridInfo,
             startDate: LocalDate,
             endDate: LocalDate
-        ): SelectedRangeInfo {
+        ): SelectionInfo {
             val monthStartDay = if (displayDaysOfAdjacentMonths) {
                 gridInfo.dateMatrix.first().first()
             } else {
@@ -327,7 +327,7 @@ internal class SelectedRangeInfo(
             val firstIsSelectionStart = startDate >= monthStartDay
             val lastIsSelectionEnd = endDate <= monthEndDay
 
-            return SelectedRangeInfo(
+            return SelectionInfo(
                 Pair(
                     gridInfo.dateInfoMap[fixedStartDate]?.let {
                         IntOffset(it.position.column, it.position.row)
@@ -344,25 +344,25 @@ internal class SelectedRangeInfo(
 }
 
 internal fun DrawScope.drawRangeBackground(
-    selectedRangeInfo: SelectedRangeInfo,
+    selectionInfo: SelectionInfo,
     color: Color,
     itemContainerWidthPx: Float,
     itemContainerHeightPx: Float,
     horizontalSpaceBetweenItemsPx: Float,
     rowsSpacerHeightPx: Float
 ) {
-    if (selectedRangeInfo.gridCoordinates.first == null || selectedRangeInfo.gridCoordinates.second == null) return
+    if (selectionInfo.gridCoordinates.first == null || selectionInfo.gridCoordinates.second == null) return
 
-    val (x1, y1) = selectedRangeInfo.gridCoordinates.first!!
-    val (x2, y2) = selectedRangeInfo.gridCoordinates.second!!
+    val (x1, y1) = selectionInfo.gridCoordinates.first!!
+    val (x2, y2) = selectionInfo.gridCoordinates.second!!
 
-    val additionalStartX = if (selectedRangeInfo.firstIsSelectionStart) {
+    val additionalStartX = if (selectionInfo.firstIsSelectionStart) {
         (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) / 2
     } else {
         0f
     }
 
-    val additionalEndX = if (selectedRangeInfo.lastIsSelectionEnd) {
+    val additionalEndX = if (selectionInfo.lastIsSelectionEnd) {
         (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) / 2
     } else {
         itemContainerWidthPx + horizontalSpaceBetweenItemsPx
@@ -373,7 +373,7 @@ internal fun DrawScope.drawRangeBackground(
     val endX = x2 * (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) + additionalEndX
     val endY = y2 * (itemContainerHeightPx + rowsSpacerHeightPx)
 
-    if (selectedRangeInfo.firstIsSelectionStart) {
+    if (selectionInfo.firstIsSelectionStart) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
@@ -388,7 +388,7 @@ internal fun DrawScope.drawRangeBackground(
         )
     }
 
-    if (selectedRangeInfo.lastIsSelectionEnd && (x1 != x2 || y1 != y2)) {
+    if (selectionInfo.lastIsSelectionEnd && (x1 != x2 || y1 != y2)) {
         drawRoundRect(
             color = color,
             topLeft = Offset(
