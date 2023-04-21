@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -197,9 +198,9 @@ object BasisEpicCalendar {
         dayOfWeekViewHeight = 40.dp,
         dayOfMonthViewHeight = 40.dp,
         columnWidth = 40.dp,
-        dayOfWeekViewShape = CircleShape,
-        dayOfMonthViewShape = CircleShape,
-        contentPadding = PaddingValues(0.dp)
+        dayOfWeekViewShape = RoundedCornerShape(16.dp),
+        dayOfMonthViewShape = RoundedCornerShape(16.dp),
+        contentPadding = PaddingValues(16.dp)
     )
 
     @Immutable

@@ -19,10 +19,14 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.inset
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
 import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
 import epicarchitect.epic.calendar.compose.lib.atEndDay
@@ -103,6 +107,7 @@ fun EpicDatePicker(
                 val dayOfMonthViewHeightPx = pagerConfig.basisConfig.dayOfMonthViewHeight.toPx()
                 val rowsSpacerHeightPx = pagerConfig.basisConfig.rowsSpacerHeight.toPx()
                 val columnWidthPx = pagerConfig.basisConfig.columnWidth.toPx()
+                val itemSize = Size(columnWidthPx, dayOfMonthViewHeightPx)
 
                 inset(
                     top = contentPaddingTop.toPx().let {
@@ -118,9 +123,9 @@ fun EpicDatePicker(
                             selectionInfo = info,
                             color = selectionContainerColor,
                             itemContainerWidthPx = size.width / 7f,
-                            itemWidthPx = columnWidthPx,
-                            itemHeightPx = dayOfMonthViewHeightPx,
-                            rowsSpacerHeightPx = rowsSpacerHeightPx
+                            itemSize = itemSize,
+                            rowsSpacerHeightPx = rowsSpacerHeightPx,
+                            dayOfMonthShape = pagerConfig.basisConfig.dayOfMonthViewShape
                         )
                     }
                 }
@@ -399,34 +404,40 @@ fun calculateSelectionInfo(
 fun DrawScope.drawSelection(
     selectionInfo: SelectionInfo,
     color: Color,
-    itemWidthPx: Float,
-    itemHeightPx: Float,
+    itemSize: Size,
     itemContainerWidthPx: Float,
-    rowsSpacerHeightPx: Float
+    rowsSpacerHeightPx: Float,
+    dayOfMonthShape: Shape
 ) {
     val (x1, y1) = selectionInfo.gridCoordinates.first
     val (x2, y2) = selectionInfo.gridCoordinates.second
 
-    val horizontalSpaceBetweenItems = itemContainerWidthPx - itemWidthPx
+    val horizontalSpaceBetweenItems = itemContainerWidthPx - itemSize.width
 
     val additionalStartOffsetX = if (selectionInfo.isStartInGrid) {
-        (itemWidthPx + horizontalSpaceBetweenItems) / 2f
+        (itemSize.width + horizontalSpaceBetweenItems) / 2f
     } else {
         0f
     }
 
     val additionalEndOffsetX = if (selectionInfo.isEndInGrid) {
-        (itemWidthPx + horizontalSpaceBetweenItems) / 2f
+        (itemSize.width + horizontalSpaceBetweenItems) / 2f
     } else {
-        itemWidthPx + horizontalSpaceBetweenItems
+        itemSize.width + horizontalSpaceBetweenItems
     }
 
 
-    val startX = x1 * (itemWidthPx + horizontalSpaceBetweenItems) + additionalStartOffsetX
-    val endX = x2 * (itemWidthPx + horizontalSpaceBetweenItems) + additionalEndOffsetX
+    val startX = x1 * (itemSize.width + horizontalSpaceBetweenItems) + additionalStartOffsetX
+    val endX = x2 * (itemSize.width + horizontalSpaceBetweenItems) + additionalEndOffsetX
 
-    val startY = y1 * (itemHeightPx + rowsSpacerHeightPx)
-    val endY = y2 * (itemHeightPx + rowsSpacerHeightPx)
+    val startY = y1 * (itemSize.height + rowsSpacerHeightPx)
+    val endY = y2 * (itemSize.height + rowsSpacerHeightPx)
+
+    val itemShapeOutline = dayOfMonthShape.createOutline(
+        itemSize,
+        layoutDirection,
+        Density(density)
+    )
 
     // Draw the first row background
     drawRect(
@@ -438,38 +449,32 @@ fun DrawScope.drawSelection(
             } else {
                 size.width - startX
             },
-            height = itemHeightPx
+            height = itemSize.height
         )
     )
 
     if (selectionInfo.isStartInGrid) {
-        drawRoundRect(
-            color = color,
-            topLeft = Offset(
-                x = startX - (itemWidthPx / 2),
-                y = startY
-            ),
-            size = Size(
-                width = itemWidthPx,
-                height = itemHeightPx
-            ),
-            cornerRadius = CornerRadius(1000f)
-        )
+        translate(
+            left = startX - (itemSize.width / 2),
+            top = startY
+        ) {
+            drawOutline(
+                outline = itemShapeOutline,
+                color = color
+            )
+        }
     }
 
     if (selectionInfo.isEndInGrid) {
-        drawRoundRect(
-            color = color,
-            topLeft = Offset(
-                x = endX - (itemWidthPx / 2),
-                y = endY
-            ),
-            size = Size(
-                width = itemWidthPx,
-                height = itemHeightPx
-            ),
-            cornerRadius = CornerRadius(1000f)
-        )
+        translate(
+            left = endX - (itemSize.width / 2),
+            top = endY
+        ) {
+            drawOutline(
+                outline = itemShapeOutline,
+                color = color
+            )
+        }
     }
 
     if (y1 != y2) {
@@ -478,11 +483,11 @@ fun DrawScope.drawSelection(
                 color = color,
                 topLeft = Offset(
                     x = 0f,
-                    y = startY + y * (itemHeightPx + rowsSpacerHeightPx)
+                    y = startY + y * (itemSize.height + rowsSpacerHeightPx)
                 ),
                 size = Size(
                     width = size.width,
-                    height = itemHeightPx
+                    height = itemSize.height
                 )
             )
         }
@@ -495,7 +500,7 @@ fun DrawScope.drawSelection(
             ),
             size = Size(
                 width = endX,
-                height = itemHeightPx
+                height = itemSize.height
             )
         )
     }
