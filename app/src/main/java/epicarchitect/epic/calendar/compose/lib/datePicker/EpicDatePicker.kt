@@ -1,7 +1,5 @@
 package epicarchitect.epic.calendar.compose.lib.datePicker
 
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -27,7 +25,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
-import epicarchitect.epic.calendar.compose.lib.EpicMonth
 import epicarchitect.epic.calendar.compose.lib.atEndDay
 import epicarchitect.epic.calendar.compose.lib.atStartDay
 import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfMonthComposable
@@ -56,8 +53,8 @@ fun EpicDatePicker(
         val layoutDirection = LocalLayoutDirection.current
         val contentPadding = pagerConfig.basisConfig.contentPadding
         val contentPaddingTop = contentPadding.calculateTopPadding()
-        val contentPaddingStart = contentPadding.calculateStartPadding(layoutDirection)
-        val contentPaddingEnd = contentPadding.calculateEndPadding(layoutDirection)
+        val contentPaddingLeft = contentPadding.calculateLeftPadding(layoutDirection)
+        val contentPaddingRight = contentPadding.calculateRightPadding(layoutDirection)
         val contentPaddingBottom = contentPadding.calculateBottomPadding()
 
         fun mustDrawAsRange() =
@@ -106,7 +103,6 @@ fun EpicDatePicker(
                 val dayOfMonthViewHeightPx = pagerConfig.basisConfig.dayOfMonthViewHeight.toPx()
                 val rowsSpacerHeightPx = pagerConfig.basisConfig.rowsSpacerHeight.toPx()
                 val columnWidthPx = pagerConfig.basisConfig.columnWidth.toPx()
-                val gridItemWidth = size.width / 7f
 
                 inset(
                     top = contentPaddingTop.toPx().let {
@@ -114,14 +110,14 @@ fun EpicDatePicker(
                         else it + dayOfWeekHeightPx + rowsSpacerHeightPx
                     },
                     bottom = contentPaddingBottom.toPx(),
-                    left = contentPaddingStart.toPx(),
-                    right = contentPaddingEnd.toPx()
+                    left = contentPaddingLeft.toPx(),
+                    right = contentPaddingRight.toPx()
                 ) {
                     selectionInfoList.forEach { info ->
                         drawSelection(
                             selectionInfo = info,
                             color = selectionContainerColor,
-                            itemContainerWidthPx = gridItemWidth,
+                            itemContainerWidthPx = size.width / 7f,
                             itemWidthPx = columnWidthPx,
                             itemHeightPx = dayOfMonthViewHeightPx,
                             rowsSpacerHeightPx = rowsSpacerHeightPx
@@ -374,14 +370,14 @@ fun calculateSelectionInfo(
                 }
 
                 else -> {
-                    42
+                    41
                 }
             }
         } else {
             startGridOffset + endDate.dayOfMonth - 1
         }
     } else {
-        if (state.displayDaysOfAdjacentMonths) 42
+        if (state.displayDaysOfAdjacentMonths) 41
         else startGridOffset + gridInfo.currentMonth.numberOfDays - 1
     }
 
@@ -420,7 +416,7 @@ fun DrawScope.drawSelection(
     }
 
     val additionalEndOffsetX = if (selectionInfo.isEndInGrid) {
-        (itemWidthPx + horizontalSpaceBetweenItems) / 2
+        (itemWidthPx + horizontalSpaceBetweenItems) / 2f
     } else {
         itemWidthPx + horizontalSpaceBetweenItems
     }

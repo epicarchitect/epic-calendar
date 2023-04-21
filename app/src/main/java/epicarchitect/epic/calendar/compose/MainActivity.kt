@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +50,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         var currentTesting by remember {
@@ -100,7 +104,9 @@ fun PagerTesting() {
     val state = EpicCalendarPager.rememberState()
 
     EpicCalendarPager(
-        modifier = Modifier.border(1.dp, Color.Red).animateContentSize(),
+        modifier = Modifier
+            .border(1.dp, Color.Red)
+            .animateContentSize(),
         state = state,
     )
 
@@ -195,7 +201,9 @@ fun DatePickerTesting() {
     val state = EpicDatePicker.rememberState()
 
     EpicDatePicker(
-        modifier = Modifier.border(1.dp, Color.Red).animateContentSize(),
+        modifier = Modifier
+            .border(1.dp, Color.Red)
+            .animateContentSize(),
         state = state,
         config = EpicDatePicker.DefaultConfig.copy(
             selectionContentColor = Color.White,

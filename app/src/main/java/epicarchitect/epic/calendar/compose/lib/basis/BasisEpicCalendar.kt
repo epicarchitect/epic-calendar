@@ -4,13 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,19 +58,20 @@ fun BasisEpicCalendar(
         BasisEpicCalendar.LocalConfig provides config,
         BasisEpicCalendar.LocalState provides state
     ) {
-        LazyVerticalGrid(
-            modifier = modifier,
-            columns = GridCells.Fixed(count = 7),
+        Column(
+            modifier = modifier.then(
+                Modifier.padding(contentPadding)
+            ),
             verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            userScrollEnabled = false,
-            contentPadding = contentPadding
         ) {
             if (state.displayDaysOfWeek) {
-                state.dateGridInfo.daysOfWeek.forEach { dayOfWeek ->
-                    item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    state.dateGridInfo.daysOfWeek.forEach { dayOfWeek ->
                         Box(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
                             Box(
@@ -92,17 +94,18 @@ fun BasisEpicCalendar(
                 }
             }
 
-            state.dateGridInfo.dateMatrix.forEachIndexed { rowIndex, rowDates ->
-                rowDates.forEachIndexed { columnIndex, date ->
-                    if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
-                        item(
-                            key = "[$rowIndex][$columnIndex]",
-                            contentType = "date"
+            state.dateGridInfo.dateMatrix.forEach { rowDates ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    rowDates.forEach { date ->
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
+                            if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
+
                                 Box(
                                     modifier = Modifier
                                         .clip(dayOfMonthViewShape)
@@ -120,12 +123,6 @@ fun BasisEpicCalendar(
                                 }
                             }
                         }
-                    } else {
-                        item(
-                            key = "[$rowIndex][$columnIndex]",
-                            contentType = "empty",
-                            content = EmptyCellItemContent
-                        )
                     }
                 }
             }
