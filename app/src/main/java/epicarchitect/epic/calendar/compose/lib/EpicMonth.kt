@@ -51,6 +51,10 @@ val LocalDate.epicMonth: EpicMonth get() = EpicMonth(year, month)
 
 fun EpicMonth.atDay(dayOfMonth: Int) = LocalDate(year, month, dayOfMonth)
 
+fun EpicMonth.atStartDay() = atDay(1)
+
+fun EpicMonth.atEndDay() = atDay(numberOfDays)
+
 fun EpicMonth.lastDayOfWeek() = atDay(numberOfDays).dayOfWeek.toEpic()
 
 // copied from IsoChronology

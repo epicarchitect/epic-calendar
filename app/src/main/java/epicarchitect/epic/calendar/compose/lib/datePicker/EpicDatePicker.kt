@@ -27,11 +27,16 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
-import epicarchitect.epic.calendar.compose.lib.atDay
+import epicarchitect.epic.calendar.compose.lib.EpicMonth
+import epicarchitect.epic.calendar.compose.lib.atEndDay
+import epicarchitect.epic.calendar.compose.lib.atStartDay
 import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfMonthComposable
 import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfWeekComposable
 import epicarchitect.epic.calendar.compose.lib.basis.BasisEpicCalendar
 import epicarchitect.epic.calendar.compose.lib.contains
+import epicarchitect.epic.calendar.compose.lib.epicDayOfWeek
+import epicarchitect.epic.calendar.compose.lib.epicMonth
+import epicarchitect.epic.calendar.compose.lib.index
 import epicarchitect.epic.calendar.compose.lib.pager.EpicCalendarPager
 import kotlinx.datetime.LocalDate
 
@@ -73,21 +78,21 @@ fun EpicDatePicker(
                         val startDate = state.selectedDates.min()
                         val endDate = state.selectedDates.max()
 
-                        listOf(
-                            SelectionInfo.calculate(
+                        listOfNotNull(
+                            calculateSelectionInfo(
+                                state = state,
+                                gridInfo = gridInfo,
                                 startDate = startDate,
                                 endDate = endDate,
-                                gridInfo = gridInfo,
-                                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths
                             )
                         )
                     } else if (mustDrawAsSingles()) {
-                        state.selectedDates.map {
-                            SelectionInfo.calculate(
+                        state.selectedDates.mapNotNull {
+                            calculateSelectionInfo(
+                                state = state,
+                                gridInfo = gridInfo,
                                 startDate = it,
                                 endDate = it,
-                                gridInfo = gridInfo,
-                                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths
                             )
                         }
                     } else {
@@ -113,12 +118,12 @@ fun EpicDatePicker(
                     right = contentPaddingEnd.toPx()
                 ) {
                     selectionInfoList.forEach { info ->
-                        drawRangeBackground(
+                        drawSelection(
                             selectionInfo = info,
                             color = selectionContainerColor,
-                            itemContainerWidthPx = columnWidthPx,
-                            itemContainerHeightPx = dayOfMonthViewHeightPx,
-                            horizontalSpaceBetweenItemsPx = gridItemWidth - columnWidthPx,
+                            itemContainerWidthPx = gridItemWidth,
+                            itemWidthPx = columnWidthPx,
+                            itemHeightPx = dayOfMonthViewHeightPx,
                             rowsSpacerHeightPx = rowsSpacerHeightPx
                         )
                     }
@@ -227,7 +232,7 @@ object EpicDatePicker {
             get() = pagerState.displayDaysOfWeek
 
         override fun toggleCellSelection(date: LocalDate) {
-            val isRemoved = selectedDates.removeIf { it == date }
+            val isRemoved = selectedDates.remove(date)
             if (isRemoved) return
 
             when (val mode = selectionMode) {
@@ -297,119 +302,174 @@ object EpicDatePicker {
 }
 
 @Immutable
-internal class SelectionInfo(
-    val gridCoordinates: Pair<IntOffset?, IntOffset?>,
-    val firstIsSelectionStart: Boolean,
-    val lastIsSelectionEnd: Boolean
-) {
-    companion object {
-        fun calculate(
-            displayDaysOfAdjacentMonths: Boolean,
-            gridInfo: EpicCalendarGridInfo,
-            startDate: LocalDate,
-            endDate: LocalDate
-        ): SelectionInfo {
-            val monthStartDay = if (displayDaysOfAdjacentMonths) {
-                gridInfo.dateMatrix.first().first()
-            } else {
-                gridInfo.currentMonth.atDay(1)
+data class SelectionInfo(
+    val gridCoordinates: Pair<IntOffset, IntOffset>,
+    val isStartInGrid: Boolean,
+    val isEndInGrid: Boolean
+)
+
+fun calculateSelectionInfo(
+    state: EpicDatePicker.State,
+    gridInfo: EpicCalendarGridInfo,
+    startDate: LocalDate,
+    endDate: LocalDate
+): SelectionInfo? {
+    val startDateOfGrid = if (state.displayDaysOfAdjacentMonths) gridInfo.dateMatrix.first().first()
+    else gridInfo.currentMonth.atStartDay()
+
+    val endDateOfGrid = if (state.displayDaysOfAdjacentMonths) gridInfo.dateMatrix.last().last()
+    else gridInfo.currentMonth.atEndDay()
+
+    if (startDate > endDateOfGrid || endDate < startDateOfGrid) return null
+
+    val startGridOffset = if (state.displayDaysOfAdjacentMonths) 0
+    else startDateOfGrid.epicDayOfWeek.index()
+
+    val isStartInGrid = startDate >= startDateOfGrid
+    val isEndInGrid = endDate <= endDateOfGrid
+
+    val startGridItemOffset = if (isStartInGrid) {
+        if (state.displayDaysOfAdjacentMonths) {
+            when (startDate.epicMonth) {
+                gridInfo.currentMonth -> {
+                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() + startDate.dayOfMonth - 1
+                }
+
+                gridInfo.previousMonth -> {
+                    startDate.epicDayOfWeek.index()
+                }
+
+                gridInfo.nextMonth -> {
+                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() +
+                            gridInfo.currentMonth.numberOfDays +
+                            startDate.dayOfMonth - 1
+                }
+
+                else -> {
+                    startGridOffset
+                }
             }
-
-            val monthEndDay = if (displayDaysOfAdjacentMonths) {
-                gridInfo.dateMatrix.last().last()
-            } else {
-                gridInfo.currentMonth.atDay(gridInfo.currentMonth.numberOfDays)
-            }
-
-            val fixedStartDate = if (startDate < monthStartDay) monthStartDay else startDate
-            val fixedEndDate = if (endDate > monthEndDay) monthEndDay else endDate
-
-            val firstIsSelectionStart = startDate >= monthStartDay
-            val lastIsSelectionEnd = endDate <= monthEndDay
-
-            return SelectionInfo(
-                Pair(
-                    gridInfo.dateInfoMap[fixedStartDate]?.let {
-                        IntOffset(it.position.column, it.position.row)
-                    },
-                    gridInfo.dateInfoMap[fixedEndDate]?.let {
-                        IntOffset(it.position.column, it.position.row)
-                    }
-                ),
-                firstIsSelectionStart,
-                lastIsSelectionEnd
-            )
+        } else {
+            startGridOffset + startDate.dayOfMonth - 1
         }
+    } else {
+        startGridOffset
     }
+
+    val endGridItemOffset = if (isEndInGrid) {
+        if (state.displayDaysOfAdjacentMonths) {
+            when (endDate.epicMonth) {
+                gridInfo.currentMonth -> {
+                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() + endDate.dayOfMonth - 1
+                }
+
+                gridInfo.previousMonth -> {
+                    endDate.epicDayOfWeek.index()
+                }
+
+                gridInfo.nextMonth -> {
+                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() +
+                            gridInfo.currentMonth.numberOfDays +
+                            endDate.dayOfMonth - 1
+                }
+
+                else -> {
+                    42
+                }
+            }
+        } else {
+            startGridOffset + endDate.dayOfMonth - 1
+        }
+    } else {
+        if (state.displayDaysOfAdjacentMonths) 42
+        else startGridOffset + gridInfo.currentMonth.numberOfDays - 1
+    }
+
+    val startCoordinates = IntOffset(
+        x = startGridItemOffset % 7,
+        y = startGridItemOffset / 7
+    )
+    val endCoordinates = IntOffset(
+        x = endGridItemOffset % 7,
+        y = endGridItemOffset / 7
+    )
+    return SelectionInfo(
+        gridCoordinates = startCoordinates to endCoordinates,
+        isStartInGrid = isStartInGrid,
+        isEndInGrid = isEndInGrid
+    )
 }
 
-internal fun DrawScope.drawRangeBackground(
+fun DrawScope.drawSelection(
     selectionInfo: SelectionInfo,
     color: Color,
+    itemWidthPx: Float,
+    itemHeightPx: Float,
     itemContainerWidthPx: Float,
-    itemContainerHeightPx: Float,
-    horizontalSpaceBetweenItemsPx: Float,
     rowsSpacerHeightPx: Float
 ) {
-    if (selectionInfo.gridCoordinates.first == null || selectionInfo.gridCoordinates.second == null) return
+    val (x1, y1) = selectionInfo.gridCoordinates.first
+    val (x2, y2) = selectionInfo.gridCoordinates.second
 
-    val (x1, y1) = selectionInfo.gridCoordinates.first!!
-    val (x2, y2) = selectionInfo.gridCoordinates.second!!
+    val horizontalSpaceBetweenItems = itemContainerWidthPx - itemWidthPx
 
-    val additionalStartX = if (selectionInfo.firstIsSelectionStart) {
-        (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) / 2
+    val additionalStartOffsetX = if (selectionInfo.isStartInGrid) {
+        (itemWidthPx + horizontalSpaceBetweenItems) / 2f
     } else {
         0f
     }
 
-    val additionalEndX = if (selectionInfo.lastIsSelectionEnd) {
-        (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) / 2
+    val additionalEndOffsetX = if (selectionInfo.isEndInGrid) {
+        (itemWidthPx + horizontalSpaceBetweenItems) / 2
     } else {
-        itemContainerWidthPx + horizontalSpaceBetweenItemsPx
+        itemWidthPx + horizontalSpaceBetweenItems
     }
 
-    val startX = x1 * (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) + additionalStartX
-    val startY = y1 * (itemContainerHeightPx + rowsSpacerHeightPx)
-    val endX = x2 * (itemContainerWidthPx + horizontalSpaceBetweenItemsPx) + additionalEndX
-    val endY = y2 * (itemContainerHeightPx + rowsSpacerHeightPx)
 
-    if (selectionInfo.firstIsSelectionStart) {
-        drawRoundRect(
-            color = color,
-            topLeft = Offset(
-                x = startX - itemContainerWidthPx / 2f,
-                y = startY
-            ),
-            size = Size(
-                width = itemContainerWidthPx,
-                height = itemContainerHeightPx
-            ),
-            cornerRadius = CornerRadius(1000f, 1000f)
-        )
-    }
+    val startX = x1 * (itemWidthPx + horizontalSpaceBetweenItems) + additionalStartOffsetX
+    val endX = x2 * (itemWidthPx + horizontalSpaceBetweenItems) + additionalEndOffsetX
 
-    if (selectionInfo.lastIsSelectionEnd && (x1 != x2 || y1 != y2)) {
-        drawRoundRect(
-            color = color,
-            topLeft = Offset(
-                x = endX - itemContainerWidthPx / 2,
-                y = endY
-            ),
-            size = Size(
-                width = itemContainerWidthPx,
-                height = itemContainerHeightPx
-            ),
-            cornerRadius = CornerRadius(1000f, 1000f)
-        )
-    }
+    val startY = y1 * (itemHeightPx + rowsSpacerHeightPx)
+    val endY = y2 * (itemHeightPx + rowsSpacerHeightPx)
 
+    // Draw the first row background
     drawRect(
         color = color,
         topLeft = Offset(startX, startY),
         size = Size(
-            width = if (y1 == y2) endX - startX else this.size.width - startX,
-            height = itemContainerHeightPx
+            width = if (y1 == y2) {
+                endX - startX
+            } else {
+                size.width - startX
+            },
+            height = itemHeightPx
         )
+    )
+
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(
+            x = startX - (itemWidthPx / 2),
+            y = startY
+        ),
+        size = Size(
+            width = itemWidthPx,
+            height = itemHeightPx
+        ),
+        cornerRadius = CornerRadius(1000f)
+    )
+
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(
+            x = endX - (itemWidthPx / 2),
+            y = endY
+        ),
+        size = Size(
+            width = itemWidthPx,
+            height = itemHeightPx
+        ),
+        cornerRadius = CornerRadius(1000f)
     )
 
     if (y1 != y2) {
@@ -418,11 +478,11 @@ internal fun DrawScope.drawRangeBackground(
                 color = color,
                 topLeft = Offset(
                     x = 0f,
-                    y = startY + y * (itemContainerHeightPx + rowsSpacerHeightPx)
+                    y = startY + y * (itemHeightPx + rowsSpacerHeightPx)
                 ),
                 size = Size(
-                    width = this.size.width,
-                    height = itemContainerHeightPx
+                    width = size.width,
+                    height = itemHeightPx
                 )
             )
         }
@@ -435,7 +495,7 @@ internal fun DrawScope.drawRangeBackground(
             ),
             size = Size(
                 width = endX,
-                height = itemContainerHeightPx
+                height = itemHeightPx
             )
         )
     }

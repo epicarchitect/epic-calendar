@@ -1,5 +1,6 @@
 package epicarchitect.epic.calendar.compose.lib.basis
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -32,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
 import epicarchitect.epic.calendar.compose.lib.EpicDayOfWeek
 import epicarchitect.epic.calendar.compose.lib.EpicMonth
-import epicarchitect.epic.calendar.compose.lib.calculateEpicDateGridInfo
+import epicarchitect.epic.calendar.compose.lib.calculateEpicCalendarGridInfo
 import epicarchitect.epic.calendar.compose.lib.contains
 import epicarchitect.epic.calendar.compose.lib.epicMonth
 import kotlinx.datetime.LocalDate
@@ -41,6 +43,7 @@ import kotlinx.datetime.TimeZone
 typealias BasisDayOfMonthComposable = @Composable BoxScope.(LocalDate) -> Unit
 typealias BasisDayOfWeekComposable = @Composable BoxScope.(EpicDayOfWeek) -> Unit
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
@@ -122,14 +125,17 @@ fun BasisEpicCalendar(
                     } else {
                         item(
                             key = "[$rowIndex][$columnIndex]",
-                            contentType = "empty"
-                        ) {}
+                            contentType = "empty",
+                            content = EmptyCellItemContent
+                        )
                     }
                 }
             }
         }
     }
 }
+
+private val EmptyCellItemContent: @Composable (LazyGridItemScope.() -> Unit) = {}
 
 object BasisEpicCalendar {
     val DefaultDayOfMonthComposable: BasisDayOfMonthComposable = { date ->
@@ -183,7 +189,7 @@ object BasisEpicCalendar {
         private val firstDayOfWeek get() = EpicDayOfWeek.firstDayOfWeekByLocale()
 
         override val dateGridInfo by derivedStateOf {
-            calculateEpicDateGridInfo(
+            calculateEpicCalendarGridInfo(
                 currentMonth = currentMonth,
                 displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
                 firstDayOfWeek = firstDayOfWeek
