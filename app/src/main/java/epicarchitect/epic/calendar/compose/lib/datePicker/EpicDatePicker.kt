@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -136,7 +135,7 @@ fun EpicDatePicker(
             modifier = modifier,
             pageModifier = ::pageModifier,
             state = state.pagerState,
-            onDayOfMonthClick = state::toggleCellSelection,
+            onDayOfMonthClick = state::toggleDateSelection,
             config = pagerConfig,
             dayOfMonthComposable = dayOfMonthComposable,
             dayOfWeekComposable = dayOfWeekComposable
@@ -232,7 +231,7 @@ object EpicDatePicker {
             }
             get() = pagerState.displayDaysOfWeek
 
-        override fun toggleCellSelection(date: LocalDate) {
+        override fun toggleDateSelection(date: LocalDate) {
             val isRemoved = selectedDates.remove(date)
             if (isRemoved) return
 
@@ -284,7 +283,7 @@ object EpicDatePicker {
         val pagerState: EpicCalendarPager.State
         var displayDaysOfAdjacentMonths: Boolean
         var displayDaysOfWeek: Boolean
-        fun toggleCellSelection(date: LocalDate)
+        fun toggleDateSelection(date: LocalDate)
     }
 
     sealed interface SelectionMode {
