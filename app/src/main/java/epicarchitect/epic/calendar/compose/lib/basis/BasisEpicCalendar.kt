@@ -1,6 +1,5 @@
 package epicarchitect.epic.calendar.compose.lib.basis
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,7 +42,6 @@ import kotlinx.datetime.TimeZone
 typealias BasisDayOfMonthComposable = @Composable BoxScope.(LocalDate) -> Unit
 typealias BasisDayOfWeekComposable = @Composable BoxScope.(EpicDayOfWeek) -> Unit
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
