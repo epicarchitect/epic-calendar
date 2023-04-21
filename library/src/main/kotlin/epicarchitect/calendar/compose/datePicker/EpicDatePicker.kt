@@ -1,4 +1,4 @@
-package epicarchitect.epic.calendar.compose.lib.datePicker
+package epicarchitect.calendar.compose.datePicker
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,17 +27,17 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntOffset
-import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
-import epicarchitect.epic.calendar.compose.lib.atEndDay
-import epicarchitect.epic.calendar.compose.lib.atStartDay
-import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfMonthComposable
-import epicarchitect.epic.calendar.compose.lib.basis.BasisDayOfWeekComposable
-import epicarchitect.epic.calendar.compose.lib.basis.BasisEpicCalendar
-import epicarchitect.epic.calendar.compose.lib.contains
-import epicarchitect.epic.calendar.compose.lib.epicDayOfWeek
-import epicarchitect.epic.calendar.compose.lib.epicMonth
-import epicarchitect.epic.calendar.compose.lib.index
-import epicarchitect.epic.calendar.compose.lib.pager.EpicCalendarPager
+import epicarchitect.calendar.compose.EpicCalendarGridInfo
+import epicarchitect.calendar.compose.atEndDay
+import epicarchitect.calendar.compose.atStartDay
+import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
+import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
+import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.contains
+import epicarchitect.calendar.compose.epicDayOfWeek
+import epicarchitect.calendar.compose.epicMonth
+import epicarchitect.calendar.compose.index
+import epicarchitect.calendar.compose.pager.EpicCalendarPager
 import kotlinx.datetime.LocalDate
 
 @Composable

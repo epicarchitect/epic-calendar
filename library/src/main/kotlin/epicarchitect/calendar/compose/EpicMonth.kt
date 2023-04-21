@@ -1,4 +1,4 @@
-package epicarchitect.epic.calendar.compose.lib
+package epicarchitect.calendar.compose
 
 import androidx.compose.runtime.Immutable
 import kotlinx.datetime.Clock

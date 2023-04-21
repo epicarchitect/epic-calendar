@@ -1,4 +1,4 @@
-package epicarchitect.epic.calendar.compose.lib.basis
+package epicarchitect.calendar.compose.basis
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,12 +31,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import epicarchitect.epic.calendar.compose.lib.EpicCalendarGridInfo
-import epicarchitect.epic.calendar.compose.lib.EpicDayOfWeek
-import epicarchitect.epic.calendar.compose.lib.EpicMonth
-import epicarchitect.epic.calendar.compose.lib.calculateEpicCalendarGridInfo
-import epicarchitect.epic.calendar.compose.lib.contains
-import epicarchitect.epic.calendar.compose.lib.epicMonth
+import epicarchitect.calendar.compose.EpicCalendarGridInfo
+import epicarchitect.calendar.compose.EpicDayOfWeek
+import epicarchitect.calendar.compose.EpicMonth
+import epicarchitect.calendar.compose.calculateEpicCalendarGridInfo
+import epicarchitect.calendar.compose.contains
+import epicarchitect.calendar.compose.epicMonth
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 
@@ -200,7 +199,7 @@ object BasisEpicCalendar {
         columnWidth = 40.dp,
         dayOfWeekViewShape = RoundedCornerShape(16.dp),
         dayOfMonthViewShape = RoundedCornerShape(16.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(0.dp)
     )
 
     @Immutable
