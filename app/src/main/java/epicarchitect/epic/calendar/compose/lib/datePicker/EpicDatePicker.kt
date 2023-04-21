@@ -446,31 +446,35 @@ fun DrawScope.drawSelection(
         )
     )
 
-    drawRoundRect(
-        color = color,
-        topLeft = Offset(
-            x = startX - (itemWidthPx / 2),
-            y = startY
-        ),
-        size = Size(
-            width = itemWidthPx,
-            height = itemHeightPx
-        ),
-        cornerRadius = CornerRadius(1000f)
-    )
+    if (selectionInfo.isStartInGrid) {
+        drawRoundRect(
+            color = color,
+            topLeft = Offset(
+                x = startX - (itemWidthPx / 2),
+                y = startY
+            ),
+            size = Size(
+                width = itemWidthPx,
+                height = itemHeightPx
+            ),
+            cornerRadius = CornerRadius(1000f)
+        )
+    }
 
-    drawRoundRect(
-        color = color,
-        topLeft = Offset(
-            x = endX - (itemWidthPx / 2),
-            y = endY
-        ),
-        size = Size(
-            width = itemWidthPx,
-            height = itemHeightPx
-        ),
-        cornerRadius = CornerRadius(1000f)
-    )
+    if (selectionInfo.isEndInGrid) {
+        drawRoundRect(
+            color = color,
+            topLeft = Offset(
+                x = endX - (itemWidthPx / 2),
+                y = endY
+            ),
+            size = Size(
+                width = itemWidthPx,
+                height = itemHeightPx
+            ),
+            cornerRadius = CornerRadius(1000f)
+        )
+    }
 
     if (y1 != y2) {
         for (y in y2 - y1 - 1 downTo 1) {
