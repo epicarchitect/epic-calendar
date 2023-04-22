@@ -22,9 +22,9 @@ repositories {
 ### Add dependencies
 ```Kotlin
 dependencies {
-    implementation("io.github.epicarchitect:calendar-compose-basis:1.0.0")
-    implementation("io.github.epicarchitect:calendar-compose-pager:1.0.0") // includes basis
-    implementation("io.github.epicarchitect:calendar-compose-date-picker:1.0.0") // includes pager
+    implementation("io.github.epicarchitect:calendar-compose-basis:1.0.1")
+    implementation("io.github.epicarchitect:calendar-compose-pager:1.0.1") // includes basis
+    implementation("io.github.epicarchitect:calendar-compose-date-picker:1.0.1") // includes pager
 }
 ```
 
