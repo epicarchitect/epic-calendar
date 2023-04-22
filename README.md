@@ -1,5 +1,6 @@
 # Epic Calendar
 Jetpack Compose library for displaying epic calendars
+This library is super experimental!
 
 ### Add the MavenCentral repository to your root build file
 
