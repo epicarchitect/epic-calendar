@@ -1,6 +1,5 @@
 package convention.android.publish
 
-import org.gradle.jvm.tasks.Jar
 import java.util.Properties
 
 plugins {
@@ -17,8 +16,13 @@ project.rootProject.file("local.properties").reader().use {
     ext[name.toString()] = value
 }
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
+android {
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 publishing {
@@ -38,12 +42,10 @@ publishing {
         artifactId = "calendar-compose-${project.name}"
         version = Constants.EPIC_CALENDAR_VERSION
 
-        artifact(javadocJar.get())
-
         pom {
             name.set("Epic Calendar")
             description.set("Android Jetpack Compose library for displaying calendars")
-            url.set("https://github.com/epicarchitect/epic-store")
+            url.set("https://github.com/epicarchitect/epic-calendar")
 
             licenses {
                 license {
@@ -60,6 +62,10 @@ publishing {
             }
             scm {
                 url.set("https://github.com/epicarchitect/epic-calendar")
+            }
+
+            afterEvaluate {
+                from(components["release"])
             }
         }
     }
