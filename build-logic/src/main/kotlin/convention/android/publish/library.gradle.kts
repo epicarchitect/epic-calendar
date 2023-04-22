@@ -17,12 +17,6 @@ project.rootProject.file("local.properties").reader().use {
     ext[name.toString()] = value
 }
 
-android {
-    publishing {
-        singleVariant("release")
-    }
-}
-
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
@@ -67,10 +61,6 @@ publishing {
             scm {
                 url.set("https://github.com/epicarchitect/epic-calendar")
             }
-        }
-
-        afterEvaluate {
-            from(components["release"])
         }
     }
 }
