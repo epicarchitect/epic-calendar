@@ -1,5 +1,5 @@
-# Compose calendar library
-
+# Epic Calendar
+Jetpack Compose library for displaying epic calendars
 
 ### Add the MavenCentral repository to your root build file
 
