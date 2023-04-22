@@ -37,7 +37,6 @@ enum class EpicDayOfWeek {
 
 val LocalDate.epicDayOfWeek get() = dayOfWeek.toEpic()
 
-
 internal fun DayOfWeek.toEpic() = when (this) {
     DayOfWeek.MONDAY -> EpicDayOfWeek.MONDAY
     DayOfWeek.TUESDAY -> EpicDayOfWeek.TUESDAY
@@ -46,17 +45,6 @@ internal fun DayOfWeek.toEpic() = when (this) {
     DayOfWeek.FRIDAY -> EpicDayOfWeek.FRIDAY
     DayOfWeek.SATURDAY -> EpicDayOfWeek.SATURDAY
     DayOfWeek.SUNDAY -> EpicDayOfWeek.SUNDAY
-}
-
-fun EpicDayOfWeek.countDaysToEndOfWeek(
-    firstDayOfWeek: EpicDayOfWeek = EpicDayOfWeek.firstDayOfWeekByLocale()
-) = when (firstDayOfWeek) {
-    EpicDayOfWeek.MONDAY -> value - 1
-    EpicDayOfWeek.SUNDAY -> {
-        if (this == EpicDayOfWeek.SATURDAY) 0
-        else value - 2
-    }
-    else -> error("Unexpected firstDayOfWeek: $firstDayOfWeek")
 }
 
 fun EpicDayOfWeek.index(
