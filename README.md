@@ -1,5 +1,6 @@
 # Epic Calendar
 Jetpack Compose library for displaying epic calendars.
+![epic-calendar](.github/epic-demo.gif) 
 
 ### ATTENTION
 This library is super experimental!
