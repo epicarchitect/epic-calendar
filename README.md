@@ -1,4 +1,4 @@
-### Epic Calendar
+# Epic Calendar
 Jetpack Compose library for displaying epic calendars.
 
 ### ATTENTION
