@@ -63,10 +63,10 @@ publishing {
             scm {
                 url.set("https://github.com/epicarchitect/epic-calendar")
             }
+        }
 
-            afterEvaluate {
-                from(components["release"])
-            }
+        afterEvaluate {
+            from(components["release"])
         }
     }
 }
