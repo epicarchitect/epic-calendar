@@ -6,5 +6,7 @@ includeBuild("build-logic")
 
 include(
     ":sample-app",
-    ":library"
+    ":library:basis",
+    ":library:pager",
+    ":library:date-picker",
 )
