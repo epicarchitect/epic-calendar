@@ -5,6 +5,11 @@ Jetpack Compose library for displaying epic calendars.
 ### ATTENTION
 This library is super experimental!
 
+### Features
+- Single date selection
+- Multiple date selection
+- Date range selection
+
 ### Add the MavenCentral repository
 ```Kotlin
 repositories {
