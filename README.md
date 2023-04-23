@@ -1,18 +1,23 @@
 # Epic Calendar
+
 Jetpack Compose library for displaying epic calendars.
 
 ### Demo
-![epic-calendar](.github/demo.gif) 
+
+![epic-calendar](.github/demo.gif)
 
 ### ATTENTION
+
 This library is super experimental!
 
 ### Features
+
 - Single date selection
 - Multiple date selection
 - Date range selection
 
 ### Add the MavenCentral repository
+
 ```Kotlin
 repositories {
     mavenCentral()
@@ -20,6 +25,7 @@ repositories {
 ```
 
 ### Add dependencies
+
 ```Kotlin
 dependencies {
     implementation("io.github.epicarchitect:calendar-compose-basis:1.0.1")
@@ -29,6 +35,7 @@ dependencies {
 ```
 
 ### License
+
 ```
 MIT License
 

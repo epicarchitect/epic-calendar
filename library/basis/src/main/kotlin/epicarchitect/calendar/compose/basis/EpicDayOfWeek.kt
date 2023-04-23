@@ -5,7 +5,7 @@ import kotlinx.datetime.LocalDate
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
-import java.util.*
+import java.util.Locale
 
 @Immutable
 enum class EpicDayOfWeek {
@@ -55,5 +55,6 @@ fun EpicDayOfWeek.index(
         if (this == EpicDayOfWeek.SATURDAY) 0
         else value + 1
     }
+
     else -> error("Unexpected firstDayOfWeek: $firstDayOfWeek")
 }
