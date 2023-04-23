@@ -33,6 +33,7 @@ import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.EpicCalendarConstants
 import epicarchitect.calendar.compose.basis.contains
 import epicarchitect.calendar.compose.basis.epicDayOfWeek
 import epicarchitect.calendar.compose.basis.epicMonth
@@ -374,24 +375,24 @@ fun calculateSelectionInfo(
                 }
 
                 else -> {
-                    41
+                    EpicCalendarConstants.GridCellAmount - 1
                 }
             }
         } else {
             startGridOffset + endDate.dayOfMonth - 1
         }
     } else {
-        if (state.displayDaysOfAdjacentMonths) 41
+        if (state.displayDaysOfAdjacentMonths) EpicCalendarConstants.GridCellAmount - 1
         else startGridOffset + gridInfo.currentMonth.numberOfDays - 1
     }
 
     val startCoordinates = IntOffset(
-        x = startGridItemOffset % 7,
-        y = startGridItemOffset / 7
+        x = startGridItemOffset % EpicCalendarConstants.DayOfWeekAmount,
+        y = startGridItemOffset / EpicCalendarConstants.DayOfWeekAmount
     )
     val endCoordinates = IntOffset(
-        x = endGridItemOffset % 7,
-        y = endGridItemOffset / 7
+        x = endGridItemOffset % EpicCalendarConstants.DayOfWeekAmount,
+        y = endGridItemOffset / EpicCalendarConstants.DayOfWeekAmount
     )
     return SelectionInfo(
         gridCoordinates = startCoordinates to endCoordinates,

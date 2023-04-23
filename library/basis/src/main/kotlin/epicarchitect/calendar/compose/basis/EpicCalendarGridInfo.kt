@@ -30,13 +30,13 @@ fun calculateEpicCalendarGridInfo(
         }
 
         else -> error("Unexpected firstDayOfWeek: $firstDayOfWeek")
-    } % DayOfWeekAmount
+    } % EpicCalendarConstants.DayOfWeekAmount
 
     val daysAmountInCurrentMonth = currentMonth.numberOfDays
     val firstDaysAmountInNextMonth =
-        (GridCellAmount - lastDaysAmountInPreviousMonth - daysAmountInCurrentMonth).let {
+        (EpicCalendarConstants.GridCellAmount - lastDaysAmountInPreviousMonth - daysAmountInCurrentMonth).let {
             if (displayDaysOfAdjacentMonths) it
-            else it % DayOfWeekAmount
+            else it % EpicCalendarConstants.DayOfWeekAmount
         }
 
     val dates = mutableListOf<LocalDate>()
@@ -62,7 +62,7 @@ fun calculateEpicCalendarGridInfo(
     }
 
     return EpicCalendarGridInfo(
-        dateMatrix = dates.chunked(DayOfWeekAmount),
+        dateMatrix = dates.chunked(EpicCalendarConstants.DayOfWeekAmount),
         firstDayOfWeek = firstDayOfWeek,
         currentMonth = currentMonth,
         previousMonth = previousMonth,
@@ -70,6 +70,3 @@ fun calculateEpicCalendarGridInfo(
         daysOfWeek = EpicDayOfWeek.entriesSortedByFirstDayOfWeek(firstDayOfWeek)
     )
 }
-
-private const val GridCellAmount = 42
-private const val DayOfWeekAmount = 7

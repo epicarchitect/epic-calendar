@@ -14,26 +14,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
+import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
+import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.EpicDayOfWeek
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.addMonths
 import epicarchitect.calendar.compose.basis.addYears
-import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
-import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
-import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.indexOf
 import epicarchitect.calendar.compose.basis.size
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import java.time.Month
 
 
 object EpicCalendarPager {
-    private fun defaultMonthRange() = EpicMonth(2000, Month.JANUARY)..EpicMonth.now(
-        TimeZone.currentSystemDefault()
-    )
-
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun rememberState(

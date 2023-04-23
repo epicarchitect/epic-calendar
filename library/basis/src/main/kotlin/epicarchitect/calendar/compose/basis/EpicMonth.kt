@@ -34,7 +34,6 @@ data class EpicMonth(
 fun EpicMonth.addYears(amount: Int) = copy(year = year + amount)
 
 fun EpicMonth.addMonths(monthsToAdd: Int): EpicMonth {
-    val (year, month) = this
     if (monthsToAdd == 0) return this
     val monthCount = year * 12 + (month.value - 1)
     val calcMonths = monthCount + monthsToAdd
