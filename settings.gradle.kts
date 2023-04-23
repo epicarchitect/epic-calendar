@@ -9,4 +9,5 @@ include(
     ":library:basis",
     ":library:pager",
     ":library:date-picker",
+    ":library:ranges",
 )

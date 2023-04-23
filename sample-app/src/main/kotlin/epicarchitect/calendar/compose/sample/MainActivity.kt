@@ -27,9 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.datePicker.EpicDatePicker
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
+import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 
 class MainActivity : ComponentActivity() {
 
@@ -81,7 +85,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BasisTesting() {
-    BasisEpicCalendar()
+    val basisState = BasisEpicCalendar.rememberState()
+    val basisConfig = BasisEpicCalendar.LocalConfig.current
+    BasisEpicCalendar(
+        modifier = Modifier.drawEpicRanges(
+            basisState = basisState,
+            basisConfig = basisConfig,
+            ranges = listOf(
+                basisState.currentMonth.atStartDay().let { it..it },
+                basisState.currentMonth.atStartDay().let {
+                    it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
+                }
+            ),
+            color = MaterialTheme.colorScheme.primaryContainer
+        ),
+        state = basisState
+    )
 }
 
 @Composable

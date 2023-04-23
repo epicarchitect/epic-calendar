@@ -9,4 +9,5 @@ android {
 
 dependencies {
     api(projects.library.pager)
+    api(projects.library.ranges)
 }
