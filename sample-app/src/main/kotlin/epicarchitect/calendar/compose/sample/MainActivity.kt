@@ -86,11 +86,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BasisTesting() {
     val basisState = BasisEpicCalendar.rememberState()
-    val basisConfig = BasisEpicCalendar.LocalConfig.current
+
     BasisEpicCalendar(
         modifier = Modifier.drawEpicRanges(
-            basisState = basisState,
-            basisConfig = basisConfig,
             ranges = listOf(
                 basisState.currentMonth.atStartDay().let { it..it },
                 basisState.currentMonth.atStartDay().let {

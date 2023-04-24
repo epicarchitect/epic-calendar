@@ -11,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -47,23 +46,18 @@ fun EpicDatePicker(
         EpicCalendarPager(
             modifier = modifier,
             pageModifier = {
-                Modifier.composed {
-                    val basisState = BasisEpicCalendar.LocalState.current!!
-                    drawEpicRanges(
-                        basisState = basisState,
-                        basisConfig = pagerConfig.basisConfig,
-                        ranges = if (mustDrawAsRange()) {
-                            val startDate = state.selectedDates.min()
-                            val endDate = state.selectedDates.max()
-                            listOf(startDate..endDate)
-                        } else if (mustDrawAsSingles()) {
-                            state.selectedDates.map { it..it }
-                        } else {
-                            emptyList()
-                        },
-                        color = selectionContainerColor
-                    )
-                }
+                Modifier.drawEpicRanges(
+                    ranges = if (mustDrawAsRange()) {
+                        val startDate = state.selectedDates.min()
+                        val endDate = state.selectedDates.max()
+                        listOf(startDate..endDate)
+                    } else if (mustDrawAsSingles()) {
+                        state.selectedDates.map { it..it }
+                    } else {
+                        emptyList()
+                    },
+                    color = selectionContainerColor
+                )
             },
             state = state.pagerState,
             onDayOfMonthClick = state::toggleDateSelection,

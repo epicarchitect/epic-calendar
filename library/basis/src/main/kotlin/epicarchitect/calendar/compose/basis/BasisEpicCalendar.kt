@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -127,6 +128,7 @@ fun BasisEpicCalendar(
 object BasisEpicCalendar {
     val DefaultDayOfMonthComposable: BasisDayOfMonthComposable = { date ->
         val state = LocalState.current!!
+        val config = LocalConfig.current
         Text(
             modifier = Modifier.alpha(
                 alpha = remember(date, state.currentMonth) {
@@ -134,14 +136,17 @@ object BasisEpicCalendar {
                 }
             ),
             text = date.dayOfMonth.toString(),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = config.contentColor
         )
     }
 
     val DefaultDayOfWeekComposable: BasisDayOfWeekComposable = { dayOfWeek ->
+        val config = LocalConfig.current
         Text(
             text = dayOfWeek.localized(),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = config.contentColor
         )
     }
 
@@ -191,7 +196,8 @@ object BasisEpicCalendar {
         columnWidth = 40.dp,
         dayOfWeekViewShape = RoundedCornerShape(16.dp),
         dayOfMonthViewShape = RoundedCornerShape(16.dp),
-        contentPadding = PaddingValues(0.dp)
+        contentPadding = PaddingValues(0.dp),
+        contentColor = Color.Unspecified
     )
 
     @Immutable
@@ -202,7 +208,8 @@ object BasisEpicCalendar {
         override val columnWidth: Dp,
         override val dayOfWeekViewShape: Shape,
         override val dayOfMonthViewShape: Shape,
-        override val contentPadding: PaddingValues
+        override val contentPadding: PaddingValues,
+        override val contentColor: Color
     ) : Config
 
     interface State {
@@ -220,6 +227,7 @@ object BasisEpicCalendar {
         val dayOfWeekViewShape: Shape
         val dayOfMonthViewShape: Shape
         val contentPadding: PaddingValues
+        val contentColor: Color
     }
 
     val LocalState = compositionLocalOf<State?> {

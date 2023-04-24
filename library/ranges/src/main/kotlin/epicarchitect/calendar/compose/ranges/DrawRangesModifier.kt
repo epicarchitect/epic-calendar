@@ -11,11 +11,11 @@ import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import kotlinx.datetime.LocalDate
 
 fun Modifier.drawEpicRanges(
-    basisState: BasisEpicCalendar.State,
-    basisConfig: BasisEpicCalendar.Config,
     ranges: List<ClosedRange<LocalDate>>,
     color: Color
 ) = composed {
+    val basisState = BasisEpicCalendar.LocalState.current!!
+    val basisConfig = BasisEpicCalendar.LocalConfig.current
     val gridInfo = basisState.dateGridInfo
     val displayDaysOfAdjacentMonths = basisState.displayDaysOfAdjacentMonths
 
