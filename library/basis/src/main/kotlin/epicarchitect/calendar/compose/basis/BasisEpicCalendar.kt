@@ -99,7 +99,6 @@ fun BasisEpicCalendar(
                             contentAlignment = Alignment.Center
                         ) {
                             if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
-
                                 Box(
                                     modifier = Modifier
                                         .clip(dayOfMonthViewShape)
