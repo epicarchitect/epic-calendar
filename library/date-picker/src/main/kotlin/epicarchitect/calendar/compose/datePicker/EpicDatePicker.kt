@@ -130,13 +130,23 @@ object EpicDatePicker {
         private var _selectionMode by mutableStateOf(selectionMode)
         override var selectionMode
             get() = _selectionMode
-            set(value) {
-                val takeLastAmount = when (value) {
-                    is SelectionMode.Range -> 2
-                    is SelectionMode.Single -> value.maxSize
+            set(mode) {
+                _selectionMode = mode
+                val dates = selectedDates
+                selectedDates = if (dates.isEmpty()) {
+                    emptyList()
+                } else {
+                    when (mode) {
+                        is SelectionMode.Range -> {
+                            if (dates.size == 1) listOf(dates.first())
+                            else listOf(dates.min(), dates.max())
+                        }
+
+                        is SelectionMode.Single -> {
+                            dates.takeLast(mode.maxSize)
+                        }
+                    }
                 }
-                selectedDates = selectedDates.takeLast(takeLastAmount)
-                _selectionMode = value
             }
 
         override var displayDaysOfAdjacentMonths
