@@ -35,6 +35,38 @@ dependencies {
 }
 ```
 
+### Draw ranges
+
+To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
+
+for simple BasisEpicCalendar:
+
+```Kotlin
+val myRanges: List<ClosedRange<LocalDate>>
+val myRangeColor: Color
+BasisEpicCalendar(
+    modifier = Modifier.drawEpicRanges(
+        ranges = myRanges,
+        color = myRangeColor
+    ),
+)
+```
+
+and for pager:
+
+```Kotlin
+val myRanges: List<ClosedRange<LocalDate>>
+val myRangeColor: Color
+EpicCalendarPager(
+    pageModifier = {
+        Modifier.drawEpicRanges(
+            ranges = myRanges,
+            color = myRangeColor
+        )
+    }
+)
+```
+
 ### License
 
 ```

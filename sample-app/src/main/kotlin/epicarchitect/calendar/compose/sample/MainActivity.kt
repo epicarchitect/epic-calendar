@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.atStartDay
+import epicarchitect.calendar.compose.basis.next
 import epicarchitect.calendar.compose.datePicker.EpicDatePicker
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
@@ -86,20 +87,25 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BasisTesting() {
     val basisState = BasisEpicCalendar.rememberState()
+    val testMonth = basisState.currentMonth
+    val rangeColor = MaterialTheme.colorScheme.primaryContainer
+    val ranges = remember(testMonth, rangeColor) {
+        listOf(
+            testMonth
+                .atStartDay()
+                .let { it..it },
+            testMonth
+                .atStartDay()
+                .let {
+                    it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
+                }
+        )
+    }
 
     BasisEpicCalendar(
         modifier = Modifier.drawEpicRanges(
-            ranges = listOf(
-                basisState.currentMonth
-                    .atStartDay()
-                    .let { it..it },
-                basisState.currentMonth
-                    .atStartDay()
-                    .let {
-                        it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
-                    }
-            ),
-            color = MaterialTheme.colorScheme.primaryContainer
+            ranges = ranges,
+            color = rangeColor
         ),
         state = basisState
     )
@@ -108,8 +114,30 @@ fun BasisTesting() {
 @Composable
 fun PagerTesting() {
     val state = EpicCalendarPager.rememberState()
+    val testMonth = state.monthRange.start.next()
+    val rangeColor = MaterialTheme.colorScheme.primaryContainer
+    val ranges = remember(testMonth, rangeColor) {
+        listOf(
+            testMonth
+                .atStartDay()
+                .let { it..it },
+            testMonth
+                .atStartDay()
+                .let {
+                    it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
+                }
+        )
+    }
 
-    EpicCalendarPager(state = state)
+    EpicCalendarPager(
+        pageModifier = {
+            Modifier.drawEpicRanges(
+                ranges = ranges,
+                color = rangeColor
+            )
+        },
+        state = state
+    )
 
     val scope = rememberCoroutineScope()
 
