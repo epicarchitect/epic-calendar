@@ -37,7 +37,7 @@ dependencies {
 
 ### Draw ranges
 
-To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
+To draw ranges use `Modifier.drawEpicRanges(ranges, color)` from `io.github.epicarchitect:calendar-compose-ranges`
 
 ```Kotlin
 val myRanges: List<ClosedRange<kotlinx.datetime.LocalDate>>
