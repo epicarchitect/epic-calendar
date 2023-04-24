@@ -48,7 +48,7 @@ BasisEpicCalendar(
     modifier = Modifier.drawEpicRanges(
         ranges = myRanges,
         color = myRangeColor
-    ),
+    )
 )
 ```
 
