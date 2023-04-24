@@ -10,7 +10,7 @@ import epicarchitect.calendar.compose.basis.epicMonth
 import epicarchitect.calendar.compose.basis.index
 import kotlinx.datetime.LocalDate
 
-fun calculateEpicRangeInfo(
+internal fun calculateEpicRangeInfo(
     displayDaysOfAdjacentMonths: Boolean,
     gridInfo: EpicCalendarGridInfo,
     startDate: LocalDate,

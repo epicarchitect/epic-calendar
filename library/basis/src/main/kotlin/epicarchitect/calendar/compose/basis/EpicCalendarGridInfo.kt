@@ -13,7 +13,7 @@ data class EpicCalendarGridInfo(
     val firstDayOfWeek: EpicDayOfWeek
 )
 
-fun calculateEpicCalendarGridInfo(
+internal fun calculateEpicCalendarGridInfo(
     currentMonth: EpicMonth,
     displayDaysOfAdjacentMonths: Boolean,
     firstDayOfWeek: EpicDayOfWeek

@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.Density
 
-fun DrawScope.drawEpicRange(
+internal fun DrawScope.drawEpicRange(
     rangeInfo: EpicRangeInfo,
     color: Color,
     itemSize: Size,

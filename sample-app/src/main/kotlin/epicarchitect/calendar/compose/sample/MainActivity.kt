@@ -90,10 +90,14 @@ fun BasisTesting() {
     BasisEpicCalendar(
         modifier = Modifier.drawEpicRanges(
             ranges = listOf(
-                basisState.currentMonth.atStartDay().let { it..it },
-                basisState.currentMonth.atStartDay().let {
-                    it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
-                }
+                basisState.currentMonth
+                    .atStartDay()
+                    .let { it..it },
+                basisState.currentMonth
+                    .atStartDay()
+                    .let {
+                        it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
+                    }
             ),
             color = MaterialTheme.colorScheme.primaryContainer
         ),
@@ -287,12 +291,12 @@ fun DatePickerTesting() {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Single }) {
+        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Single() }) {
             Text("Single")
         }
 
-        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Multi(3) }) {
-            Text("Multi(3)")
+        Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Single(3) }) {
+            Text("Single(3)")
         }
 
         Button(onClick = { state.selectionMode = EpicDatePicker.SelectionMode.Range }) {

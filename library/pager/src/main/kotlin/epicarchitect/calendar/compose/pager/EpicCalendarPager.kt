@@ -26,6 +26,51 @@ import epicarchitect.calendar.compose.basis.indexOf
 import epicarchitect.calendar.compose.basis.size
 import kotlinx.datetime.LocalDate
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun EpicCalendarPager(
+    modifier: Modifier = Modifier,
+    pageModifier: (page: Int) -> Modifier = { Modifier },
+    state: EpicCalendarPager.State = EpicCalendarPager.LocalState.current
+        ?: EpicCalendarPager.rememberState(),
+    config: EpicCalendarPager.Config = EpicCalendarPager.LocalConfig.current,
+    onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
+    onDayOfWeekClick: ((EpicDayOfWeek) -> Unit)? = null,
+    dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
+    dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
+) = with(config) {
+    CompositionLocalProvider(
+        EpicCalendarPager.LocalConfig provides config,
+        EpicCalendarPager.LocalState provides state
+    ) {
+        HorizontalPager(
+            modifier = modifier,
+            state = state.pagerState,
+            pageCount = remember(state.monthRange) {
+                state.monthRange.size()
+            },
+            verticalAlignment = Alignment.Top
+        ) { page ->
+            val basisState = BasisEpicCalendar.rememberState(
+                currentMonth = remember(state.monthRange, page) {
+                    state.monthRange.getByIndex(page)
+                },
+                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths,
+                displayDaysOfWeek = state.displayDaysOfWeek
+            )
+
+            BasisEpicCalendar(
+                modifier = pageModifier(page),
+                state = basisState,
+                config = basisConfig,
+                onDayOfMonthClick = onDayOfMonthClick,
+                onDayOfWeekClick = onDayOfWeekClick,
+                dayOfMonthComposable = dayOfMonthComposable,
+                dayOfWeekComposable = dayOfWeekComposable
+            )
+        }
+    }
+}
 
 object EpicCalendarPager {
     @OptIn(ExperimentalFoundationApi::class)
@@ -115,51 +160,5 @@ object EpicCalendarPager {
 
     val LocalConfig = compositionLocalOf<Config> {
         DefaultConfig
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun EpicCalendarPager(
-    modifier: Modifier = Modifier,
-    pageModifier: (page: Int) -> Modifier = { Modifier },
-    state: EpicCalendarPager.State = EpicCalendarPager.LocalState.current
-        ?: EpicCalendarPager.rememberState(),
-    config: EpicCalendarPager.Config = EpicCalendarPager.LocalConfig.current,
-    onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
-    onDayOfWeekClick: ((EpicDayOfWeek) -> Unit)? = null,
-    dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
-    dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
-) = with(config) {
-    CompositionLocalProvider(
-        EpicCalendarPager.LocalConfig provides config,
-        EpicCalendarPager.LocalState provides state
-    ) {
-        HorizontalPager(
-            modifier = modifier,
-            state = state.pagerState,
-            pageCount = remember(state.monthRange) {
-                state.monthRange.size()
-            },
-            verticalAlignment = Alignment.Top
-        ) { page ->
-            val basisState = BasisEpicCalendar.rememberState(
-                currentMonth = remember(state.monthRange, page) {
-                    state.monthRange.getByIndex(page)
-                },
-                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths,
-                displayDaysOfWeek = state.displayDaysOfWeek
-            )
-
-            BasisEpicCalendar(
-                modifier = pageModifier(page),
-                state = basisState,
-                config = basisConfig,
-                onDayOfMonthClick = onDayOfMonthClick,
-                onDayOfWeekClick = onDayOfWeekClick,
-                dayOfMonthComposable = dayOfMonthComposable,
-                dayOfWeekComposable = dayOfWeekComposable
-            )
-        }
     }
 }
