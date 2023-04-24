@@ -1,0 +1,3 @@
+-dontwarn kotlinx.serialization.KSerializer
+-dontwarn kotlinx.serialization.Serializable
+-dontwarn kotlinx.serialization.internal.AbstractPolymorphicSerializer
