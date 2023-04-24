@@ -43,7 +43,7 @@ To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
 val myRanges: List<ClosedRange<kotlinx.datetime.LocalDate>>
 val myRangeColor: androidx.compose.ui.graphics.Color
 
-// for simple BasisEpicCalendar:
+// for simple BasisEpicCalendar
 BasisEpicCalendar(
     modifier = Modifier.drawEpicRanges(
         ranges = myRanges,
@@ -51,7 +51,7 @@ BasisEpicCalendar(
     )
 )
 
-// and for pager:
+// and for pager
 EpicCalendarPager(
     pageModifier = {
         Modifier.drawEpicRanges(
