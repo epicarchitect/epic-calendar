@@ -31,7 +31,7 @@ dependencies {
     implementation("io.github.epicarchitect:calendar-compose-basis:1.0.2")
     implementation("io.github.epicarchitect:calendar-compose-ranges:1.0.2") // includes basis
     implementation("io.github.epicarchitect:calendar-compose-pager:1.0.2") // includes basis
-    implementation("io.github.epicarchitect:calendar-compose-date-picker:1.0.2") // includes ranges
+    implementation("io.github.epicarchitect:calendar-compose-date-picker:1.0.2") // includes pager + ranges
 }
 ```
 

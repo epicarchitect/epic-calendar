@@ -39,7 +39,7 @@ publishing {
 
     publications.create<MavenPublication>("release") {
         groupId = Constants.EPICARCHITECT_GROUP_NAME
-        artifactId = "calendar-compose-${project.name}"
+        artifactId = "${Constants.EPIC_CALENDAR_LIBRARY_NAME}-${project.name}"
         version = Constants.EPIC_CALENDAR_VERSION
 
         pom {

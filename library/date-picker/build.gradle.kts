@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "epicarchitect.calendar.compose.datepicker"
+    namespace = "epicarchitect.calendar.compose.datePicker"
 }
 
 dependencies {
