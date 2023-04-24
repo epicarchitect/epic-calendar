@@ -1,3 +1,5 @@
+import convention.android.publish.Constants
+
 plugins {
     id("com.android.application")
     id("convention.android.base")
@@ -10,6 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "epicarchitect.calendar.compose.sample"
+        base.archivesName.set("epic-calendar-sample-${Constants.EPIC_CALENDAR_VERSION}")
     }
 
     signingConfigs {

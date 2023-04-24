@@ -1,6 +1,5 @@
 package epicarchitect.calendar.compose.basis
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,7 +58,7 @@ fun BasisEpicCalendar(
             ),
             verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
         ) {
-            AnimatedVisibility(visible = state.displayDaysOfWeek) {
+            if (state.displayDaysOfWeek) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween

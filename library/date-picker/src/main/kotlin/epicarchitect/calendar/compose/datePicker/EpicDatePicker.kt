@@ -39,7 +39,8 @@ fun EpicDatePicker(
         val ranges = remember(mode, selectedDays) {
             when (mode) {
                 is EpicDatePicker.SelectionMode.Range -> {
-                    listOf(selectedDays.min()..selectedDays.max())
+                    if (selectedDays.isEmpty()) emptyList()
+                    else listOf(selectedDays.min()..selectedDays.max())
                 }
 
                 is EpicDatePicker.SelectionMode.Single -> {
@@ -71,10 +72,17 @@ object EpicDatePicker {
         val pickerState = LocalState.current!!
         val pickerConfig = LocalConfig.current
         val selectedDays = pickerState.selectedDates
+        val selectionMode = pickerState.selectionMode
 
-        val isSelected = when (pickerState.selectionMode) {
-            is SelectionMode.Range -> date in selectedDays.min()..selectedDays.max()
-            is SelectionMode.Single -> date in selectedDays
+        val isSelected = remember(selectionMode, selectedDays, date) {
+            when (selectionMode) {
+                is SelectionMode.Range -> {
+                    if (selectedDays.isEmpty()) false
+                    else date in selectedDays.min()..selectedDays.max()
+                }
+
+                is SelectionMode.Single -> date in selectedDays
+            }
         }
 
         Text(
