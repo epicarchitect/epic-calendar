@@ -5,9 +5,11 @@ rootProject.name = "epic-calendar"
 includeBuild("build-logic")
 
 include(
-    ":sample-app",
+    ":sample:shared",
+    ":sample:android-app",
+    ":sample:desktop-app",
     ":library:basis",
-    ":library:pager",
-    ":library:date-picker",
-    ":library:ranges",
+//    ":library:pager",
+//    ":library:date-picker",
+//    ":library:ranges",
 )
