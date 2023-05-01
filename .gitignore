@@ -124,8 +124,7 @@ xcuserdata/
 *.xcscmblueprint
 *.xccheckout
 
-## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
-build/
+## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4
 DerivedData/
 *.moved-aside
 *.pbxuser
