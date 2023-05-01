@@ -3,7 +3,7 @@ package epicarchitect.calendar.compose.basis
 import kotlinx.datetime.DayOfWeek
 import platform.Foundation.NSCalendar
 
-private val localization = listOf(
+private val iosOrder = listOf(
     DayOfWeek.SUNDAY,
     DayOfWeek.MONDAY,
     DayOfWeek.TUESDAY,
@@ -14,11 +14,11 @@ private val localization = listOf(
 )
 
 actual fun DayOfWeek.localized(): String {
-    return NSCalendar.currentCalendar.veryShortWeekdaySymbols[localization.indexOf(this)].toString()
+    return NSCalendar.currentCalendar.veryShortWeekdaySymbols[iosOrder.indexOf(this)].toString()
 }
 
 actual fun firstDayOfWeek(): DayOfWeek {
-    return when (val day = NSCalendar.currentCalendar.firstWeekday) {
+    return when (NSCalendar.currentCalendar.firstWeekday) {
         1uL -> DayOfWeek.SUNDAY
         2uL -> DayOfWeek.MONDAY
         3uL -> DayOfWeek.TUESDAY

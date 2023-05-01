@@ -17,6 +17,7 @@ import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.contains
+import epicarchitect.calendar.compose.basis.localized
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.datetime.LocalDate

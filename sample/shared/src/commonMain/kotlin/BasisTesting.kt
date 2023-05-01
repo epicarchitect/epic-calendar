@@ -8,14 +8,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Month
 import kotlinx.datetime.plus
 
 @Composable
 fun BasisTesting() {
-    val state = BasisEpicCalendar.rememberState()
+    val state = BasisEpicCalendar.rememberState(
+        currentMonth = EpicMonth(2000, Month.JANUARY)
+    )
     val rangeColor = MaterialTheme.colorScheme.primaryContainer
     val ranges = remember {
         val month = state.currentMonth

@@ -11,6 +11,6 @@ include(
     ":sample:web-app",
     ":library:basis",
     ":library:pager",
-//    ":library:date-picker",
+    ":library:date-picker",
     ":library:ranges",
 )

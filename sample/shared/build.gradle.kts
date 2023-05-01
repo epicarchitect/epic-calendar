@@ -32,8 +32,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.library.pager)
-                implementation(projects.library.ranges)
+                implementation(projects.library.datePicker)
             }
         }
         val iosX64Main by getting

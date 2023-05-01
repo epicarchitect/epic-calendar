@@ -50,6 +50,7 @@ fun App() {
                         text = when (currentPage) {
                             0 -> "${getPlatformName()} Basis"
                             1 -> "${getPlatformName()} Pager"
+                            2 -> "${getPlatformName()} DatePicker"
                             else -> "Empty"
                         }
                     )
@@ -62,6 +63,7 @@ fun App() {
                 when (currentPage) {
                     0 -> BasisTesting()
                     1 -> PagerTesting()
+                    2 -> DatePickerTesting()
                 }
             }
         }
