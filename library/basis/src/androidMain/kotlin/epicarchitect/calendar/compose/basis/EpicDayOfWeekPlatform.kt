@@ -7,5 +7,4 @@ import java.util.Locale
 
 actual fun firstDayOfWeek() = WeekFields.of(Locale.getDefault()).firstDayOfWeek!!
 
-actual fun DayOfWeek.localized() =
-    DayOfWeek.values()[ordinal].getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
+actual fun DayOfWeek.localized() = getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
