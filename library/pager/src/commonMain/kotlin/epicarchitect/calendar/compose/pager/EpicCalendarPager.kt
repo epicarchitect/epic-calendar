@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
-import epicarchitect.calendar.compose.basis.EpicDayOfWeek
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.addMonths
 import epicarchitect.calendar.compose.basis.addYears
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.indexOf
 import epicarchitect.calendar.compose.basis.size
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -35,7 +35,7 @@ fun EpicCalendarPager(
         ?: EpicCalendarPager.rememberState(),
     config: EpicCalendarPager.Config = EpicCalendarPager.LocalConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
-    onDayOfWeekClick: ((EpicDayOfWeek) -> Unit)? = null,
+    onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
     dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
     dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
 ) = with(config) {

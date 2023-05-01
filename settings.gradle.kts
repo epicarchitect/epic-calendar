@@ -10,7 +10,7 @@ include(
     ":sample:desktop-app",
     ":sample:web-app",
     ":library:basis",
-//    ":library:pager",
+    ":library:pager",
 //    ":library:date-picker",
 //    ":library:ranges",
 )

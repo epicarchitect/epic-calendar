@@ -1,5 +1,6 @@
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -8,15 +9,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import epicarchitect.calendar.compose.basis.BasisEpicCalendar
-import epicarchitect.calendar.compose.basis.atStartDay
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.plus
 
-expect fun getPlatformName(): String
 
 @Composable
 fun App() {
@@ -31,34 +31,39 @@ fun App() {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Text(getPlatformName())
+                var currentPage by remember {
+                    mutableStateOf(0)
+                }
 
-                BasisTesting()
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(
+                        onClick = { currentPage -= 1 },
+                        text = "prev"
+                    )
+                    Text(
+                        text = when (currentPage) {
+                            0 -> "${getPlatformName()} Basis"
+                            1 -> "${getPlatformName()} Pager"
+                            else -> "Empty"
+                        }
+                    )
+                    Button(
+                        onClick = { currentPage += 1 },
+                        text = "next"
+                    )
+                }
+
+                when (currentPage) {
+                    0 -> BasisTesting()
+                    1 -> PagerTesting()
+                }
             }
         }
     }
-
-}
-
-@Composable
-fun BasisTesting() {
-    val basisState = BasisEpicCalendar.rememberState()
-    val testMonth = basisState.currentMonth
-    val rangeColor = MaterialTheme.colorScheme.primaryContainer
-    val ranges = remember(testMonth, rangeColor) {
-        listOf(
-            testMonth
-                .atStartDay()
-                .let { it..it },
-            testMonth
-                .atStartDay()
-                .let {
-                    it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
-                }
-        )
-    }
-
-    BasisEpicCalendar(
-        state = basisState
-    )
 }

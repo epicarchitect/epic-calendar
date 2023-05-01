@@ -32,7 +32,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.library.basis)
+                implementation(projects.library.pager)
             }
         }
         val iosX64Main by getting
