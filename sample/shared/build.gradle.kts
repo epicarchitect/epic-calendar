@@ -33,6 +33,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.library.pager)
+                implementation(projects.library.ranges)
             }
         }
         val iosX64Main by getting

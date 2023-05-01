@@ -1,6 +1,5 @@
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
+import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
@@ -18,24 +18,29 @@ import kotlinx.datetime.plus
 @Composable
 fun PagerTesting() {
     val state = EpicCalendarPager.rememberState()
-    val testMonth = state.currentMonth
     val rangeColor = MaterialTheme.colorScheme.primaryContainer
     val coroutineScope = rememberCoroutineScope()
-    val ranges = remember(testMonth, rangeColor) {
+    val ranges = remember {
+        val month = state.currentMonth
         listOf(
-            testMonth
-                .atStartDay()
-                .let { it..it },
-            testMonth
-                .atStartDay()
-                .let {
-                    it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
-                }
+            month.atStartDay().let { it..it },
+            month.atStartDay().let {
+                it.plus(1, DateTimeUnit.DAY)..it.plus(3, DateTimeUnit.DAY)
+            },
+            month.atStartDay().let {
+                it.plus(13, DateTimeUnit.DAY)..it.plus(55, DateTimeUnit.DAY)
+            }
         )
     }
 
     EpicCalendarPager(
-        state = state
+        state = state,
+        pageModifier = {
+            Modifier.drawEpicRanges(
+                ranges = ranges,
+                color = rangeColor
+            )
+        }
     )
 
     Row(

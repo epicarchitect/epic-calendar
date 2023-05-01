@@ -5,7 +5,6 @@ import epicarchitect.calendar.compose.basis.EpicCalendarConstants
 import epicarchitect.calendar.compose.basis.EpicCalendarGridInfo
 import epicarchitect.calendar.compose.basis.atEndDay
 import epicarchitect.calendar.compose.basis.atStartDay
-import epicarchitect.calendar.compose.basis.epicDayOfWeek
 import epicarchitect.calendar.compose.basis.epicMonth
 import epicarchitect.calendar.compose.basis.index
 import kotlinx.datetime.LocalDate
@@ -25,7 +24,7 @@ internal fun calculateEpicRangeInfo(
     if (startDate > endDateOfGrid || endDate < startDateOfGrid) return null
 
     val startGridOffset = if (displayDaysOfAdjacentMonths) 0
-    else startDateOfGrid.epicDayOfWeek.index()
+    else startDateOfGrid.dayOfWeek.index()
 
     val isStartInGrid = startDate >= startDateOfGrid
     val isEndInGrid = endDate <= endDateOfGrid
@@ -34,15 +33,15 @@ internal fun calculateEpicRangeInfo(
         if (displayDaysOfAdjacentMonths) {
             when (startDate.epicMonth) {
                 gridInfo.currentMonth -> {
-                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() + startDate.dayOfMonth - 1
+                    gridInfo.currentMonth.atStartDay().dayOfWeek.index() + startDate.dayOfMonth - 1
                 }
 
                 gridInfo.previousMonth -> {
-                    startDate.epicDayOfWeek.index()
+                    startDate.dayOfWeek.index()
                 }
 
                 gridInfo.nextMonth -> {
-                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() +
+                    gridInfo.currentMonth.atStartDay().dayOfWeek.index() +
                             gridInfo.currentMonth.numberOfDays +
                             startDate.dayOfMonth - 1
                 }
@@ -62,15 +61,15 @@ internal fun calculateEpicRangeInfo(
         if (displayDaysOfAdjacentMonths) {
             when (endDate.epicMonth) {
                 gridInfo.currentMonth -> {
-                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() + endDate.dayOfMonth - 1
+                    gridInfo.currentMonth.atStartDay().dayOfWeek.index() + endDate.dayOfMonth - 1
                 }
 
                 gridInfo.previousMonth -> {
-                    endDate.epicDayOfWeek.index()
+                    endDate.dayOfWeek.index()
                 }
 
                 gridInfo.nextMonth -> {
-                    gridInfo.currentMonth.atStartDay().epicDayOfWeek.index() +
+                    gridInfo.currentMonth.atStartDay().dayOfWeek.index() +
                             gridInfo.currentMonth.numberOfDays +
                             endDate.dayOfMonth - 1
                 }
