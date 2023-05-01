@@ -1,3 +1,5 @@
+package epicarchitect.sample
+
 import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -21,8 +21,8 @@ fun DayOfWeek.index(
 ) = when (firstDayOfWeek) {
     DayOfWeek.MONDAY -> isoDayNumber - 1
     DayOfWeek.SUNDAY -> {
-        if (this == DayOfWeek.SATURDAY) 0
-        else isoDayNumber + 1
+        if (this == DayOfWeek.SUNDAY) 0
+        else isoDayNumber
     }
 
     else -> error("Unexpected firstDayOfWeek: $firstDayOfWeek")
