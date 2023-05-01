@@ -12,6 +12,11 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    js {
+        browser()
+        binaries.executable()
+    }
+
     cocoapods {
         version = "1.0.0"
         summary = "Some description for the Shared Module"
@@ -42,6 +47,11 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.html.core)
             }
         }
     }

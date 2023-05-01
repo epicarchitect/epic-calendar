@@ -8,6 +8,7 @@ include(
     ":sample:shared",
     ":sample:android-app",
     ":sample:desktop-app",
+    ":sample:web-app",
     ":library:basis",
 //    ":library:pager",
 //    ":library:date-picker",
