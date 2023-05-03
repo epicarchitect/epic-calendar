@@ -9,8 +9,8 @@ include(
     ":sample:android-app",
     ":sample:desktop-app",
     ":sample:web-app",
-    ":library:basis",
-    ":library:pager",
-    ":library:datepicker",
-    ":library:ranges",
+    ":library:calendar-compose-basis",
+    ":library:calendar-compose-pager",
+    ":library:calendar-compose-datepicker",
+    ":library:calendar-compose-ranges",
 )

@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(projects.library.basis)
+    commonMainApi(projects.library.calendarComposeBasis)
 }

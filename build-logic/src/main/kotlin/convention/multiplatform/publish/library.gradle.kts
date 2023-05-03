@@ -17,12 +17,10 @@ project.rootProject.file("local.properties").reader().use {
     ext[name.toString()] = value
 }
 
-android {
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
+kotlin {
+    android {
+        publishAllLibraryVariants()
+        publishLibraryVariantsGroupedByFlavor = true
     }
 }
 
@@ -38,9 +36,8 @@ publishing {
         }
     }
 
-    publications.create<MavenPublication>("release") {
+    publications.withType<MavenPublication> {
         groupId = Constants.EPICARCHITECT_GROUP_NAME
-        artifactId = "${Constants.EPIC_CALENDAR_LIBRARY_NAME}-${project.name}"
         version = Constants.EPIC_CALENDAR_VERSION
 
         pom {
@@ -64,10 +61,6 @@ publishing {
             scm {
                 url.set("https://github.com/epicarchitect/epic-calendar")
             }
-        }
-
-        afterEvaluate {
-            from(components["release"])
         }
     }
 }

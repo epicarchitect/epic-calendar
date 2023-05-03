@@ -19,5 +19,5 @@ kotlin {
 }
 
 dependencies {
-    commonMainImplementation(projects.library.datepicker)
+    commonMainImplementation(projects.library.calendarComposeDatepicker)
 }
