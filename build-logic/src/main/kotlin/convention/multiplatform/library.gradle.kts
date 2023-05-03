@@ -1,5 +1,7 @@
 package convention.multiplatform
 
+import convention.Constants
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -28,5 +30,5 @@ kotlin {
         }
     }
 
-    jvmToolchain(11)
+    jvmToolchain(Constants.JVM_TARGET)
 }

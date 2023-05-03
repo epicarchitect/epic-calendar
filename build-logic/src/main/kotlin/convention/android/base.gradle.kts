@@ -1,15 +1,16 @@
 package convention.android
 
 import com.android.build.gradle.BaseExtension
+import convention.Constants
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 configure<BaseExtension> {
-    namespace = "epicarchitect.calendar.compose.${name.filter { it != '-' }}"
-    compileSdkVersion(Constants.TARGET_ANDROID_SDK)
+    namespace = "${Constants.ANDROID_BASE_NAMESPACE}.${name.filter { it != '-' }}"
+    compileSdkVersion(Constants.ANDROID_TARGET_SDK)
 
     defaultConfig {
-        minSdk = Constants.MIN_ANDROID_SDK
-        targetSdk = Constants.TARGET_ANDROID_SDK
+        minSdk = Constants.ANDROID_MIN_SDK
+        targetSdk = Constants.ANDROID_TARGET_SDK
     }
 
     compileOptions {
@@ -20,6 +21,6 @@ configure<BaseExtension> {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = Constants.JVM_TARGET
+        jvmTarget = Constants.JVM_TARGET.toString()
     }
 }

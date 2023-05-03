@@ -1,5 +1,6 @@
 package convention.multiplatform.publish
 
+import convention.Constants
 import java.util.Properties
 
 plugins {

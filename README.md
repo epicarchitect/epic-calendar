@@ -2,7 +2,18 @@
 
 Compose Multiplatform library for displaying epic calendars.
 
-Support: android, iOS, macos, desktop, web.
+### Kotlin Multiplatform supported targets
+
+```Kotlin
+kotlin {
+    android()
+    jvm("desktop")
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    js(IR) { browser() }
+}
+```
 
 ### Demo
 
@@ -39,7 +50,8 @@ dependencies {
 
 ### Draw ranges
 
-To draw ranges use `Modifier.drawEpicRanges(ranges, color)` from `io.github.epicarchitect:calendar-compose-ranges`
+To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
+from `io.github.epicarchitect:calendar-compose-ranges`
 
 ```Kotlin
 val myRanges: List<ClosedRange<kotlinx.datetime.LocalDate>>
