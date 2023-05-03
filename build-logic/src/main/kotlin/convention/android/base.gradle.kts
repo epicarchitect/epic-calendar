@@ -5,7 +5,7 @@ import convention.Constants
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 configure<BaseExtension> {
-    namespace = "${Constants.ANDROID_BASE_NAMESPACE}.${name.filter { it != '-' }}"
+    namespace = "epicarchitect.${name.replace('-', '.')}"
     compileSdkVersion(Constants.ANDROID_TARGET_SDK)
 
     defaultConfig {
