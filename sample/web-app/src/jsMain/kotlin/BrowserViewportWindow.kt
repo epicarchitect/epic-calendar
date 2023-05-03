@@ -56,19 +56,27 @@ fun BrowserViewportWindow(
     }
 
     ComposeWindow().apply {
-        window.addEventListener("resize", {
-            val scale = layer.layer.contentScale
-            val density = window.devicePixelRatio.toFloat()
-            canvas.fillViewportSize()
-            layer.layer.attachTo(canvas)
-            layer.layer.needRedraw()
-            layer.setSize((canvas.width / scale * density).toInt(), (canvas.height / scale * density).toInt())
-        })
+        window.addEventListener(
+            type = "resize",
+            callback = {
+                val scale = layer.layer.contentScale
+                val density = window.devicePixelRatio.toFloat()
+                canvas.fillViewportSize()
+                layer.layer.attachTo(canvas)
+                layer.layer.needRedraw()
+                layer.setSize(
+                    width = (canvas.width / scale * density).toInt(),
+                    height = (canvas.height / scale * density).toInt()
+                )
+            }
+        )
 
         // WORKAROUND: ComposeWindow does not implement `setTitle(title)`
         val htmlTitleElement = (
                 htmlHeadElement.getElementsByTagName("title").item(0)
-                    ?: document.createElement("title").also { htmlHeadElement.appendChild(it) }
+                    ?: document.createElement("title").also {
+                        htmlHeadElement.appendChild(it)
+                    }
                 ) as HTMLTitleElement
         htmlTitleElement.textContent = title
 

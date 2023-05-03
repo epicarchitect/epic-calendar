@@ -3,7 +3,6 @@ package epicarchitect.calendar.compose.basis
 import androidx.compose.runtime.Immutable
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.Month
 import kotlinx.datetime.isoDayNumber
 
 @Immutable

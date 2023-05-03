@@ -8,7 +8,7 @@ plugins {
 kotlin {
     jvm("desktop")
     sourceSets {
-        val desktopMain by getting  {
+        getByName("desktopMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(projects.sample.shared)

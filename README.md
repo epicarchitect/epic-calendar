@@ -1,8 +1,8 @@
 # Epic Calendar
 
-Compose Multiplatform library for displaying epic calendars. 
+Compose Multiplatform library for displaying epic calendars.
 
-Support: android, iOS, macos, desktop, web. 
+Support: android, iOS, macos, desktop, web.
 
 ### Demo
 
