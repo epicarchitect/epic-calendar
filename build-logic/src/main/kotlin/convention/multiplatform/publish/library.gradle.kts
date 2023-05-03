@@ -17,15 +17,15 @@ project.rootProject.file("local.properties").reader().use {
     ext[name.toString()] = value
 }
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-}
-
 kotlin {
     android {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
     }
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
 }
 
 publishing {
@@ -41,7 +41,7 @@ publishing {
     }
 
     publications.withType<MavenPublication> {
-        artifact(javadocJar.get())
+        artifact(javadocJar)
         groupId = Constants.EPICARCHITECT_GROUP_NAME
         version = Constants.EPIC_CALENDAR_VERSION
 
@@ -72,4 +72,9 @@ publishing {
 
 signing {
     sign(publishing.publications)
+}
+
+
+tasks.withType<AbstractPublishToMaven> {
+    dependsOn(tasks.withType<Sign>())
 }
