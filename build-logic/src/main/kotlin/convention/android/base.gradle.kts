@@ -4,6 +4,7 @@ import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 configure<BaseExtension> {
+    namespace = "epicarchitect.calendar.compose.${name.filter { it != '-' }}"
     compileSdkVersion(Constants.TARGET_ANDROID_SDK)
 
     defaultConfig {
