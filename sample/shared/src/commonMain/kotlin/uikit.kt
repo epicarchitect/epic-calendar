@@ -12,11 +12,13 @@ import androidx.compose.material3.Switch as MaterialSwitch
 fun Button(
     onClick: () -> Unit,
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     MaterialButton(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled
     ) {
         Text(text)
     }

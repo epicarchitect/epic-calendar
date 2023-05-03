@@ -13,19 +13,16 @@ private val iosOrder = listOf(
     DayOfWeek.SATURDAY
 )
 
-actual fun DayOfWeek.localized(): String {
-    return NSCalendar.currentCalendar.veryShortWeekdaySymbols[iosOrder.indexOf(this)].toString()
-}
+actual fun DayOfWeek.localized(): String =
+    NSCalendar.currentCalendar.veryShortWeekdaySymbols[iosOrder.indexOf(this)].toString()
 
-actual fun firstDayOfWeek(): DayOfWeek {
-    return when (NSCalendar.currentCalendar.firstWeekday) {
-        1uL -> DayOfWeek.SUNDAY
-        2uL -> DayOfWeek.MONDAY
-        3uL -> DayOfWeek.TUESDAY
-        4uL -> DayOfWeek.WEDNESDAY
-        5uL -> DayOfWeek.THURSDAY
-        6uL -> DayOfWeek.FRIDAY
-        7uL -> DayOfWeek.SATURDAY
-        else -> DayOfWeek.SUNDAY
-    }
+actual fun firstDayOfWeek(): DayOfWeek = when (NSCalendar.currentCalendar.firstWeekday) {
+    1uL -> DayOfWeek.SUNDAY
+    2uL -> DayOfWeek.MONDAY
+    3uL -> DayOfWeek.TUESDAY
+    4uL -> DayOfWeek.WEDNESDAY
+    5uL -> DayOfWeek.THURSDAY
+    6uL -> DayOfWeek.FRIDAY
+    7uL -> DayOfWeek.SATURDAY
+    else -> DayOfWeek.SUNDAY
 }

@@ -1,13 +1,13 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "homepage": "Link to the Shared Module homepage",
+  "homepage": "Epic link",
   "source": {
     "http": ""
   },
   "authors": "",
   "license": "",
-  "summary": "Some description for the Shared Module",
+  "summary": "Epic summary",
   "vendored_frameworks": "build/cocoapods/framework/shared.framework",
   "libraries": "c++",
   "platforms": {

@@ -6,9 +6,9 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    jvm("desktop")
     sourceSets {
-        val jvmMain by getting  {
+        val desktopMain by getting  {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(projects.sample.shared)

@@ -1,9 +1,9 @@
-package convention.android.publish
+package convention.multiplatform.publish
 
 import java.util.Properties
 
 plugins {
-    id("convention.android.library")
+    id("convention.multiplatform.library")
     id("maven-publish")
     id("signing")
 }

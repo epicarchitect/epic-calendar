@@ -3,7 +3,7 @@ import androidx.compose.ui.window.application
 
 fun main() = application {
     Window(
-        title = "Epic calendar sample",
+        title = "Epic Calendar",
         onCloseRequest = ::exitApplication
     ) {
         App()

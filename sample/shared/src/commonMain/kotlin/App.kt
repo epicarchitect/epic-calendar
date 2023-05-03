@@ -44,7 +44,8 @@ fun App() {
                 ) {
                     Button(
                         onClick = { currentPage -= 1 },
-                        text = "prev"
+                        text = "prev",
+                        enabled = currentPage > 0
                     )
                     Text(
                         text = when (currentPage) {
@@ -56,7 +57,8 @@ fun App() {
                     )
                     Button(
                         onClick = { currentPage += 1 },
-                        text = "next"
+                        text = "next",
+                        enabled = currentPage < 2
                     )
                 }
 

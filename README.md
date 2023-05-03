@@ -1,6 +1,8 @@
 # Epic Calendar
 
-Jetpack Compose library for displaying epic calendars.
+Compose Multiplatform library for displaying epic calendars. 
+
+Support: android, iOS, macos, desktop, web. 
 
 ### Demo
 
@@ -28,10 +30,10 @@ repositories {
 
 ```Kotlin
 dependencies {
-    implementation("io.github.epicarchitect:calendar-compose-basis:1.0.2")
-    implementation("io.github.epicarchitect:calendar-compose-ranges:1.0.2") // includes basis
-    implementation("io.github.epicarchitect:calendar-compose-pager:1.0.2") // includes basis
-    implementation("io.github.epicarchitect:calendar-compose-date-picker:1.0.2") // includes pager + ranges
+    implementation("io.github.epicarchitect:calendar-compose-basis:1.0.3")
+    implementation("io.github.epicarchitect:calendar-compose-ranges:1.0.3") // includes basis
+    implementation("io.github.epicarchitect:calendar-compose-pager:1.0.3") // includes basis
+    implementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.3") // includes pager + ranges
 }
 ```
 
@@ -53,7 +55,7 @@ BasisEpicCalendar(
 
 // and for pager
 EpicCalendarPager(
-    pageModifier = {
+    pageModifier = { page ->
         Modifier.drawEpicRanges(
             ranges = myRanges,
             color = myRangeColor

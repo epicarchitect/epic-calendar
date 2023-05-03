@@ -1,18 +1,12 @@
-import convention.android.publish.Constants
-
 plugins {
     id("com.android.application")
     id("convention.android.base")
-    id("convention.android.compose")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "epicarchitect.calendar.compose.sample"
-
     defaultConfig {
         applicationId = "epicarchitect.calendar.compose.sample"
-        base.archivesName.set("epic-calendar-sample-${Constants.EPIC_CALENDAR_VERSION}")
     }
 
     signingConfigs {
@@ -46,6 +40,14 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug"
         }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.6"
     }
 }
 

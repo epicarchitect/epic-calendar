@@ -4,5 +4,6 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(projects.library.basis)
+    commonMainApi(projects.library.pager)
+    commonMainApi(projects.library.ranges)
 }
