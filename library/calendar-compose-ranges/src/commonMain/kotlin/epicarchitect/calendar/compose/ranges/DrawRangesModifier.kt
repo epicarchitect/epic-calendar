@@ -8,14 +8,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.inset
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.LocalBasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.LocalBasisEpicCalendarState
 import kotlinx.datetime.LocalDate
 
 fun Modifier.drawEpicRanges(
     ranges: List<ClosedRange<LocalDate>>,
     color: Color
 ) = composed {
-    val basisState = BasisEpicCalendar.LocalState.current!!
-    val basisConfig = BasisEpicCalendar.LocalConfig.current
+    val basisState = LocalBasisEpicCalendarState.current!!
+    val basisConfig = LocalBasisEpicCalendarConfig.current
     val gridInfo = basisState.dateGridInfo
     val displayDaysOfAdjacentMonths = basisState.displayDaysOfAdjacentMonths
 

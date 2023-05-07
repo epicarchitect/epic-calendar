@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.LocalBasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.contains
 import epicarchitect.calendar.compose.basis.localized
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
@@ -69,7 +70,7 @@ fun EpicDatePicker(
 
 object EpicDatePicker {
     val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
-        val basisState = BasisEpicCalendar.LocalState.current!!
+        val basisState = LocalBasisEpicCalendarState.current!!
         val pickerState = LocalState.current!!
         val pickerConfig = LocalConfig.current
         val selectedDays = pickerState.selectedDates

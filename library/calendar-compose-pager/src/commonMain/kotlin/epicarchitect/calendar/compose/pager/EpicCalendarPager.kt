@@ -17,11 +17,16 @@ import androidx.compose.ui.Modifier
 import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
+import epicarchitect.calendar.compose.basis.BasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.DefaultBasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.DefaultDayOfMonthContent
+import epicarchitect.calendar.compose.basis.DefaultDayOfWeekContent
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.addMonths
 import epicarchitect.calendar.compose.basis.addYears
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.indexOf
+import epicarchitect.calendar.compose.basis.rememberBasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.size
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -36,8 +41,8 @@ fun EpicCalendarPager(
     config: EpicCalendarPager.Config = EpicCalendarPager.LocalConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
-    dayOfWeekContent: BasisDayOfWeekContent = BasisEpicCalendar.DefaultDayOfWeekContent,
-    dayOfMonthContent: BasisDayOfMonthContent = BasisEpicCalendar.DefaultDayOfMonthContent
+    dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,
+    dayOfMonthContent: BasisDayOfMonthContent = DefaultDayOfMonthContent
 ) = with(config) {
     CompositionLocalProvider(
         EpicCalendarPager.LocalConfig provides config,
@@ -51,7 +56,7 @@ fun EpicCalendarPager(
             },
             verticalAlignment = Alignment.Top
         ) { page ->
-            val basisState = BasisEpicCalendar.rememberState(
+            val basisState = rememberBasisEpicCalendarState(
                 currentMonth = remember(state.monthRange, page) {
                     state.monthRange.getByIndex(page)
                 },
@@ -142,16 +147,16 @@ object EpicCalendarPager {
     }
 
     val DefaultConfig = ImmutableConfig(
-        basisConfig = BasisEpicCalendar.DefaultConfig
+        basisConfig = DefaultBasisEpicCalendarConfig
     )
 
     @Immutable
     data class ImmutableConfig(
-        override val basisConfig: BasisEpicCalendar.Config
+        override val basisConfig: BasisEpicCalendarConfig
     ) : Config
 
     interface Config {
-        val basisConfig: BasisEpicCalendar.Config
+        val basisConfig: BasisEpicCalendarConfig
     }
 
     val LocalState = compositionLocalOf<State?> {

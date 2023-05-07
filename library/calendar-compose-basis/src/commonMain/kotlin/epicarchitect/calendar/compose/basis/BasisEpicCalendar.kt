@@ -41,17 +41,17 @@ typealias BasisDayOfWeekContent = @Composable BoxScope.(DayOfWeek) -> Unit
 @Composable
 fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
-    state: BasisEpicCalendar.State = BasisEpicCalendar.LocalState.current
-        ?: BasisEpicCalendar.rememberState(),
-    config: BasisEpicCalendar.Config = BasisEpicCalendar.LocalConfig.current,
+    state: BasisEpicCalendarState = LocalBasisEpicCalendarState.current
+        ?: rememberBasisEpicCalendarState(),
+    config: BasisEpicCalendarConfig = LocalBasisEpicCalendarConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
-    dayOfWeekContent: BasisDayOfWeekContent = BasisEpicCalendar.DefaultDayOfWeekContent,
-    dayOfMonthContent: BasisDayOfMonthContent = BasisEpicCalendar.DefaultDayOfMonthContent
+    dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,
+    dayOfMonthContent: BasisDayOfMonthContent = DefaultDayOfMonthContent
 ) = with(config) {
     CompositionLocalProvider(
-        BasisEpicCalendar.LocalConfig provides config,
-        BasisEpicCalendar.LocalState provides state
+        LocalBasisEpicCalendarConfig provides config,
+        LocalBasisEpicCalendarState provides state
     ) {
         Column(
             modifier = modifier.then(
@@ -124,116 +124,114 @@ fun BasisEpicCalendar(
     }
 }
 
-object BasisEpicCalendar {
-    val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
-        val state = LocalState.current!!
-        val config = LocalConfig.current
-        Text(
-            modifier = Modifier.alpha(
-                alpha = remember(date, state.currentMonth) {
-                    if (date in state.currentMonth) 1.0f else 0.5f
-                }
-            ),
-            text = date.dayOfMonth.toString(),
-            textAlign = TextAlign.Center,
-            color = config.contentColor
-        )
-    }
-
-    val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
-        val config = LocalConfig.current
-        Text(
-            text = dayOfWeek.localized(),
-            textAlign = TextAlign.Center,
-            color = config.contentColor
-        )
-    }
-
-
-    @Composable
-    fun rememberState(
-        currentMonth: EpicMonth = EpicMonth.now(TimeZone.currentSystemDefault()),
-        displayDaysOfWeek: Boolean = true,
-        displayDaysOfAdjacentMonths: Boolean = true
-    ): State {
-        return remember(
-            currentMonth,
-            displayDaysOfWeek,
-            displayDaysOfAdjacentMonths
-        ) {
-            DefaultState(
-                currentMonth = currentMonth,
-                displayDaysOfWeek = displayDaysOfWeek,
-                displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths
-            )
-        }
-    }
-
-    class DefaultState(
-        override val currentMonth: EpicMonth,
-        displayDaysOfAdjacentMonths: Boolean,
-        displayDaysOfWeek: Boolean
-    ) : State {
-        override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
-        override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
-
-        private val firstDayOfWeek get() = firstDayOfWeek()
-
-        override val dateGridInfo by derivedStateOf {
-            calculateEpicCalendarGridInfo(
-                currentMonth = currentMonth,
-                displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
-                firstDayOfWeek = firstDayOfWeek
-            )
-        }
-    }
-
-    val DefaultConfig = ImmutableConfig(
-        rowsSpacerHeight = 4.dp,
-        dayOfWeekViewHeight = 40.dp,
-        dayOfMonthViewHeight = 40.dp,
-        columnWidth = 40.dp,
-        dayOfWeekViewShape = RoundedCornerShape(16.dp),
-        dayOfMonthViewShape = RoundedCornerShape(16.dp),
-        contentPadding = PaddingValues(0.dp),
-        contentColor = Color.Unspecified
+val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
+    val state = LocalBasisEpicCalendarState.current!!
+    val config = LocalBasisEpicCalendarConfig.current
+    Text(
+        modifier = Modifier.alpha(
+            alpha = remember(date, state.currentMonth) {
+                if (date in state.currentMonth) 1.0f else 0.5f
+            }
+        ),
+        text = date.dayOfMonth.toString(),
+        textAlign = TextAlign.Center,
+        color = config.contentColor
     )
+}
 
-    @Immutable
-    data class ImmutableConfig(
-        override val rowsSpacerHeight: Dp,
-        override val dayOfWeekViewHeight: Dp,
-        override val dayOfMonthViewHeight: Dp,
-        override val columnWidth: Dp,
-        override val dayOfWeekViewShape: Shape,
-        override val dayOfMonthViewShape: Shape,
-        override val contentPadding: PaddingValues,
-        override val contentColor: Color
-    ) : Config
+val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
+    val config = LocalBasisEpicCalendarConfig.current
+    Text(
+        text = dayOfWeek.localized(),
+        textAlign = TextAlign.Center,
+        color = config.contentColor
+    )
+}
 
-    interface State {
-        val currentMonth: EpicMonth
-        var displayDaysOfAdjacentMonths: Boolean
-        var displayDaysOfWeek: Boolean
-        val dateGridInfo: EpicCalendarGridInfo
+
+@Composable
+fun rememberBasisEpicCalendarState(
+    currentMonth: EpicMonth = EpicMonth.now(TimeZone.currentSystemDefault()),
+    displayDaysOfWeek: Boolean = true,
+    displayDaysOfAdjacentMonths: Boolean = true
+): BasisEpicCalendarState {
+    return remember(
+        currentMonth,
+        displayDaysOfWeek,
+        displayDaysOfAdjacentMonths
+    ) {
+        DefaultBasisEpicCalendarState(
+            currentMonth = currentMonth,
+            displayDaysOfWeek = displayDaysOfWeek,
+            displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths
+        )
     }
+}
 
-    interface Config {
-        val rowsSpacerHeight: Dp
-        val dayOfWeekViewHeight: Dp
-        val dayOfMonthViewHeight: Dp
-        val columnWidth: Dp
-        val dayOfWeekViewShape: Shape
-        val dayOfMonthViewShape: Shape
-        val contentPadding: PaddingValues
-        val contentColor: Color
-    }
+class DefaultBasisEpicCalendarState(
+    override val currentMonth: EpicMonth,
+    displayDaysOfAdjacentMonths: Boolean,
+    displayDaysOfWeek: Boolean
+) : BasisEpicCalendarState {
+    override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
+    override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
 
-    val LocalState = compositionLocalOf<State?> {
-        null
-    }
+    private val firstDayOfWeek get() = firstDayOfWeek()
 
-    val LocalConfig = compositionLocalOf<Config> {
-        DefaultConfig
+    override val dateGridInfo by derivedStateOf {
+        calculateEpicCalendarGridInfo(
+            currentMonth = currentMonth,
+            displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
+            firstDayOfWeek = firstDayOfWeek
+        )
     }
+}
+
+val DefaultBasisEpicCalendarConfig = ImmutableBasisEpicCalendarConfig(
+    rowsSpacerHeight = 4.dp,
+    dayOfWeekViewHeight = 40.dp,
+    dayOfMonthViewHeight = 40.dp,
+    columnWidth = 40.dp,
+    dayOfWeekViewShape = RoundedCornerShape(16.dp),
+    dayOfMonthViewShape = RoundedCornerShape(16.dp),
+    contentPadding = PaddingValues(0.dp),
+    contentColor = Color.Unspecified
+)
+
+@Immutable
+data class ImmutableBasisEpicCalendarConfig(
+    override val rowsSpacerHeight: Dp,
+    override val dayOfWeekViewHeight: Dp,
+    override val dayOfMonthViewHeight: Dp,
+    override val columnWidth: Dp,
+    override val dayOfWeekViewShape: Shape,
+    override val dayOfMonthViewShape: Shape,
+    override val contentPadding: PaddingValues,
+    override val contentColor: Color
+) : BasisEpicCalendarConfig
+
+interface BasisEpicCalendarState {
+    val currentMonth: EpicMonth
+    var displayDaysOfAdjacentMonths: Boolean
+    var displayDaysOfWeek: Boolean
+    val dateGridInfo: EpicCalendarGridInfo
+}
+
+interface BasisEpicCalendarConfig {
+    val rowsSpacerHeight: Dp
+    val dayOfWeekViewHeight: Dp
+    val dayOfMonthViewHeight: Dp
+    val columnWidth: Dp
+    val dayOfWeekViewShape: Shape
+    val dayOfMonthViewShape: Shape
+    val contentPadding: PaddingValues
+    val contentColor: Color
+}
+
+val LocalBasisEpicCalendarState = compositionLocalOf<BasisEpicCalendarState?> {
+    null
+}
+
+val LocalBasisEpicCalendarConfig = compositionLocalOf<BasisEpicCalendarConfig> {
+    DefaultBasisEpicCalendarConfig
 }
