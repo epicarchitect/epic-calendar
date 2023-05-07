@@ -7,16 +7,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.datepicker.EpicDatePicker
+import epicarchitect.calendar.compose.datepicker.config.DefaultEpicDatePickerConfig
+import epicarchitect.calendar.compose.datepicker.state.EpicDatePickerState
+import epicarchitect.calendar.compose.datepicker.state.rememberEpicDatePickerState
 import kotlinx.coroutines.launch
 
 @Composable
 fun DatePickerTesting() {
-    val state = EpicDatePicker.rememberState()
+    val state = rememberEpicDatePickerState()
     val coroutineScope = rememberCoroutineScope()
 
     EpicDatePicker(
         state = state,
-        config = EpicDatePicker.DefaultConfig.copy(
+        config = DefaultEpicDatePickerConfig.copy(
             selectionContentColor = MaterialTheme.colorScheme.onPrimary,
             selectionContainerColor = MaterialTheme.colorScheme.primary
         )
@@ -90,25 +93,25 @@ fun DatePickerTesting() {
 
     Switch(
         onChanged = {
-            state.selectionMode = EpicDatePicker.SelectionMode.Single(1)
+            state.selectionMode = EpicDatePickerState.SelectionMode.Single(1)
         },
-        checked = (state.selectionMode as? EpicDatePicker.SelectionMode.Single)?.maxSize == 1,
+        checked = (state.selectionMode as? EpicDatePickerState.SelectionMode.Single)?.maxSize == 1,
         text = "Selection mode = Single(1)"
     )
 
     Switch(
         onChanged = {
-            state.selectionMode = EpicDatePicker.SelectionMode.Single(3)
+            state.selectionMode = EpicDatePickerState.SelectionMode.Single(3)
         },
-        checked = (state.selectionMode as? EpicDatePicker.SelectionMode.Single)?.maxSize == 3,
+        checked = (state.selectionMode as? EpicDatePickerState.SelectionMode.Single)?.maxSize == 3,
         text = "Selection mode = Single(3)"
     )
 
     Switch(
         onChanged = {
-            state.selectionMode = EpicDatePicker.SelectionMode.Range
+            state.selectionMode = EpicDatePickerState.SelectionMode.Range
         },
-        checked = state.selectionMode is EpicDatePicker.SelectionMode.Range,
+        checked = state.selectionMode is EpicDatePickerState.SelectionMode.Range,
         text = "Selection mode = Range"
     )
 }
