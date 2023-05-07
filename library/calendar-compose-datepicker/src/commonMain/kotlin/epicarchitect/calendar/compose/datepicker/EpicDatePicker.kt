@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
-import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
+import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
+import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.contains
 import epicarchitect.calendar.compose.basis.localized
@@ -28,8 +28,8 @@ fun EpicDatePicker(
     state: EpicDatePicker.State = EpicDatePicker.LocalState.current
         ?: EpicDatePicker.rememberState(),
     config: EpicDatePicker.Config = EpicDatePicker.LocalConfig.current,
-    dayOfWeekComposable: BasisDayOfWeekComposable = EpicDatePicker.DefaultDayOfWeekComposable,
-    dayOfMonthComposable: BasisDayOfMonthComposable = EpicDatePicker.DefaultDayOfMonthComposable
+    dayOfWeekContent: BasisDayOfWeekContent = EpicDatePicker.DefaultDayOfWeekContent,
+    dayOfMonthContent: BasisDayOfMonthContent = EpicDatePicker.DefaultDayOfMonthContent
 ) = with(config) {
     CompositionLocalProvider(
         EpicDatePicker.LocalConfig provides config,
@@ -61,14 +61,14 @@ fun EpicDatePicker(
             state = state.pagerState,
             onDayOfMonthClick = state::toggleDateSelection,
             config = pagerConfig,
-            dayOfMonthComposable = dayOfMonthComposable,
-            dayOfWeekComposable = dayOfWeekComposable
+            dayOfMonthContent = dayOfMonthContent,
+            dayOfWeekContent = dayOfWeekContent
         )
     }
 }
 
 object EpicDatePicker {
-    val DefaultDayOfMonthComposable: BasisDayOfMonthComposable = { date ->
+    val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
         val basisState = BasisEpicCalendar.LocalState.current!!
         val pickerState = LocalState.current!!
         val pickerConfig = LocalConfig.current
@@ -98,7 +98,7 @@ object EpicDatePicker {
         )
     }
 
-    val DefaultDayOfWeekComposable: BasisDayOfWeekComposable = { dayOfWeek ->
+    val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
         Text(
             text = dayOfWeek.localized(),
             textAlign = TextAlign.Center

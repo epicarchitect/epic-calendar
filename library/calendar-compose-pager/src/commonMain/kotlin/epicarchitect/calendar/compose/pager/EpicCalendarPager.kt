@@ -14,8 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import epicarchitect.calendar.compose.basis.BasisDayOfMonthComposable
-import epicarchitect.calendar.compose.basis.BasisDayOfWeekComposable
+import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
+import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.addMonths
@@ -36,8 +36,8 @@ fun EpicCalendarPager(
     config: EpicCalendarPager.Config = EpicCalendarPager.LocalConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
-    dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
-    dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
+    dayOfWeekContent: BasisDayOfWeekContent = BasisEpicCalendar.DefaultDayOfWeekContent,
+    dayOfMonthContent: BasisDayOfMonthContent = BasisEpicCalendar.DefaultDayOfMonthContent
 ) = with(config) {
     CompositionLocalProvider(
         EpicCalendarPager.LocalConfig provides config,
@@ -65,8 +65,8 @@ fun EpicCalendarPager(
                 config = basisConfig,
                 onDayOfMonthClick = onDayOfMonthClick,
                 onDayOfWeekClick = onDayOfWeekClick,
-                dayOfMonthComposable = dayOfMonthComposable,
-                dayOfWeekComposable = dayOfWeekComposable
+                dayOfMonthContent = dayOfMonthContent,
+                dayOfWeekContent = dayOfWeekContent
             )
         }
     }

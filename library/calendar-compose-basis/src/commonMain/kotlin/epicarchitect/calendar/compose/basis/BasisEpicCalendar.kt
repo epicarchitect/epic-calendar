@@ -35,8 +35,8 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 
-typealias BasisDayOfMonthComposable = @Composable BoxScope.(LocalDate) -> Unit
-typealias BasisDayOfWeekComposable = @Composable BoxScope.(DayOfWeek) -> Unit
+typealias BasisDayOfMonthContent = @Composable BoxScope.(LocalDate) -> Unit
+typealias BasisDayOfWeekContent = @Composable BoxScope.(DayOfWeek) -> Unit
 
 @Composable
 fun BasisEpicCalendar(
@@ -46,8 +46,8 @@ fun BasisEpicCalendar(
     config: BasisEpicCalendar.Config = BasisEpicCalendar.LocalConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
-    dayOfWeekComposable: BasisDayOfWeekComposable = BasisEpicCalendar.DefaultDayOfWeekComposable,
-    dayOfMonthComposable: BasisDayOfMonthComposable = BasisEpicCalendar.DefaultDayOfMonthComposable
+    dayOfWeekContent: BasisDayOfWeekContent = BasisEpicCalendar.DefaultDayOfWeekContent,
+    dayOfMonthContent: BasisDayOfMonthContent = BasisEpicCalendar.DefaultDayOfMonthContent
 ) = with(config) {
     CompositionLocalProvider(
         BasisEpicCalendar.LocalConfig provides config,
@@ -82,7 +82,7 @@ fun BasisEpicCalendar(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-                                dayOfWeekComposable(dayOfWeek)
+                                dayOfWeekContent(dayOfWeek)
                             }
                         }
                     }
@@ -113,7 +113,7 @@ fun BasisEpicCalendar(
                                         },
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    dayOfMonthComposable(date)
+                                    dayOfMonthContent(date)
                                 }
                             }
                         }
@@ -125,7 +125,7 @@ fun BasisEpicCalendar(
 }
 
 object BasisEpicCalendar {
-    val DefaultDayOfMonthComposable: BasisDayOfMonthComposable = { date ->
+    val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
         val state = LocalState.current!!
         val config = LocalConfig.current
         Text(
@@ -140,7 +140,7 @@ object BasisEpicCalendar {
         )
     }
 
-    val DefaultDayOfWeekComposable: BasisDayOfWeekComposable = { dayOfWeek ->
+    val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
         val config = LocalConfig.current
         Text(
             text = dayOfWeek.localized(),
