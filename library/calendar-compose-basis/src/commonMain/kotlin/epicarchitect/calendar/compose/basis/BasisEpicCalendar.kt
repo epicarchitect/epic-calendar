@@ -59,8 +59,8 @@ val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
 @Composable
 fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
-    state: BasisEpicCalendarState = rememberBasisEpicCalendarState(),
-    config: BasisEpicCalendarConfig = rememberBasisEpicCalendarConfig(),
+    state: BasisEpicCalendarState = LocalBasisEpicCalendarState.current ?: rememberBasisEpicCalendarState(),
+    config: BasisEpicCalendarConfig = LocalBasisEpicCalendarConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
     dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,

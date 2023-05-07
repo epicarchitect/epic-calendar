@@ -18,11 +18,11 @@ import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.contains
 import epicarchitect.calendar.compose.basis.localized
 import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
-import epicarchitect.calendar.compose.pager.DefaultEpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
-import epicarchitect.calendar.compose.pager.EpicCalendarPagerConfig
-import epicarchitect.calendar.compose.pager.EpicCalendarPagerState
-import epicarchitect.calendar.compose.pager.rememberEpicCalendarPagerState
+import epicarchitect.calendar.compose.pager.config.DefaultEpicCalendarPagerConfig
+import epicarchitect.calendar.compose.pager.config.EpicCalendarPagerConfig
+import epicarchitect.calendar.compose.pager.state.EpicCalendarPagerState
+import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.datetime.LocalDate
 

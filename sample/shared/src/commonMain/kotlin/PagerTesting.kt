@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
-import epicarchitect.calendar.compose.pager.rememberEpicCalendarPagerState
+import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
