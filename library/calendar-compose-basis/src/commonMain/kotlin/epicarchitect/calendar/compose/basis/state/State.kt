@@ -1,7 +1,6 @@
 package epicarchitect.calendar.compose.basis.state
 
 import androidx.compose.runtime.compositionLocalOf
-import epicarchitect.calendar.compose.basis.EpicCalendarGridInfo
 import epicarchitect.calendar.compose.basis.EpicMonth
 
 interface BasisEpicCalendarState {

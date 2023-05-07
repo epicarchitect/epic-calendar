@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import epicarchitect.calendar.compose.basis.EpicMonth
-import epicarchitect.calendar.compose.basis.calculateEpicCalendarGridInfo
 import epicarchitect.calendar.compose.basis.firstDayOfWeek
 
 @Immutable
@@ -13,12 +12,10 @@ class ImmutableBasisEpicCalendarState(
     override val displayDaysOfAdjacentMonths: Boolean,
     override val displayDaysOfWeek: Boolean
 ) : BasisEpicCalendarState {
-    private val firstDayOfWeek get() = firstDayOfWeek()
-
     override val dateGridInfo = calculateEpicCalendarGridInfo(
         currentMonth = currentMonth,
         displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
-        firstDayOfWeek = firstDayOfWeek
+        firstDayOfWeek = firstDayOfWeek()
     )
 }
 

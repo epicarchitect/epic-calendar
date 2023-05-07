@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import epicarchitect.calendar.compose.basis.EpicMonth
-import epicarchitect.calendar.compose.basis.calculateEpicCalendarGridInfo
 import epicarchitect.calendar.compose.basis.firstDayOfWeek
 
 class MutableBasisEpicCalendarState(

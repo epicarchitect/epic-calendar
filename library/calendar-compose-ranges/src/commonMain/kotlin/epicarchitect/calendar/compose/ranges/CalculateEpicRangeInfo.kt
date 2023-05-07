@@ -2,7 +2,7 @@ package epicarchitect.calendar.compose.ranges
 
 import androidx.compose.ui.unit.IntOffset
 import epicarchitect.calendar.compose.basis.EpicCalendarConstants
-import epicarchitect.calendar.compose.basis.EpicCalendarGridInfo
+import epicarchitect.calendar.compose.basis.state.EpicCalendarGridInfo
 import epicarchitect.calendar.compose.basis.atEndDay
 import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.basis.epicMonth
