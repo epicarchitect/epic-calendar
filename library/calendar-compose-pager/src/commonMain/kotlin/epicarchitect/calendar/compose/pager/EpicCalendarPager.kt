@@ -17,17 +17,17 @@ import androidx.compose.ui.Modifier
 import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
-import epicarchitect.calendar.compose.basis.BasisEpicCalendarConfig
-import epicarchitect.calendar.compose.basis.DefaultBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.DefaultDayOfMonthContent
 import epicarchitect.calendar.compose.basis.DefaultDayOfWeekContent
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.addMonths
 import epicarchitect.calendar.compose.basis.addYears
+import epicarchitect.calendar.compose.basis.config.BasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.config.DefaultBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.indexOf
-import epicarchitect.calendar.compose.basis.rememberBasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.size
+import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 

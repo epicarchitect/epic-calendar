@@ -36,9 +36,6 @@ fun App() {
                 }
 
                 Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -47,6 +44,11 @@ fun App() {
                         text = "prev",
                         enabled = currentPage > 0
                     )
+                    Button(
+                        onClick = { currentPage += 1 },
+                        text = "next",
+                        enabled = currentPage < 2
+                    )
                     Text(
                         text = when (currentPage) {
                             0 -> "${getPlatformName()} Basis"
@@ -54,11 +56,6 @@ fun App() {
                             2 -> "${getPlatformName()} DatePicker"
                             else -> "Empty"
                         }
-                    )
-                    Button(
-                        onClick = { currentPage += 1 },
-                        text = "next",
-                        enabled = currentPage < 2
                     )
                 }
 

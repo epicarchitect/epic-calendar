@@ -7,9 +7,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.inset
-import epicarchitect.calendar.compose.basis.BasisEpicCalendar
-import epicarchitect.calendar.compose.basis.LocalBasisEpicCalendarConfig
-import epicarchitect.calendar.compose.basis.LocalBasisEpicCalendarState
+import epicarchitect.calendar.compose.basis.config.LocalBasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
 import kotlinx.datetime.LocalDate
 
 fun Modifier.drawEpicRanges(

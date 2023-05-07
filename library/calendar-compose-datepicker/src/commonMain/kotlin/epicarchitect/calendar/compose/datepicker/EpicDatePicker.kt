@@ -15,10 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
-import epicarchitect.calendar.compose.basis.BasisEpicCalendar
-import epicarchitect.calendar.compose.basis.LocalBasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.contains
 import epicarchitect.calendar.compose.basis.localized
+import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.datetime.LocalDate
