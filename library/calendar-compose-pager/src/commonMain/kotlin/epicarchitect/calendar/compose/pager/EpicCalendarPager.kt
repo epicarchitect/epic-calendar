@@ -36,17 +36,17 @@ import kotlinx.datetime.LocalDate
 fun EpicCalendarPager(
     modifier: Modifier = Modifier,
     pageModifier: (page: Int) -> Modifier = { Modifier },
-    state: EpicCalendarPager.State = EpicCalendarPager.LocalState.current
-        ?: EpicCalendarPager.rememberState(),
-    config: EpicCalendarPager.Config = EpicCalendarPager.LocalConfig.current,
+    state: EpicCalendarPagerState = LocalEpicCalendarPagerState.current
+        ?: rememberEpicCalendarPagerState(),
+    config: EpicCalendarPagerConfig = LocalEpicCalendarPagerConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
     dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,
     dayOfMonthContent: BasisDayOfMonthContent = DefaultDayOfMonthContent
 ) = with(config) {
     CompositionLocalProvider(
-        EpicCalendarPager.LocalConfig provides config,
-        EpicCalendarPager.LocalState provides state
+        LocalEpicCalendarPagerConfig provides config,
+        LocalEpicCalendarPagerState provides state
     ) {
         HorizontalPager(
             modifier = modifier,
@@ -77,93 +77,91 @@ fun EpicCalendarPager(
     }
 }
 
-object EpicCalendarPager {
-    @OptIn(ExperimentalFoundationApi::class)
-    @Composable
-    fun rememberState(
-        monthRange: ClosedRange<EpicMonth> = defaultMonthRange(),
-        initialMonth: EpicMonth = monthRange.start,
-        displayDaysOfAdjacentMonths: Boolean = true,
-        displayDaysOfWeek: Boolean = true,
-    ): State {
-        val pagerState = rememberPagerState(
-            initialPage = remember(monthRange, initialMonth) {
-                monthRange.indexOf(initialMonth) ?: 0
-            }
-        )
-
-        return remember(
-            monthRange,
-            initialMonth,
-            displayDaysOfAdjacentMonths,
-            displayDaysOfWeek,
-            pagerState,
-        ) {
-            DefaultState(
-                pagerState = pagerState,
-                displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths,
-                displayDaysOfWeek = displayDaysOfWeek,
-                monthRange = monthRange
-            )
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun rememberEpicCalendarPagerState(
+    monthRange: ClosedRange<EpicMonth> = defaultMonthRange(),
+    initialMonth: EpicMonth = monthRange.start,
+    displayDaysOfAdjacentMonths: Boolean = true,
+    displayDaysOfWeek: Boolean = true,
+): EpicCalendarPagerState {
+    val pagerState = rememberPagerState(
+        initialPage = remember(monthRange, initialMonth) {
+            monthRange.indexOf(initialMonth) ?: 0
         }
-    }
-
-
-    @OptIn(ExperimentalFoundationApi::class)
-    class DefaultState(
-        monthRange: ClosedRange<EpicMonth>,
-        displayDaysOfAdjacentMonths: Boolean,
-        displayDaysOfWeek: Boolean,
-        override val pagerState: PagerState
-    ) : State {
-        override var monthRange by mutableStateOf(monthRange)
-        override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
-        override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
-        override val currentMonth get() = monthRange.getByIndex(pagerState.currentPage)
-
-        override suspend fun scrollToMonth(month: EpicMonth) {
-            monthRange.indexOf(month)?.let {
-                pagerState.animateScrollToPage(it)
-            }
-        }
-
-        override suspend fun scrollYears(amount: Int) =
-            scrollToMonth(currentMonth.addYears(amount))
-
-        override suspend fun scrollMonths(amount: Int) =
-            scrollToMonth(currentMonth.addMonths(amount))
-    }
-
-    @OptIn(ExperimentalFoundationApi::class)
-    interface State {
-        val currentMonth: EpicMonth
-        var monthRange: ClosedRange<EpicMonth>
-        var displayDaysOfAdjacentMonths: Boolean
-        var displayDaysOfWeek: Boolean
-        val pagerState: PagerState
-        suspend fun scrollToMonth(month: EpicMonth)
-        suspend fun scrollYears(amount: Int)
-        suspend fun scrollMonths(amount: Int)
-    }
-
-    val DefaultConfig = ImmutableConfig(
-        basisConfig = DefaultBasisEpicCalendarConfig
     )
 
-    @Immutable
-    data class ImmutableConfig(
-        override val basisConfig: BasisEpicCalendarConfig
-    ) : Config
+    return remember(
+        monthRange,
+        initialMonth,
+        displayDaysOfAdjacentMonths,
+        displayDaysOfWeek,
+        pagerState,
+    ) {
+        DefaultEpicCalendarPagerState(
+            pagerState = pagerState,
+            displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths,
+            displayDaysOfWeek = displayDaysOfWeek,
+            monthRange = monthRange
+        )
+    }
+}
 
-    interface Config {
-        val basisConfig: BasisEpicCalendarConfig
+
+@OptIn(ExperimentalFoundationApi::class)
+class DefaultEpicCalendarPagerState(
+    monthRange: ClosedRange<EpicMonth>,
+    displayDaysOfAdjacentMonths: Boolean,
+    displayDaysOfWeek: Boolean,
+    override val pagerState: PagerState
+) : EpicCalendarPagerState {
+    override var monthRange by mutableStateOf(monthRange)
+    override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
+    override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
+    override val currentMonth get() = monthRange.getByIndex(pagerState.currentPage)
+
+    override suspend fun scrollToMonth(month: EpicMonth) {
+        monthRange.indexOf(month)?.let {
+            pagerState.animateScrollToPage(it)
+        }
     }
 
-    val LocalState = compositionLocalOf<State?> {
-        null
-    }
+    override suspend fun scrollYears(amount: Int) =
+        scrollToMonth(currentMonth.addYears(amount))
 
-    val LocalConfig = compositionLocalOf<Config> {
-        DefaultConfig
-    }
+    override suspend fun scrollMonths(amount: Int) =
+        scrollToMonth(currentMonth.addMonths(amount))
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+interface EpicCalendarPagerState {
+    val currentMonth: EpicMonth
+    var monthRange: ClosedRange<EpicMonth>
+    var displayDaysOfAdjacentMonths: Boolean
+    var displayDaysOfWeek: Boolean
+    val pagerState: PagerState
+    suspend fun scrollToMonth(month: EpicMonth)
+    suspend fun scrollYears(amount: Int)
+    suspend fun scrollMonths(amount: Int)
+}
+
+val DefaultEpicCalendarPagerConfig = ImmutableEpicCalendarPagerConfig(
+    basisConfig = DefaultBasisEpicCalendarConfig
+)
+
+@Immutable
+data class ImmutableEpicCalendarPagerConfig(
+    override val basisConfig: BasisEpicCalendarConfig
+) : EpicCalendarPagerConfig
+
+interface EpicCalendarPagerConfig {
+    val basisConfig: BasisEpicCalendarConfig
+}
+
+val LocalEpicCalendarPagerState = compositionLocalOf<EpicCalendarPagerState?> {
+    null
+}
+
+val LocalEpicCalendarPagerConfig = compositionLocalOf<EpicCalendarPagerConfig> {
+    DefaultEpicCalendarPagerConfig
 }

@@ -18,7 +18,11 @@ import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.contains
 import epicarchitect.calendar.compose.basis.localized
 import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
+import epicarchitect.calendar.compose.pager.DefaultEpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
+import epicarchitect.calendar.compose.pager.EpicCalendarPagerConfig
+import epicarchitect.calendar.compose.pager.EpicCalendarPagerState
+import epicarchitect.calendar.compose.pager.rememberEpicCalendarPagerState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.datetime.LocalDate
 
@@ -109,7 +113,7 @@ object EpicDatePicker {
     fun rememberState(
         selectedDates: List<LocalDate> = emptyList(),
         selectionMode: SelectionMode = SelectionMode.Single(),
-        pagerState: EpicCalendarPager.State = EpicCalendarPager.rememberState()
+        pagerState: EpicCalendarPagerState = rememberEpicCalendarPagerState()
     ): State = remember(
         selectedDates,
         selectionMode,
@@ -125,7 +129,7 @@ object EpicDatePicker {
     class DefaultState(
         selectedDates: List<LocalDate>,
         selectionMode: SelectionMode,
-        override val pagerState: EpicCalendarPager.State
+        override val pagerState: EpicCalendarPagerState
     ) : State {
         override var selectedDates by mutableStateOf(selectedDates)
         private var _selectionMode by mutableStateOf(selectionMode)
@@ -191,26 +195,26 @@ object EpicDatePicker {
     }
 
     val DefaultConfig = ImmutableConfig(
-        pagerConfig = EpicCalendarPager.DefaultConfig,
+        pagerConfig = DefaultEpicCalendarPagerConfig,
         selectionContainerColor = Color.Red,
         selectionContentColor = Color.White
     )
 
     @Immutable
     data class ImmutableConfig(
-        override val pagerConfig: EpicCalendarPager.Config,
+        override val pagerConfig: EpicCalendarPagerConfig,
         override val selectionContentColor: Color,
         override val selectionContainerColor: Color
     ) : Config
 
     interface Config {
-        val pagerConfig: EpicCalendarPager.Config
+        val pagerConfig: EpicCalendarPagerConfig
         val selectionContentColor: Color
         val selectionContainerColor: Color
     }
 
     interface State {
-        val pagerState: EpicCalendarPager.State
+        val pagerState: EpicCalendarPagerState
         val selectedDates: List<LocalDate>
         var selectionMode: SelectionMode
         var displayDaysOfAdjacentMonths: Boolean
