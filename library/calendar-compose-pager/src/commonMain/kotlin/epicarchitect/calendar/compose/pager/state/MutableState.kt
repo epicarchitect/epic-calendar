@@ -13,17 +13,17 @@ import epicarchitect.calendar.compose.basis.addMonths
 import epicarchitect.calendar.compose.basis.addYears
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.indexOf
+import epicarchitect.calendar.compose.pager.config.EpicCalendarPagerConfig
+import epicarchitect.calendar.compose.pager.config.LocalEpicCalendarPagerConfig
 
 @OptIn(ExperimentalFoundationApi::class)
 class DefaultEpicCalendarPagerState(
+    config: EpicCalendarPagerConfig,
     monthRange: ClosedRange<EpicMonth>,
-    displayDaysOfAdjacentMonths: Boolean,
-    displayDaysOfWeek: Boolean,
     override val pagerState: PagerState
 ) : EpicCalendarPagerState {
+    override var config by mutableStateOf(config)
     override var monthRange by mutableStateOf(monthRange)
-    override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
-    override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
     override val currentMonth get() = monthRange.getByIndex(pagerState.currentPage)
 
     override suspend fun scrollToMonth(month: EpicMonth) {
@@ -43,10 +43,9 @@ class DefaultEpicCalendarPagerState(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun rememberEpicCalendarPagerState(
+    config: EpicCalendarPagerConfig = LocalEpicCalendarPagerConfig.current,
     monthRange: ClosedRange<EpicMonth> = defaultMonthRange(),
     initialMonth: EpicMonth = monthRange.start,
-    displayDaysOfAdjacentMonths: Boolean = true,
-    displayDaysOfWeek: Boolean = true,
 ): DefaultEpicCalendarPagerState {
     val pagerState = rememberPagerState(
         initialPage = remember(monthRange, initialMonth) {
@@ -55,16 +54,14 @@ fun rememberEpicCalendarPagerState(
     )
 
     return remember(
+        config,
         monthRange,
         initialMonth,
-        displayDaysOfAdjacentMonths,
-        displayDaysOfWeek,
         pagerState,
     ) {
         DefaultEpicCalendarPagerState(
+            config = config,
             pagerState = pagerState,
-            displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths,
-            displayDaysOfWeek = displayDaysOfWeek,
             monthRange = monthRange
         )
     }

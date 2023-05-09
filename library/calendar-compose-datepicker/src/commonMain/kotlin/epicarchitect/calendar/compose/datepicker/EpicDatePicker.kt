@@ -3,11 +3,7 @@ package epicarchitect.calendar.compose.datepicker
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -16,18 +12,13 @@ import epicarchitect.calendar.compose.basis.BasisDayOfMonthContent
 import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.DefaultDayOfWeekContent
 import epicarchitect.calendar.compose.basis.contains
-import epicarchitect.calendar.compose.basis.localized
 import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
-import epicarchitect.calendar.compose.datepicker.config.EpicDatePickerConfig
 import epicarchitect.calendar.compose.datepicker.config.LocalEpicDatePickerConfig
 import epicarchitect.calendar.compose.datepicker.state.EpicDatePickerState
 import epicarchitect.calendar.compose.datepicker.state.LocalEpicDatePickerState
 import epicarchitect.calendar.compose.datepicker.state.rememberEpicDatePickerState
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
-import epicarchitect.calendar.compose.pager.state.EpicCalendarPagerState
-import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
-import kotlinx.datetime.LocalDate
 
 val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
     val basisState = LocalBasisEpicCalendarState.current!!
@@ -62,14 +53,12 @@ val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
 @Composable
 fun EpicDatePicker(
     modifier: Modifier = Modifier,
-    state: EpicDatePickerState = LocalEpicDatePickerState.current
-        ?: rememberEpicDatePickerState(),
-    config: EpicDatePickerConfig = LocalEpicDatePickerConfig.current,
+    state: EpicDatePickerState = LocalEpicDatePickerState.current ?: rememberEpicDatePickerState(),
     dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,
     dayOfMonthContent: BasisDayOfMonthContent = DefaultDayOfMonthContent
-) = with(config) {
+) = with(state.config) {
     CompositionLocalProvider(
-        LocalEpicDatePickerConfig provides config,
+        LocalEpicDatePickerConfig provides state.config,
         LocalEpicDatePickerState provides state
     ) {
         val mode = state.selectionMode
@@ -97,7 +86,6 @@ fun EpicDatePicker(
             },
             state = state.pagerState,
             onDayOfMonthClick = state::toggleDateSelection,
-            config = pagerConfig,
             dayOfMonthContent = dayOfMonthContent,
             dayOfWeekContent = dayOfWeekContent
         )

@@ -9,7 +9,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.atStartDay
+import epicarchitect.calendar.compose.basis.config.rememberMutableBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.pager.EpicCalendarPager
+import epicarchitect.calendar.compose.pager.config.rememberEpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.coroutines.launch
@@ -18,7 +20,12 @@ import kotlinx.datetime.plus
 
 @Composable
 fun PagerTesting() {
-    val state = rememberEpicCalendarPagerState()
+    val basisConfig = rememberMutableBasisEpicCalendarConfig()
+    val state = rememberEpicCalendarPagerState(
+        config = rememberEpicCalendarPagerConfig(
+            basisConfig = basisConfig
+        )
+    )
     val rangeColor = MaterialTheme.colorScheme.primaryContainer
     val coroutineScope = rememberCoroutineScope()
     val ranges = remember {
@@ -99,14 +106,14 @@ fun PagerTesting() {
     }
 
     Switch(
-        onChanged = { state.displayDaysOfAdjacentMonths = it },
-        checked = state.displayDaysOfAdjacentMonths,
+        onChanged = { basisConfig.displayDaysOfAdjacentMonths = it },
+        checked = basisConfig.displayDaysOfAdjacentMonths,
         text = "displayDaysOfAdjacentMonths"
     )
 
     Switch(
-        onChanged = { state.displayDaysOfWeek = it },
-        checked = state.displayDaysOfWeek,
+        onChanged = { basisConfig.displayDaysOfWeek = it },
+        checked = basisConfig.displayDaysOfWeek,
         text = "displayDaysOfWeek"
     )
 }

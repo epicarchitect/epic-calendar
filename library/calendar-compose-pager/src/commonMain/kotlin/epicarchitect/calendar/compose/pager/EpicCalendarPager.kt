@@ -12,11 +12,9 @@ import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.DefaultDayOfMonthContent
 import epicarchitect.calendar.compose.basis.DefaultDayOfWeekContent
-import epicarchitect.calendar.compose.basis.config.rememberBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.size
 import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
-import epicarchitect.calendar.compose.pager.config.EpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.config.LocalEpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.state.EpicCalendarPagerState
 import epicarchitect.calendar.compose.pager.state.LocalEpicCalendarPagerState
@@ -31,14 +29,13 @@ fun EpicCalendarPager(
     pageModifier: (page: Int) -> Modifier = { Modifier },
     state: EpicCalendarPagerState = LocalEpicCalendarPagerState.current
         ?: rememberEpicCalendarPagerState(),
-    config: EpicCalendarPagerConfig = LocalEpicCalendarPagerConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
     dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,
     dayOfMonthContent: BasisDayOfMonthContent = DefaultDayOfMonthContent
-) = with(config) {
+) {
     CompositionLocalProvider(
-        LocalEpicCalendarPagerConfig provides config,
+        LocalEpicCalendarPagerConfig provides state.config,
         LocalEpicCalendarPagerState provides state
     ) {
         HorizontalPager(
@@ -49,19 +46,14 @@ fun EpicCalendarPager(
             },
             verticalAlignment = Alignment.Top
         ) { page ->
-            val basisState = rememberBasisEpicCalendarState(
-                currentMonth = remember(state.monthRange, page) {
-                    state.monthRange.getByIndex(page)
-                },
-                config = rememberBasisEpicCalendarConfig(
-                    displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths,
-                    displayDaysOfWeek = state.displayDaysOfWeek
-                )
-            )
-
             BasisEpicCalendar(
                 modifier = pageModifier(page),
-                state = basisState,
+                state = rememberBasisEpicCalendarState(
+                    currentMonth = remember(state.monthRange, page) {
+                        state.monthRange.getByIndex(page)
+                    },
+                    config = state.config.basisConfig
+                ),
                 onDayOfMonthClick = onDayOfMonthClick,
                 onDayOfWeekClick = onDayOfWeekClick,
                 dayOfMonthContent = dayOfMonthContent,

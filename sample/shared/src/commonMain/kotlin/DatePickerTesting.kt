@@ -6,23 +6,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import epicarchitect.calendar.compose.basis.config.rememberMutableBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.datepicker.EpicDatePicker
 import epicarchitect.calendar.compose.datepicker.config.DefaultEpicDatePickerConfig
+import epicarchitect.calendar.compose.datepicker.config.rememberEpicDatePickerConfig
 import epicarchitect.calendar.compose.datepicker.state.EpicDatePickerState
 import epicarchitect.calendar.compose.datepicker.state.rememberEpicDatePickerState
+import epicarchitect.calendar.compose.pager.config.rememberEpicCalendarPagerConfig
 import kotlinx.coroutines.launch
 
 @Composable
 fun DatePickerTesting() {
-    val state = rememberEpicDatePickerState()
-    val coroutineScope = rememberCoroutineScope()
-
-    EpicDatePicker(
-        state = state,
-        config = DefaultEpicDatePickerConfig.copy(
+    val basisConfig = rememberMutableBasisEpicCalendarConfig()
+    val state = rememberEpicDatePickerState(
+        config = rememberEpicDatePickerConfig(
+            pagerConfig = rememberEpicCalendarPagerConfig(
+                basisConfig = basisConfig
+            ),
             selectionContentColor = MaterialTheme.colorScheme.onPrimary,
             selectionContainerColor = MaterialTheme.colorScheme.primary
         )
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    EpicDatePicker(
+        state = state
     )
 
     Row(
@@ -80,14 +88,14 @@ fun DatePickerTesting() {
     }
 
     Switch(
-        onChanged = { state.displayDaysOfAdjacentMonths = it },
-        checked = state.displayDaysOfAdjacentMonths,
+        onChanged = { basisConfig.displayDaysOfAdjacentMonths = it },
+        checked = basisConfig.displayDaysOfAdjacentMonths,
         text = "displayDaysOfAdjacentMonths"
     )
 
     Switch(
-        onChanged = { state.displayDaysOfWeek = it },
-        checked = state.displayDaysOfWeek,
+        onChanged = { basisConfig.displayDaysOfWeek = it },
+        checked = basisConfig.displayDaysOfWeek,
         text = "displayDaysOfWeek"
     )
 
