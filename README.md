@@ -148,6 +148,33 @@ EpicCalendarPager(
 )
 ```
 
+### Provide setup globally
+
+```kotlin
+val defaultBasisConfig = DefaultBasisEpicCalendarConfig.copy(
+    contentPadding = PaddingValues(horizontal = 16.dp),
+    displayDaysOfAdjacentMonths = false,
+    displayDaysOfWeek = false,
+    dayOfMonthShape = RoundedCornerShape(8.dp),
+    rowsSpacerHeight = 2.dp
+)
+val defaultPagerConfig = DefaultEpicCalendarPagerConfig.copy(
+    basisConfig = defaultBasisConfig
+)
+val defaultDatePickerConfig = DefaultEpicDatePickerConfig.copy(
+    pagerConfig = defaultPagerConfig,
+    selectionContainerColor = MaterialTheme.colorScheme.primary,
+    selectionContentColor = MaterialTheme.colorScheme.onPrimary
+)
+CompositionLocalProvider(
+    LocalBasisEpicCalendarConfig provides defaultBasisConfig,
+    LocalEpicCalendarPagerConfig provides defaultPagerConfig,
+    LocalEpicDatePickerConfig provides defaultDatePickerConfig
+) {
+    YourApplicationThatUsesEpicCalendars()
+}
+```
+
 ### Samples
 
 More examples can be found in the [sample directory](sample).
