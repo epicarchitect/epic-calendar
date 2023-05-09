@@ -27,8 +27,8 @@ fun DatePickerTesting() {
     TestingLayout(
         controls = {
             PagerStateControls(state.pagerState)
-            BasisConfigControls(basisConfig)
             DatePickerStateControls(state)
+            BasisConfigControls(basisConfig)
         }
     ) {
         EpicDatePicker(state = state)

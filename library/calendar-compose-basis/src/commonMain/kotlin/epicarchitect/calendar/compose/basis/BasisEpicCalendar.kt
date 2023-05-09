@@ -85,7 +85,7 @@ fun BasisEpicCalendar(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .clip(dayOfWeekViewShape)
+                                    .clip(dayOfWeekShape)
                                     .height(dayOfWeekViewHeight)
                                     .width(columnWidth)
                                     .let {
@@ -116,7 +116,7 @@ fun BasisEpicCalendar(
                             if (displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
                                 Box(
                                     modifier = Modifier
-                                        .clip(dayOfMonthViewShape)
+                                        .clip(dayOfMonthShape)
                                         .height(dayOfMonthViewHeight)
                                         .width(columnWidth)
                                         .let {

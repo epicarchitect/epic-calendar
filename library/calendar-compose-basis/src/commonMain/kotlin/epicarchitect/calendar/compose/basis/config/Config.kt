@@ -1,7 +1,6 @@
 package epicarchitect.calendar.compose.basis.config
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -13,8 +12,8 @@ interface BasisEpicCalendarConfig {
     val dayOfWeekViewHeight: Dp
     val dayOfMonthViewHeight: Dp
     val columnWidth: Dp
-    val dayOfWeekViewShape: Shape
-    val dayOfMonthViewShape: Shape
+    val dayOfWeekShape: Shape
+    val dayOfMonthShape: Shape
     val contentPadding: PaddingValues
     val contentColor: Color
     val displayDaysOfAdjacentMonths: Boolean

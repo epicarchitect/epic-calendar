@@ -59,7 +59,7 @@ fun Modifier.drawEpicRanges(
                     itemContainerWidthPx = size.width / 7f,
                     itemSize = itemSize,
                     rowsSpacerHeightPx = rowsSpacerHeightPx,
-                    dayOfMonthShape = basisConfig.dayOfMonthViewShape
+                    dayOfMonthShape = basisConfig.dayOfMonthShape
                 )
             }
         }

@@ -2,7 +2,6 @@ package epicarchitect.calendar.compose.basis.config
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,8 +30,8 @@ class MutableBasisEpicCalendarConfig(
     override var dayOfWeekViewHeight by mutableStateOf(dayOfWeekViewHeight)
     override var dayOfMonthViewHeight by mutableStateOf(dayOfMonthViewHeight)
     override var columnWidth by mutableStateOf(columnWidth)
-    override var dayOfWeekViewShape by mutableStateOf(dayOfWeekViewShape)
-    override var dayOfMonthViewShape by mutableStateOf(dayOfMonthViewShape)
+    override var dayOfWeekShape by mutableStateOf(dayOfWeekViewShape)
+    override var dayOfMonthShape by mutableStateOf(dayOfMonthViewShape)
     override var contentPadding by mutableStateOf(contentPadding)
     override var contentColor by mutableStateOf(contentColor)
     override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
@@ -47,8 +46,8 @@ fun rememberMutableBasisEpicCalendarConfig(
     dayOfWeekViewHeight: Dp = LocalBasisEpicCalendarConfig.current.dayOfWeekViewHeight,
     dayOfMonthViewHeight: Dp = LocalBasisEpicCalendarConfig.current.dayOfMonthViewHeight,
     columnWidth: Dp = LocalBasisEpicCalendarConfig.current.columnWidth,
-    dayOfWeekViewShape: Shape = LocalBasisEpicCalendarConfig.current.dayOfWeekViewShape,
-    dayOfMonthViewShape: Shape = LocalBasisEpicCalendarConfig.current.dayOfMonthViewShape,
+    dayOfWeekViewShape: Shape = LocalBasisEpicCalendarConfig.current.dayOfWeekShape,
+    dayOfMonthViewShape: Shape = LocalBasisEpicCalendarConfig.current.dayOfMonthShape,
     contentPadding: PaddingValues = LocalBasisEpicCalendarConfig.current.contentPadding,
     contentColor: Color = LocalBasisEpicCalendarConfig.current.contentColor,
     displayDaysOfAdjacentMonths: Boolean = LocalBasisEpicCalendarConfig.current.displayDaysOfAdjacentMonths,
