@@ -150,6 +150,10 @@ EpicCalendarPager(
 
 ### Provide setup globally
 
+At the moment this is a very experimental thing,
+but you can pass the default settings using
+`LocalBasisEpicCalendarConfig`, `LocalEpicCalendarPagerConfig`, `LocalEpicDatePickerConfig`
+
 ```kotlin
 val defaultBasisConfig = DefaultBasisEpicCalendarConfig.copy(
     contentPadding = PaddingValues(horizontal = 16.dp),
