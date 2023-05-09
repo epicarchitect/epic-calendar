@@ -21,21 +21,9 @@ kotlin {
 
 This library is super experimental!
 
-### Features
+### Dependencies
 
-- Single date selection
-- Multiple date selection
-- Date range selection
-
-### Add the MavenCentral repository
-
-```Kotlin
-repositories {
-    mavenCentral()
-}
-```
-
-### Add dependencies
+The library is published on MavenCentral.
 
 ```Kotlin
 dependencies {
@@ -108,6 +96,27 @@ EpicDatePicker(
 
 The `EpicDatePicker` is based on a `EpicCalendarPager` so it accepts a `pagerConfig`,
 you can pass it using `rememberEpicDatePickerConfig`.
+
+### Date picker selection mode
+
+Date picker has 3 features to pick dates:
+
+- Single date selection
+- Multiple date selection
+- Date range selection
+
+```kotlin
+EpicDatePicker(
+    state = rememberEpicDatePickerState(
+        // for range
+        selectionMode = EpicDatePickerState.SelectionMode.Range,
+        // or
+        selectionMode = EpicDatePickerState.SelectionMode.Single(),
+        // and for multiselect
+        selectionMode = EpicDatePickerState.SelectionMode.Single(maxSize = 5)
+    )
+)
+```
 
 ### Draw ranges
 
