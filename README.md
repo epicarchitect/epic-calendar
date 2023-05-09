@@ -18,7 +18,7 @@ kotlin {
 <details>
   <summary>Demo</summary>
 
-![epic-calendar](.github/demo.gif)
+![epic-calendar](demo.gif)
 </details>
 
 ### ATTENTION
