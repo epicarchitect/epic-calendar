@@ -10,7 +10,7 @@ import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.datepicker.config.EpicDatePickerConfig
 import epicarchitect.calendar.compose.datepicker.config.LocalEpicDatePickerConfig
 import epicarchitect.calendar.compose.pager.state.EpicCalendarPagerState
-import epicarchitect.calendar.compose.pager.state.defaultMonthRange
+import epicarchitect.calendar.compose.pager.state.defaultEpicCalendarPagerMonthRange
 import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import kotlinx.datetime.LocalDate
 
@@ -77,8 +77,8 @@ class DefaultEpicDatePickerState(
 @Composable
 fun rememberEpicDatePickerState(
     config: EpicDatePickerConfig = LocalEpicDatePickerConfig.current,
-    monthRange: ClosedRange<EpicMonth> = defaultMonthRange(),
-    initialMonth: EpicMonth = monthRange.start,
+    monthRange: ClosedRange<EpicMonth> = defaultEpicCalendarPagerMonthRange(),
+    initialMonth: EpicMonth = EpicMonth.now(),
     selectedDates: List<LocalDate> = emptyList(),
     selectionMode: EpicDatePickerState.SelectionMode = EpicDatePickerState.SelectionMode.Single(),
 ): EpicDatePickerState {

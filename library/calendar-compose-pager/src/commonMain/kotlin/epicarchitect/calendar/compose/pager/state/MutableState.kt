@@ -44,8 +44,8 @@ class DefaultEpicCalendarPagerState(
 @Composable
 fun rememberEpicCalendarPagerState(
     config: EpicCalendarPagerConfig = LocalEpicCalendarPagerConfig.current,
-    monthRange: ClosedRange<EpicMonth> = defaultMonthRange(),
-    initialMonth: EpicMonth = monthRange.start,
+    monthRange: ClosedRange<EpicMonth> = defaultEpicCalendarPagerMonthRange(),
+    initialMonth: EpicMonth = EpicMonth.now(),
 ): DefaultEpicCalendarPagerState {
     val pagerState = rememberPagerState(
         initialPage = remember(monthRange, initialMonth) {

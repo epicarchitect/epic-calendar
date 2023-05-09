@@ -4,6 +4,4 @@ import epicarchitect.calendar.compose.basis.EpicMonth
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 
-fun defaultMonthRange() = EpicMonth(2000, Month.JANUARY)..EpicMonth.now(
-    TimeZone.currentSystemDefault()
-)
+fun defaultEpicCalendarPagerMonthRange() = EpicMonth(1900, Month.JANUARY)..EpicMonth(2100, Month.DECEMBER)
