@@ -8,7 +8,7 @@ expect fun DayOfWeek.localized(): String
 
 expect fun firstDayOfWeek(): DayOfWeek
 
-fun epicDaysOfWeekSortedByFirstDayOfWeek(
+fun daysOfWeekSortedBy(
     firstDayOfWeek: DayOfWeek
 ) = DayOfWeek.values().let {
     val n = it.size - firstDayOfWeek.ordinal

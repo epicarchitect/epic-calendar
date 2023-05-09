@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import epicarchitect.calendar.compose.basis.EpicCalendarConstants
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.atDay
-import epicarchitect.calendar.compose.basis.epicDaysOfWeekSortedByFirstDayOfWeek
+import epicarchitect.calendar.compose.basis.config.BasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.lastDayOfWeek
 import epicarchitect.calendar.compose.basis.next
 import epicarchitect.calendar.compose.basis.previous
@@ -14,19 +14,17 @@ import kotlinx.datetime.isoDayNumber
 
 @Immutable
 data class EpicCalendarGridInfo(
-    val daysOfWeek: List<DayOfWeek>,
     val dateMatrix: List<List<LocalDate>>,
     val currentMonth: EpicMonth,
     val previousMonth: EpicMonth,
-    val nextMonth: EpicMonth,
-    val firstDayOfWeek: DayOfWeek
+    val nextMonth: EpicMonth
 )
 
 internal fun calculateEpicCalendarGridInfo(
     currentMonth: EpicMonth,
-    displayDaysOfAdjacentMonths: Boolean,
-    firstDayOfWeek: DayOfWeek
+    config: BasisEpicCalendarConfig,
 ): EpicCalendarGridInfo {
+    val firstDayOfWeek = config.daysOfWeek.first()
     val previousMonth = currentMonth.previous()
     val nextMonth = currentMonth.next()
     val previousMonthLastDayOfWeek = previousMonth.lastDayOfWeek()
@@ -44,7 +42,7 @@ internal fun calculateEpicCalendarGridInfo(
     val daysAmountInCurrentMonth = currentMonth.numberOfDays
     val firstDaysAmountInNextMonth =
         (EpicCalendarConstants.GridCellAmount - lastDaysAmountInPreviousMonth - daysAmountInCurrentMonth).let {
-            if (displayDaysOfAdjacentMonths) it
+            if (config.displayDaysOfAdjacentMonths) it
             else it % EpicCalendarConstants.DayOfWeekAmount
         }
 
@@ -72,10 +70,8 @@ internal fun calculateEpicCalendarGridInfo(
 
     return EpicCalendarGridInfo(
         dateMatrix = dates.chunked(EpicCalendarConstants.DayOfWeekAmount),
-        firstDayOfWeek = firstDayOfWeek,
         currentMonth = currentMonth,
         previousMonth = previousMonth,
-        nextMonth = nextMonth,
-        daysOfWeek = epicDaysOfWeekSortedByFirstDayOfWeek(firstDayOfWeek)
+        nextMonth = nextMonth
     )
 }

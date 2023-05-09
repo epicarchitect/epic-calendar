@@ -10,6 +10,8 @@ import androidx.compose.ui.unit.dp
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.atStartDay
+import epicarchitect.calendar.compose.basis.config.rememberBasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.config.rememberMutableBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.state.rememberMutableBasisEpicCalendarState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
 import kotlinx.datetime.DateTimeUnit
@@ -18,8 +20,10 @@ import kotlinx.datetime.plus
 
 @Composable
 fun BasisTesting() {
+    val config = rememberMutableBasisEpicCalendarConfig()
     val state = rememberMutableBasisEpicCalendarState(
-        currentMonth = EpicMonth(2000, Month.JANUARY)
+        currentMonth = EpicMonth(2000, Month.JANUARY),
+        config = config
     )
     val rangeColor = MaterialTheme.colorScheme.primaryContainer
     val ranges = remember {
@@ -58,17 +62,17 @@ fun BasisTesting() {
 
     Switch(
         onChanged = {
-            state.displayDaysOfAdjacentMonths = it
+            config.displayDaysOfAdjacentMonths = it
         },
-        checked = state.displayDaysOfAdjacentMonths,
+        checked = config.displayDaysOfAdjacentMonths,
         text = "displayDaysOfAdjacentMonths"
     )
 
     Switch(
         onChanged = {
-            state.displayDaysOfWeek = it
+            config.displayDaysOfWeek = it
         },
-        checked = state.displayDaysOfWeek,
+        checked = config.displayDaysOfWeek,
         text = "displayDaysOfWeek"
     )
 

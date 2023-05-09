@@ -18,7 +18,7 @@ fun Modifier.drawEpicRanges(
     val basisState = LocalBasisEpicCalendarState.current!!
     val basisConfig = LocalBasisEpicCalendarConfig.current
     val gridInfo = basisState.dateGridInfo
-    val displayDaysOfAdjacentMonths = basisState.displayDaysOfAdjacentMonths
+    val displayDaysOfAdjacentMonths = basisConfig.displayDaysOfAdjacentMonths
 
     val rangeInfoList = remember(ranges, displayDaysOfAdjacentMonths, gridInfo) {
         ranges.mapNotNull {
@@ -45,7 +45,7 @@ fun Modifier.drawEpicRanges(
 
         inset(
             top = contentPaddingTop.toPx().let {
-                if (basisState.displayDaysOfWeek.not()) it
+                if (basisConfig.displayDaysOfWeek.not()) it
                 else it + dayOfWeekHeightPx + rowsSpacerHeightPx
             },
             bottom = contentPaddingBottom.toPx(),

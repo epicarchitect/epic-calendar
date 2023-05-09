@@ -5,6 +5,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import kotlinx.datetime.DayOfWeek
 
 interface BasisEpicCalendarConfig {
     val rowsSpacerHeight: Dp
@@ -15,6 +16,9 @@ interface BasisEpicCalendarConfig {
     val dayOfMonthViewShape: Shape
     val contentPadding: PaddingValues
     val contentColor: Color
+    val displayDaysOfAdjacentMonths: Boolean
+    val displayDaysOfWeek: Boolean
+    val daysOfWeek: List<DayOfWeek>
 }
 
 val LocalBasisEpicCalendarConfig = compositionLocalOf<BasisEpicCalendarConfig> {

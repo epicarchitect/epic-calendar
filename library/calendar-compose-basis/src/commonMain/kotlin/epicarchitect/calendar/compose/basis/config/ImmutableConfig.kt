@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import kotlinx.datetime.DayOfWeek
 
 @Immutable
 data class ImmutableBasisEpicCalendarConfig(
@@ -17,7 +18,10 @@ data class ImmutableBasisEpicCalendarConfig(
     override val dayOfWeekViewShape: Shape,
     override val dayOfMonthViewShape: Shape,
     override val contentPadding: PaddingValues,
-    override val contentColor: Color
+    override val contentColor: Color,
+    override val displayDaysOfAdjacentMonths: Boolean,
+    override val displayDaysOfWeek: Boolean,
+    override val daysOfWeek: List<DayOfWeek>
 ) : BasisEpicCalendarConfig
 
 @Composable
@@ -29,7 +33,10 @@ fun rememberBasisEpicCalendarConfig(
     dayOfWeekViewShape: Shape = LocalBasisEpicCalendarConfig.current.dayOfWeekViewShape,
     dayOfMonthViewShape: Shape = LocalBasisEpicCalendarConfig.current.dayOfMonthViewShape,
     contentPadding: PaddingValues = LocalBasisEpicCalendarConfig.current.contentPadding,
-    contentColor: Color = LocalBasisEpicCalendarConfig.current.contentColor
+    contentColor: Color = LocalBasisEpicCalendarConfig.current.contentColor,
+    displayDaysOfAdjacentMonths: Boolean = LocalBasisEpicCalendarConfig.current.displayDaysOfAdjacentMonths,
+    displayDaysOfWeek: Boolean = LocalBasisEpicCalendarConfig.current.displayDaysOfWeek,
+    daysOfWeek: List<DayOfWeek> = LocalBasisEpicCalendarConfig.current.daysOfWeek
 ): BasisEpicCalendarConfig = remember(
     rowsSpacerHeight,
     dayOfWeekViewHeight,
@@ -38,7 +45,10 @@ fun rememberBasisEpicCalendarConfig(
     dayOfWeekViewShape,
     dayOfMonthViewShape,
     contentPadding,
-    contentColor
+    contentColor,
+    displayDaysOfAdjacentMonths,
+    displayDaysOfWeek,
+    daysOfWeek
 ) {
     ImmutableBasisEpicCalendarConfig(
         rowsSpacerHeight = rowsSpacerHeight,
@@ -48,6 +58,9 @@ fun rememberBasisEpicCalendarConfig(
         dayOfWeekViewShape = dayOfWeekViewShape,
         dayOfMonthViewShape = dayOfMonthViewShape,
         contentPadding = contentPadding,
-        contentColor = contentColor
+        contentColor = contentColor,
+        displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths,
+        displayDaysOfWeek = displayDaysOfWeek,
+        daysOfWeek = daysOfWeek
     )
 }

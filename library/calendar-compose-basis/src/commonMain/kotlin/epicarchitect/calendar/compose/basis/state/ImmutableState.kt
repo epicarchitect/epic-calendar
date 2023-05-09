@@ -2,37 +2,36 @@ package epicarchitect.calendar.compose.basis.state
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import epicarchitect.calendar.compose.basis.EpicMonth
-import epicarchitect.calendar.compose.basis.firstDayOfWeek
+import epicarchitect.calendar.compose.basis.config.BasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.config.LocalBasisEpicCalendarConfig
 
 @Immutable
 class ImmutableBasisEpicCalendarState(
     override val currentMonth: EpicMonth,
-    override val displayDaysOfAdjacentMonths: Boolean,
-    override val displayDaysOfWeek: Boolean
+    override val config: BasisEpicCalendarConfig
 ) : BasisEpicCalendarState {
-    override val dateGridInfo = calculateEpicCalendarGridInfo(
-        currentMonth = currentMonth,
-        displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
-        firstDayOfWeek = firstDayOfWeek()
-    )
+    override val dateGridInfo by derivedStateOf {
+        calculateEpicCalendarGridInfo(
+            currentMonth = currentMonth,
+            config = config
+        )
+    }
 }
 
 @Composable
 fun rememberBasisEpicCalendarState(
     currentMonth: EpicMonth = LocalBasisEpicCalendarState.current?.currentMonth ?: EpicMonth.now(),
-    displayDaysOfWeek: Boolean = LocalBasisEpicCalendarState.current?.displayDaysOfWeek ?: true,
-    displayDaysOfAdjacentMonths: Boolean = LocalBasisEpicCalendarState.current?.displayDaysOfAdjacentMonths
-        ?: true
+    config: BasisEpicCalendarConfig = LocalBasisEpicCalendarConfig.current
 ): BasisEpicCalendarState = remember(
     currentMonth,
-    displayDaysOfWeek,
-    displayDaysOfAdjacentMonths
+    config
 ) {
     ImmutableBasisEpicCalendarState(
         currentMonth = currentMonth,
-        displayDaysOfWeek = displayDaysOfWeek,
-        displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths
+        config = config
     )
 }

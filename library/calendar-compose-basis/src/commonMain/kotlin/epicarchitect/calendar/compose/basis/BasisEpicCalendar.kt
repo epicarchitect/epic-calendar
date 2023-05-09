@@ -60,14 +60,13 @@ val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
 fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
     state: BasisEpicCalendarState = LocalBasisEpicCalendarState.current ?: rememberBasisEpicCalendarState(),
-    config: BasisEpicCalendarConfig = LocalBasisEpicCalendarConfig.current,
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
     dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,
     dayOfMonthContent: BasisDayOfMonthContent = DefaultDayOfMonthContent
-) = with(config) {
+) = with(state.config) {
     CompositionLocalProvider(
-        LocalBasisEpicCalendarConfig provides config,
+        LocalBasisEpicCalendarConfig provides state.config,
         LocalBasisEpicCalendarState provides state
     ) {
         Column(
@@ -76,12 +75,12 @@ fun BasisEpicCalendar(
             ),
             verticalArrangement = Arrangement.spacedBy(rowsSpacerHeight),
         ) {
-            if (state.displayDaysOfWeek) {
+            if (displayDaysOfWeek) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    state.dateGridInfo.daysOfWeek.forEach { dayOfWeek ->
+                    daysOfWeek.forEach { dayOfWeek ->
                         Box(
                             modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.Center
@@ -116,7 +115,7 @@ fun BasisEpicCalendar(
                             modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.Center
                         ) {
-                            if (state.displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
+                            if (displayDaysOfAdjacentMonths || date.epicMonth == state.currentMonth) {
                                 Box(
                                     modifier = Modifier
                                         .clip(dayOfMonthViewShape)

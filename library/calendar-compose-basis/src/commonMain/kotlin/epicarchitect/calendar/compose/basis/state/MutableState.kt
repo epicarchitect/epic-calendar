@@ -7,23 +7,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import epicarchitect.calendar.compose.basis.EpicMonth
-import epicarchitect.calendar.compose.basis.firstDayOfWeek
+import epicarchitect.calendar.compose.basis.config.BasisEpicCalendarConfig
 
 class MutableBasisEpicCalendarState(
-    override val currentMonth: EpicMonth,
-    displayDaysOfAdjacentMonths: Boolean,
-    displayDaysOfWeek: Boolean
+    config: BasisEpicCalendarConfig,
+    currentMonth: EpicMonth
 ) : BasisEpicCalendarState {
-    override var displayDaysOfAdjacentMonths by mutableStateOf(displayDaysOfAdjacentMonths)
-    override var displayDaysOfWeek by mutableStateOf(displayDaysOfWeek)
-
-    private val firstDayOfWeek get() = firstDayOfWeek()
+    override var config by mutableStateOf(config)
+    override var currentMonth by mutableStateOf(currentMonth)
 
     override val dateGridInfo by derivedStateOf {
         calculateEpicCalendarGridInfo(
-            currentMonth = currentMonth,
-            displayDaysOfAdjacentMonths = this.displayDaysOfAdjacentMonths,
-            firstDayOfWeek = firstDayOfWeek
+            currentMonth = this.currentMonth,
+            config = config
         )
     }
 }
@@ -31,17 +27,13 @@ class MutableBasisEpicCalendarState(
 @Composable
 fun rememberMutableBasisEpicCalendarState(
     currentMonth: EpicMonth = LocalBasisEpicCalendarState.current?.currentMonth ?: EpicMonth.now(),
-    displayDaysOfWeek: Boolean = LocalBasisEpicCalendarState.current?.displayDaysOfWeek ?: true,
-    displayDaysOfAdjacentMonths: Boolean = LocalBasisEpicCalendarState.current?.displayDaysOfAdjacentMonths
-        ?: true
+    config: BasisEpicCalendarConfig,
 ): MutableBasisEpicCalendarState = remember(
     currentMonth,
-    displayDaysOfWeek,
-    displayDaysOfAdjacentMonths
+    config
 ) {
     MutableBasisEpicCalendarState(
         currentMonth = currentMonth,
-        displayDaysOfWeek = displayDaysOfWeek,
-        displayDaysOfAdjacentMonths = displayDaysOfAdjacentMonths
+        config = config
     )
 }

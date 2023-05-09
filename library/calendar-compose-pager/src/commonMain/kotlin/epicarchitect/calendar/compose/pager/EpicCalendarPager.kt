@@ -12,6 +12,7 @@ import epicarchitect.calendar.compose.basis.BasisDayOfWeekContent
 import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.DefaultDayOfMonthContent
 import epicarchitect.calendar.compose.basis.DefaultDayOfWeekContent
+import epicarchitect.calendar.compose.basis.config.rememberBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.size
 import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
@@ -52,14 +53,15 @@ fun EpicCalendarPager(
                 currentMonth = remember(state.monthRange, page) {
                     state.monthRange.getByIndex(page)
                 },
-                displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths,
-                displayDaysOfWeek = state.displayDaysOfWeek
+                config = rememberBasisEpicCalendarConfig(
+                    displayDaysOfAdjacentMonths = state.displayDaysOfAdjacentMonths,
+                    displayDaysOfWeek = state.displayDaysOfWeek
+                )
             )
 
             BasisEpicCalendar(
                 modifier = pageModifier(page),
                 state = basisState,
-                config = basisConfig,
                 onDayOfMonthClick = onDayOfMonthClick,
                 onDayOfWeekClick = onDayOfWeekClick,
                 dayOfMonthContent = dayOfMonthContent,

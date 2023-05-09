@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import epicarchitect.calendar.compose.basis.daysOfWeekSortedBy
+import epicarchitect.calendar.compose.basis.firstDayOfWeek
 
 val DefaultBasisEpicCalendarConfig = ImmutableBasisEpicCalendarConfig(
     rowsSpacerHeight = 4.dp,
@@ -13,5 +15,8 @@ val DefaultBasisEpicCalendarConfig = ImmutableBasisEpicCalendarConfig(
     dayOfWeekViewShape = RoundedCornerShape(16.dp),
     dayOfMonthViewShape = RoundedCornerShape(16.dp),
     contentPadding = PaddingValues(0.dp),
-    contentColor = Color.Unspecified
+    contentColor = Color.Unspecified,
+    displayDaysOfAdjacentMonths = true,
+    displayDaysOfWeek = true,
+    daysOfWeek = daysOfWeekSortedBy(firstDayOfWeek())
 )
