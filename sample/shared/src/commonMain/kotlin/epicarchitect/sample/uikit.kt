@@ -166,7 +166,7 @@ fun TestingLayout(
                 }
             }
         },
-        sheetPeekHeight = 250.dp,
+        sheetPeekHeight = 150.dp,
         sheetElevation = 16.dp
     ) {
         content()
