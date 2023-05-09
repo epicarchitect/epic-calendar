@@ -88,6 +88,27 @@ The `EpicCalendarPager` is based on a `BasisEpicCalendar` so it accepts a `basis
 you can pass it using `rememberEpicCalendarPagerConfig`.
 So you can customize the appearance using `rememberBasisEpicCalendarConfig`.
 
+### Date picker setup
+
+```kotlin
+EpicDatePicker(
+    state = rememberEpicDatePickerState(
+        config = rememberEpicDatePickerConfig(
+            pagerConfig = rememberEpicCalendarPagerConfig(
+                basisConfig = rememberBasisEpicCalendarConfig(
+                    displayDaysOfAdjacentMonths = false
+                )
+            ),
+            selectionContentColor = MaterialTheme.colorScheme.onPrimary,
+            selectionContainerColor = MaterialTheme.colorScheme.primary
+        )
+    )
+)
+```
+
+The `EpicDatePicker` is based on a `EpicCalendarPager` so it accepts a `pagerConfig`,
+you can pass it using `rememberEpicDatePickerConfig`.
+
 ### Draw ranges
 
 To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
