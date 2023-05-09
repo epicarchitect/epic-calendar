@@ -53,7 +53,7 @@ fun App() {
                 }
 
                 TabRow(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     selectedTabIndex = currentPage,
                 ) {
                     testingPages.keys.forEachIndexed { index, title ->

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -124,9 +125,12 @@ fun TestingLayout(
     val coroutineScope = rememberCoroutineScope()
     val state = rememberBottomSheetScaffoldState()
     BottomSheetScaffold(
+        modifier = Modifier.fillMaxSize(),
         scaffoldState = state,
         sheetContent = {
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -162,8 +166,7 @@ fun TestingLayout(
                 }
             }
         },
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        sheetPeekHeight = 150.dp,
+        sheetPeekHeight = 250.dp,
         sheetElevation = 16.dp
     ) {
         content()
