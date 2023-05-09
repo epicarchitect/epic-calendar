@@ -1,10 +1,25 @@
 plugins {
+    kotlin("multiplatform")
     id("com.android.application")
+    id("org.jetbrains.compose")
     id("convention.android.base")
-    id("org.jetbrains.kotlin.android")
+}
+
+kotlin {
+    android()
+    sourceSets {
+        getByName("androidMain") {
+            dependencies {
+                implementation(projects.sample.shared)
+                implementation(libs.android.activityCompose)
+            }
+        }
+    }
 }
 
 android {
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
         applicationId = "epicarchitect.calendar.compose.sample"
     }
@@ -41,19 +56,4 @@ android {
             applicationIdSuffix = ".debug"
         }
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
-    }
-}
-
-dependencies {
-    implementation(projects.sample.shared)
-    implementation("androidx.core:core-ktx:1.10.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.1")
 }
