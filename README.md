@@ -70,6 +70,24 @@ BasisEpicCalendar(
 If you want to change config dynamically, use `rememberMutableBasisEpicCalendarConfig()`.
 If you want to change state dynamically, use `rememberMutableBasisEpicCalendarState()`.
 
+### Pager calendar setup
+
+```kotlin
+EpicCalendarPager(
+    state = rememberEpicCalendarPagerState(
+        config = rememberEpicCalendarPagerConfig(
+            basisConfig = rememberBasisEpicCalendarConfig(
+                contentColor = Color.Red
+            )
+        )
+    )
+)
+```
+
+The `EpicCalendarPager` is based on a `BasisEpicCalendar` so it accepts a `basisConfig`,
+you can pass it using `rememberEpicCalendarPagerConfig`.
+So you can customize the appearance using `rememberBasisEpicCalendarConfig`.
+
 ### Draw ranges
 
 To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
