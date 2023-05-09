@@ -23,7 +23,6 @@ import epicarchitect.calendar.compose.ranges.drawEpicRanges
 val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
     val basisState = LocalBasisEpicCalendarState.current!!
     val pickerState = LocalEpicDatePickerState.current!!
-    val pickerConfig = LocalEpicDatePickerConfig.current
     val selectedDays = pickerState.selectedDates
     val selectionMode = pickerState.selectionMode
 
@@ -45,8 +44,8 @@ val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
         ),
         text = date.dayOfMonth.toString(),
         textAlign = TextAlign.Center,
-        color = if (isSelected) pickerConfig.selectionContentColor
-        else Color.Unspecified
+        color = if (isSelected) pickerState.config.selectionContentColor
+        else pickerState.config.pagerConfig.basisConfig.contentColor
     )
 }
 

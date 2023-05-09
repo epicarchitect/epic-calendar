@@ -3,6 +3,7 @@ package epicarchitect.calendar.compose.basis.config
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -24,6 +25,7 @@ data class ImmutableBasisEpicCalendarConfig(
     override val daysOfWeek: List<DayOfWeek>
 ) : BasisEpicCalendarConfig
 
+@Stable
 @Composable
 fun rememberBasisEpicCalendarConfig(
     rowsSpacerHeight: Dp = LocalBasisEpicCalendarConfig.current.rowsSpacerHeight,

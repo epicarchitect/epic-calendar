@@ -1,6 +1,7 @@
 package epicarchitect.calendar.compose.datepicker.state
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,6 +14,7 @@ import epicarchitect.calendar.compose.pager.state.defaultMonthRange
 import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import kotlinx.datetime.LocalDate
 
+@Stable
 class DefaultEpicDatePickerState(
     config: EpicDatePickerConfig,
     selectedDates: List<LocalDate>,
@@ -71,6 +73,7 @@ class DefaultEpicDatePickerState(
     }
 }
 
+@Stable
 @Composable
 fun rememberEpicDatePickerState(
     config: EpicDatePickerConfig = LocalEpicDatePickerConfig.current,

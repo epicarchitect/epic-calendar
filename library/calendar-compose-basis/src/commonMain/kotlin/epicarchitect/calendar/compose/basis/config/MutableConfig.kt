@@ -2,6 +2,7 @@ package epicarchitect.calendar.compose.basis.config
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +13,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import kotlinx.datetime.DayOfWeek
 
+@Stable
 class MutableBasisEpicCalendarConfig(
     rowsSpacerHeight: Dp,
     dayOfWeekViewHeight: Dp,
@@ -38,6 +40,7 @@ class MutableBasisEpicCalendarConfig(
     override var daysOfWeek by mutableStateOf(daysOfWeek)
 }
 
+@Stable
 @Composable
 fun rememberMutableBasisEpicCalendarConfig(
     rowsSpacerHeight: Dp = LocalBasisEpicCalendarConfig.current.rowsSpacerHeight,

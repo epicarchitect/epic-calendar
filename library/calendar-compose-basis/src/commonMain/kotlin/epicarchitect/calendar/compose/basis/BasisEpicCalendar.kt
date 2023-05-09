@@ -19,13 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
-import epicarchitect.calendar.compose.basis.config.BasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.config.LocalBasisEpicCalendarConfig
-import epicarchitect.calendar.compose.basis.config.rememberBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.state.BasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
-import epicarchitect.calendar.compose.basis.state.rememberMutableBasisEpicCalendarState
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 
@@ -59,7 +56,8 @@ val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
 @Composable
 fun BasisEpicCalendar(
     modifier: Modifier = Modifier,
-    state: BasisEpicCalendarState = LocalBasisEpicCalendarState.current ?: rememberBasisEpicCalendarState(),
+    state: BasisEpicCalendarState = LocalBasisEpicCalendarState.current
+        ?: rememberBasisEpicCalendarState(),
     onDayOfMonthClick: ((LocalDate) -> Unit)? = null,
     onDayOfWeekClick: ((DayOfWeek) -> Unit)? = null,
     dayOfWeekContent: BasisDayOfWeekContent = DefaultDayOfWeekContent,

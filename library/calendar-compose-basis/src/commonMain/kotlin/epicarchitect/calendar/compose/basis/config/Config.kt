@@ -1,6 +1,7 @@
 package epicarchitect.calendar.compose.basis.config
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
