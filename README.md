@@ -110,18 +110,20 @@ EpicDatePicker(
     state = rememberEpicDatePickerState(
         // for range
         selectionMode = EpicDatePickerState.SelectionMode.Range,
-        // or
+        // or for single date
         selectionMode = EpicDatePickerState.SelectionMode.Single(),
-        // and for multiselect
+        // or for multiselect
         selectionMode = EpicDatePickerState.SelectionMode.Single(maxSize = 5)
     )
 )
 ```
 
+Selected dates can be obtained from `state.selectedDates`.
+
 ### Draw ranges
 
 To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
-from `io.github.epicarchitect:calendar-compose-ranges`
+from `io.github.epicarchitect:calendar-compose-ranges`.
 
 ```Kotlin
 val myRanges: List<ClosedRange<kotlinx.datetime.LocalDate>>
