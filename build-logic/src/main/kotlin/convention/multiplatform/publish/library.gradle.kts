@@ -47,7 +47,7 @@ publishing {
 
         pom {
             name.set("Epic Calendar")
-            description.set("Android Jetpack Compose library for displaying calendars")
+            description.set("Compose Multiplatform library for displaying epic calendars")
             url.set("https://github.com/epicarchitect/epic-calendar")
 
             licenses {
