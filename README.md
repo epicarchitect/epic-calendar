@@ -46,6 +46,30 @@ dependencies {
 }
 ```
 
+### Basis calendar setup
+
+```kotlin
+BasisEpicCalendar(
+    state = rememberBasisEpicCalendarState(
+        config = rememberBasisEpicCalendarConfig(
+            rowsSpacerHeight = 4.dp,
+            dayOfWeekViewHeight = 40.dp,
+            dayOfMonthViewHeight = 40.dp,
+            columnWidth = 40.dp,
+            dayOfWeekViewShape = RoundedCornerShape(16.dp),
+            dayOfMonthViewShape = RoundedCornerShape(16.dp),
+            contentPadding = PaddingValues(0.dp),
+            contentColor = Color.Unspecified,
+            displayDaysOfAdjacentMonths = true,
+            displayDaysOfWeek = true
+        )
+    )
+)
+```
+
+If you want to change config dynamically, use `rememberMutableBasisEpicCalendarConfig()`.
+If you want to change state dynamically, use `rememberMutableBasisEpicCalendarState()`.
+
 ### Draw ranges
 
 To draw ranges use `Modifier.drawEpicRanges(ranges, color)`
