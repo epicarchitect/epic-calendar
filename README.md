@@ -2,6 +2,8 @@
 
 Compose Multiplatform library for displaying epic calendars.
 
+![epic-calendar](demo.gif)
+
 ### Kotlin Multiplatform supported targets
 
 ```Kotlin
@@ -14,10 +16,6 @@ kotlin {
     js(IR) { browser() }
 }
 ```
-
-### Demo
-
-![epic-calendar](demo.gif)
 
 ### ATTENTION
 
