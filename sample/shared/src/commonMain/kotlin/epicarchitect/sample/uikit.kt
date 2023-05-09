@@ -163,7 +163,7 @@ fun TestingLayout(
             }
         },
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        sheetPeekHeight = 250.dp,
+        sheetPeekHeight = 150.dp,
         sheetElevation = 16.dp
     ) {
         content()

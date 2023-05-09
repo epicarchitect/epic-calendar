@@ -10,6 +10,7 @@ import epicarchitect.calendar.compose.pager.EpicCalendarPager
 import epicarchitect.calendar.compose.pager.config.rememberEpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.state.rememberEpicCalendarPagerState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
+import epicarchitect.sample.TestingSection
 import epicarchitect.sample.rangesTesting.testRanges
 
 @Composable
@@ -25,7 +26,9 @@ fun PagerTesting() {
     TestingLayout(
         controls = {
             PagerStateControls(state)
-            BasisConfigControls(basisConfig)
+            TestingSection(title = "BasisConfig") {
+                BasisConfigControls(basisConfig)
+            }
         }
     ) {
         EpicCalendarPager(

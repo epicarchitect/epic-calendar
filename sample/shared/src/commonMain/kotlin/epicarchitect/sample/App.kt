@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -35,7 +37,6 @@ private val testingPages = mapOf<String, @Composable () -> Unit>(
     "DatePicker" to { DatePickerTesting() }
 )
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun App() {
     MaterialTheme {
@@ -44,14 +45,15 @@ fun App() {
             color = MaterialTheme.colorScheme.background
         ) {
             Column(
-                modifier = Modifier,
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 var currentPage by remember {
                     mutableStateOf(0)
                 }
 
-                ScrollableTabRow(
+                TabRow(
+                    modifier = Modifier.fillMaxWidth(),
                     selectedTabIndex = currentPage,
                 ) {
                     testingPages.keys.forEachIndexed { index, title ->

@@ -9,6 +9,7 @@ import epicarchitect.calendar.compose.datepicker.EpicDatePicker
 import epicarchitect.calendar.compose.datepicker.config.rememberEpicDatePickerConfig
 import epicarchitect.calendar.compose.datepicker.state.rememberEpicDatePickerState
 import epicarchitect.calendar.compose.pager.config.rememberEpicCalendarPagerConfig
+import epicarchitect.sample.TestingSection
 import epicarchitect.sample.pagerTesting.PagerStateControls
 
 @Composable
@@ -28,7 +29,9 @@ fun DatePickerTesting() {
         controls = {
             PagerStateControls(state.pagerState)
             DatePickerStateControls(state)
-            BasisConfigControls(basisConfig)
+            TestingSection(title = "BasisConfig") {
+                BasisConfigControls(basisConfig)
+            }
         }
     ) {
         EpicDatePicker(state = state)
