@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import epicarchitect.calendar.compose.basis.EpicMonth
 import epicarchitect.calendar.compose.basis.config.BasisEpicCalendarConfig
+import epicarchitect.calendar.compose.basis.config.LocalBasisEpicCalendarConfig
 
 @Stable
 class MutableBasisEpicCalendarState(
@@ -29,8 +30,8 @@ class MutableBasisEpicCalendarState(
 @Stable
 @Composable
 fun rememberMutableBasisEpicCalendarState(
+    config: BasisEpicCalendarConfig = LocalBasisEpicCalendarConfig.current,
     currentMonth: EpicMonth = LocalBasisEpicCalendarState.current?.currentMonth ?: EpicMonth.now(),
-    config: BasisEpicCalendarConfig,
 ): MutableBasisEpicCalendarState = remember(
     currentMonth,
     config
