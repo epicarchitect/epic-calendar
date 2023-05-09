@@ -148,6 +148,10 @@ EpicCalendarPager(
 )
 ```
 
+### Samples
+
+More examples can be found in the [sample directory](sample).
+
 ### License
 
 ```
