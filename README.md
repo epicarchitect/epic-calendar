@@ -44,8 +44,8 @@ BasisEpicCalendar(
             dayOfWeekViewHeight = 40.dp,
             dayOfMonthViewHeight = 40.dp,
             columnWidth = 40.dp,
-            dayOfWeekShape = RoundedCornerShape(16.dp),
-            dayOfMonthShape = RoundedCornerShape(16.dp),
+            dayOfWeekViewShape = RoundedCornerShape(16.dp),
+            dayOfMonthViewShape = RoundedCornerShape(16.dp),
             contentPadding = PaddingValues(0.dp),
             contentColor = Color.Unspecified,
             displayDaysOfAdjacentMonths = true,
@@ -159,7 +159,7 @@ val defaultBasisConfig = DefaultBasisEpicCalendarConfig.copy(
     contentPadding = PaddingValues(horizontal = 16.dp),
     displayDaysOfAdjacentMonths = false,
     displayDaysOfWeek = false,
-    dayOfMonthShape = RoundedCornerShape(8.dp),
+    dayOfMonthViewShape = RoundedCornerShape(8.dp),
     rowsSpacerHeight = 2.dp
 )
 val defaultPagerConfig = DefaultEpicCalendarPagerConfig.copy(
