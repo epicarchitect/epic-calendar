@@ -41,11 +41,8 @@ fun EpicCalendarPager(
         HorizontalPager(
             modifier = modifier,
             state = state.pagerState,
-            pageCount = remember(state.monthRange) {
-                state.monthRange.size()
-            },
             verticalAlignment = Alignment.Top
-        ) { page ->
+        ){ page ->
             BasisEpicCalendar(
                 modifier = pageModifier(page),
                 state = rememberBasisEpicCalendarState(

@@ -13,6 +13,7 @@ import epicarchitect.calendar.compose.basis.addMonths
 import epicarchitect.calendar.compose.basis.addYears
 import epicarchitect.calendar.compose.basis.getByIndex
 import epicarchitect.calendar.compose.basis.indexOf
+import epicarchitect.calendar.compose.basis.size
 import epicarchitect.calendar.compose.pager.config.EpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.config.LocalEpicCalendarPagerConfig
 
@@ -50,7 +51,9 @@ fun rememberEpicCalendarPagerState(
     val pagerState = rememberPagerState(
         initialPage = remember(monthRange, initialMonth) {
             monthRange.indexOf(initialMonth) ?: 0
-        }
+        },
+        initialPageOffsetFraction = 0f,
+        pageCount = {monthRange.size()}
     )
 
     return remember(
