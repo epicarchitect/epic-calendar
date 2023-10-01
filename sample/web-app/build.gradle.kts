@@ -14,6 +14,7 @@ kotlin {
             dependencies {
                 implementation(projects.sample.shared)
                 implementation(compose.html.core)
+                implementation(compose.ui)
             }
         }
     }

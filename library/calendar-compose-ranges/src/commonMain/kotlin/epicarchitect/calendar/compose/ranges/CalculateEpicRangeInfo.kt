@@ -2,11 +2,11 @@ package epicarchitect.calendar.compose.ranges
 
 import androidx.compose.ui.unit.IntOffset
 import epicarchitect.calendar.compose.basis.EpicCalendarConstants
-import epicarchitect.calendar.compose.basis.state.EpicCalendarGridInfo
 import epicarchitect.calendar.compose.basis.atEndDay
 import epicarchitect.calendar.compose.basis.atStartDay
 import epicarchitect.calendar.compose.basis.epicMonth
 import epicarchitect.calendar.compose.basis.index
+import epicarchitect.calendar.compose.basis.state.EpicCalendarGridInfo
 import kotlinx.datetime.LocalDate
 
 internal fun calculateEpicRangeInfo(
@@ -42,8 +42,8 @@ internal fun calculateEpicRangeInfo(
 
                 gridInfo.nextMonth -> {
                     gridInfo.currentMonth.atStartDay().dayOfWeek.index() +
-                            gridInfo.currentMonth.numberOfDays +
-                            startDate.dayOfMonth - 1
+                        gridInfo.currentMonth.numberOfDays +
+                        startDate.dayOfMonth - 1
                 }
 
                 else -> {
@@ -70,8 +70,8 @@ internal fun calculateEpicRangeInfo(
 
                 gridInfo.nextMonth -> {
                     gridInfo.currentMonth.atStartDay().dayOfWeek.index() +
-                            gridInfo.currentMonth.numberOfDays +
-                            endDate.dayOfMonth - 1
+                        gridInfo.currentMonth.numberOfDays +
+                        endDate.dayOfMonth - 1
                 }
 
                 else -> {

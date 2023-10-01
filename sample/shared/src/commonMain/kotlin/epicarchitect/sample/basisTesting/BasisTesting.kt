@@ -1,6 +1,5 @@
 package epicarchitect.sample.basisTesting
 
-import epicarchitect.sample.TestingLayout
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,6 +7,7 @@ import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.config.rememberMutableBasisEpicCalendarConfig
 import epicarchitect.calendar.compose.basis.state.rememberMutableBasisEpicCalendarState
 import epicarchitect.calendar.compose.ranges.drawEpicRanges
+import epicarchitect.sample.TestingLayout
 import epicarchitect.sample.rangesTesting.testRanges
 
 @Composable

@@ -1,2 +1,2 @@
 ${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources.sh
-${PODS_CONFIGURATION_BUILD_DIR}/composeApp/LibresComposeApp.bundle
+${PODS_ROOT}/../../shared/build/compose/ios/shared/compose-resources

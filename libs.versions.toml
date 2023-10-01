@@ -1,6 +1,6 @@
 [libraries]
-android-gradlePlugin = "com.android.tools.build:gradle:8.0.0"
-kotlin-gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
-compose-gradlePlugin = "org.jetbrains.compose:compose-gradle-plugin:1.4.0"
-kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
-android-activityCompose = "androidx.activity:activity-compose:1.7.1"
+android-gradlePlugin = "com.android.tools.build:gradle:8.1.2"
+kotlin-gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10"
+compose-gradlePlugin = "org.jetbrains.compose:compose-gradle-plugin:1.5.2"
+kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.1"
+android-activityCompose = "androidx.activity:activity-compose:1.7.2"

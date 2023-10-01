@@ -9,7 +9,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
     jvm("desktop")
     iosX64()
     iosArm64()

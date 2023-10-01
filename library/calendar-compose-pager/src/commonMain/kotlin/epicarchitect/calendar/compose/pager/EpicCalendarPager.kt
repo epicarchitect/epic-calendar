@@ -13,7 +13,6 @@ import epicarchitect.calendar.compose.basis.BasisEpicCalendar
 import epicarchitect.calendar.compose.basis.DefaultDayOfMonthContent
 import epicarchitect.calendar.compose.basis.DefaultDayOfWeekContent
 import epicarchitect.calendar.compose.basis.getByIndex
-import epicarchitect.calendar.compose.basis.size
 import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
 import epicarchitect.calendar.compose.pager.config.LocalEpicCalendarPagerConfig
 import epicarchitect.calendar.compose.pager.state.EpicCalendarPagerState
@@ -41,9 +40,6 @@ fun EpicCalendarPager(
         HorizontalPager(
             modifier = modifier,
             state = state.pagerState,
-            pageCount = remember(state.monthRange) {
-                state.monthRange.size()
-            },
             verticalAlignment = Alignment.Top
         ) { page ->
             BasisEpicCalendar(

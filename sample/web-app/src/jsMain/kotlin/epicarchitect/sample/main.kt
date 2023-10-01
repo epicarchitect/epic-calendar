@@ -1,10 +1,13 @@
 package epicarchitect.sample
 
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.window.CanvasBasedWindow
 import org.jetbrains.skiko.wasm.onWasmReady
 
+@OptIn(ExperimentalComposeUiApi::class)
 fun main() {
     onWasmReady {
-        BrowserViewportWindow("Epic Calendar") {
+        CanvasBasedWindow("Epic Calendar") {
             App()
         }
     }

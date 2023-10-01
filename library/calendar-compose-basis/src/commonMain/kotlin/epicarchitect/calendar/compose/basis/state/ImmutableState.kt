@@ -1,7 +1,6 @@
 package epicarchitect.calendar.compose.basis.state
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
