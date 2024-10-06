@@ -6,6 +6,7 @@
 # Built application files
 *.apk
 *.ap_
+.kotlin
 
 android/app/release
 android/app/debug

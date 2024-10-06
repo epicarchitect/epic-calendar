@@ -1,0 +1,17 @@
+[versions]
+android-gradlePlugin = "8.7.0"
+jetbrains-kotlin = "2.0.0"
+jetbrains-compose = "1.6.11"
+jetbrains-datetime = "0.6.1"
+android-activityCompose = "1.9.2"
+
+[libraries]
+jetbrains-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "jetbrains-datetime" }
+android-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "android-activityCompose" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradlePlugin" }
+jetbrains-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "jetbrains-kotlin" }
+jetbrains-composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jetbrains-kotlin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }

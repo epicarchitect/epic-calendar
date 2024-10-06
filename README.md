@@ -2,24 +2,17 @@
 
 Compose Multiplatform library for displaying epic calendars.
 
-![epic-calendar](demo.gif)
-
-### Kotlin Multiplatform supported targets
-
-```Kotlin
-kotlin {
-    androidTarget()
-    jvm("desktop")
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    js(IR) { browser() }
-}
-```
-
 ### ATTENTION
 
 This library is super experimental!
+
+![epic-calendar](demo.gif)
+
+### Kotlin Multiplatform supported targets
+- android
+- ios
+- jvm
+- js
 
 ### Dependencies
 
@@ -27,10 +20,7 @@ The library is published on MavenCentral.
 
 ```Kotlin
 dependencies {
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-basis:1.0.5")
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-ranges:1.0.5") // includes basis
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-pager:1.0.5") // includes basis
-    commonMainImplementation("io.github.epicarchitect:calendar-compose-datepicker:1.0.5") // includes pager + ranges
+    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.0.6")
 }
 ```
 
