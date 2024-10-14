@@ -9,6 +9,7 @@ This library is super experimental!
 ![epic-calendar](demo.gif)
 
 ### Kotlin Multiplatform supported targets
+
 - android
 - ios
 - jvm
@@ -20,7 +21,7 @@ The library is published on MavenCentral.
 
 ```Kotlin
 dependencies {
-    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.0.6")
+    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.0.7")
 }
 ```
 

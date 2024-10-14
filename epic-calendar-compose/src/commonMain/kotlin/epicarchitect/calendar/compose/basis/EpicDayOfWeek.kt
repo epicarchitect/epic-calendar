@@ -1,6 +1,5 @@
 package epicarchitect.calendar.compose.basis
 
-
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.isoDayNumber
 
@@ -14,7 +13,6 @@ fun daysOfWeekSortedBy(
     val n = it.size - firstDayOfWeek.ordinal
     it.takeLast(n) + it.dropLast(n)
 }
-
 
 fun DayOfWeek.index(
     firstDayOfWeek: DayOfWeek

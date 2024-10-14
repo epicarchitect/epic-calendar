@@ -44,8 +44,8 @@ internal fun calculateEpicRangeInfo(
 
                 gridInfo.nextMonth -> {
                     gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) +
-                        gridInfo.currentMonth.numberOfDays +
-                        startDate.dayOfMonth - 1
+                            gridInfo.currentMonth.numberOfDays +
+                            startDate.dayOfMonth - 1
                 }
 
                 else -> {
@@ -72,8 +72,8 @@ internal fun calculateEpicRangeInfo(
 
                 gridInfo.nextMonth -> {
                     gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) +
-                        gridInfo.currentMonth.numberOfDays +
-                        endDate.dayOfMonth - 1
+                            gridInfo.currentMonth.numberOfDays +
+                            endDate.dayOfMonth - 1
                 }
 
                 else -> {

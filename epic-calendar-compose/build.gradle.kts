@@ -10,6 +10,7 @@ plugins {
 }
 
 kotlin {
+    jvmToolchain(17)
     androidTarget {
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
@@ -37,8 +38,8 @@ android {
     compileSdk = 34
     defaultConfig.minSdk = 26
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -72,7 +73,7 @@ publishing {
     publications.withType<MavenPublication> {
         artifact(javadocJar)
         groupId = "io.github.epicarchitect"
-        version = "1.0.6"
+        version = "1.0.7"
 
         pom {
             name.set("Epic Calendar")

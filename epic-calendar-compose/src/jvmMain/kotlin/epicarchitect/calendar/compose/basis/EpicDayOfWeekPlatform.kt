@@ -7,4 +7,5 @@ import java.util.Locale
 
 actual fun firstDayOfWeekBySystem(): DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek!!
 
-actual fun DayOfWeek.localizedBySystem(): String = getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
+actual fun DayOfWeek.localizedBySystem(): String =
+    getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
