@@ -145,17 +145,17 @@ but you can pass the default settings using
 `LocalBasisEpicCalendarConfig`, `LocalEpicCalendarPagerConfig`, `LocalEpicDatePickerConfig`
 
 ```kotlin
-val defaultBasisConfig = DefaultBasisEpicCalendarConfig.copy(
+val defaultBasisConfig = defaultBasisEpicCalendarConfig().copy(
     contentPadding = PaddingValues(horizontal = 16.dp),
     displayDaysOfAdjacentMonths = false,
     displayDaysOfWeek = false,
     dayOfMonthViewShape = RoundedCornerShape(8.dp),
     rowsSpacerHeight = 2.dp
 )
-val defaultPagerConfig = DefaultEpicCalendarPagerConfig.copy(
+val defaultPagerConfig = defaultEpicCalendarPagerConfig().copy(
     basisConfig = defaultBasisConfig
 )
-val defaultDatePickerConfig = DefaultEpicDatePickerConfig.copy(
+val defaultDatePickerConfig = defaultEpicDatePickerConfig().copy(
     pagerConfig = defaultPagerConfig,
     selectionContainerColor = MaterialTheme.colorScheme.primary,
     selectionContentColor = MaterialTheme.colorScheme.onPrimary

@@ -1,19 +1,17 @@
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 rootProject.name = "epic-calendar"
 
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         mavenCentral()
         google()
+        gradlePluginPortal()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
-        google()
         mavenCentral()
+        google()
     }
 }
 
