@@ -73,7 +73,7 @@ publishing {
     publications.withType<MavenPublication> {
         artifact(javadocJar)
         groupId = "io.github.epicarchitect"
-        version = "1.0.7"
+        version = "1.0.8"
 
         pom {
             name.set("Epic Calendar")

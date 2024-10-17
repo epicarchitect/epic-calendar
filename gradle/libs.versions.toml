@@ -1,7 +1,7 @@
 [versions]
 android-gradlePlugin = "8.5.2"
 jetbrains-kotlin = "2.0.21"
-jetbrains-compose = "1.6.11"
+jetbrains-compose = "1.7.0"
 jetbrains-datetime = "0.6.1"
 android-activityCompose = "1.9.2"
 

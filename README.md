@@ -21,7 +21,7 @@ The library is published on MavenCentral.
 
 ```Kotlin
 dependencies {
-    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.0.7")
+    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.0.8")
 }
 ```
 
