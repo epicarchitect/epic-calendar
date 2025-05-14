@@ -51,12 +51,12 @@ kotlin {
 
 android {
     namespace = "epicarchitect.sample.shared"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "epicarchitect.calendar.compose.sample"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
     }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

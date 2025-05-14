@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -38,12 +39,12 @@ private val testingPages = mapOf<String, @Composable () -> Unit>(
 @Composable
 fun App() {
     MaterialTheme {
-        Surface(
+        Scaffold (
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
+            containerColor = MaterialTheme.colorScheme.background
+        ) { padding ->
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(padding),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 var currentPage by remember {

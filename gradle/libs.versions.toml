@@ -1,9 +1,9 @@
 [versions]
 android-gradlePlugin = "8.5.2"
-jetbrains-kotlin = "2.0.21"
-jetbrains-compose = "1.7.0"
-jetbrains-datetime = "0.6.1"
-android-activityCompose = "1.9.2"
+jetbrains-kotlin = "2.1.20"
+jetbrains-compose = "1.8.0"
+jetbrains-datetime = "0.6.2"
+android-activityCompose = "1.10.1"
 
 [libraries]
 jetbrains-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "jetbrains-datetime" }
