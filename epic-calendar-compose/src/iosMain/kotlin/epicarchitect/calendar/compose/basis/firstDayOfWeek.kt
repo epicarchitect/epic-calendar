@@ -1,28 +1,21 @@
 package epicarchitect.calendar.compose.basis
 
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.isoDayNumber
 import platform.Foundation.NSCalendar
 
-private val iosOrder = listOf(
-    DayOfWeek.SUNDAY,
-    DayOfWeek.MONDAY,
-    DayOfWeek.TUESDAY,
-    DayOfWeek.WEDNESDAY,
-    DayOfWeek.THURSDAY,
-    DayOfWeek.FRIDAY,
-    DayOfWeek.SATURDAY
-)
+actual fun localizedBySystem(isoDayNumber: Int): String {
+    val dayOfWeek = DayOfWeek(isoDayNumber)
+    return NSCalendar.currentCalendar.veryShortWeekdaySymbols[dayOfWeek.index(firstDayOfWeek = DayOfWeek.SUNDAY)].toString()
+}
 
-actual fun DayOfWeek.localizedBySystem(): String =
-    NSCalendar.currentCalendar.veryShortWeekdaySymbols[iosOrder.indexOf(this)].toString()
-
-actual fun firstDayOfWeekBySystem(): DayOfWeek = when (NSCalendar.currentCalendar.firstWeekday) {
-    1uL -> DayOfWeek.SUNDAY
-    2uL -> DayOfWeek.MONDAY
-    3uL -> DayOfWeek.TUESDAY
-    4uL -> DayOfWeek.WEDNESDAY
-    5uL -> DayOfWeek.THURSDAY
-    6uL -> DayOfWeek.FRIDAY
-    7uL -> DayOfWeek.SATURDAY
-    else -> DayOfWeek.SUNDAY
+actual fun firstDayOfWeekBySystem(): Int = when (NSCalendar.currentCalendar.firstWeekday) {
+    1uL -> DayOfWeek.SUNDAY.isoDayNumber
+    2uL -> DayOfWeek.MONDAY.isoDayNumber
+    3uL -> DayOfWeek.TUESDAY.isoDayNumber
+    4uL -> DayOfWeek.WEDNESDAY.isoDayNumber
+    5uL -> DayOfWeek.THURSDAY.isoDayNumber
+    6uL -> DayOfWeek.FRIDAY.isoDayNumber
+    7uL -> DayOfWeek.SATURDAY.isoDayNumber
+    else -> DayOfWeek.SUNDAY.isoDayNumber
 }

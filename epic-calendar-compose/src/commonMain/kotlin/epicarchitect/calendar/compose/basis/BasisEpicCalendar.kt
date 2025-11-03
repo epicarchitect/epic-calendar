@@ -25,6 +25,7 @@ import epicarchitect.calendar.compose.basis.state.LocalBasisEpicCalendarState
 import epicarchitect.calendar.compose.basis.state.rememberBasisEpicCalendarState
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.isoDayNumber
 
 typealias BasisDayOfMonthContent = @Composable BoxScope.(LocalDate) -> Unit
 typealias BasisDayOfWeekContent = @Composable BoxScope.(DayOfWeek) -> Unit
@@ -38,7 +39,7 @@ val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
                 if (date in state.currentMonth) 1.0f else 0.5f
             }
         ),
-        text = date.dayOfMonth.toString(),
+        text = date.day.toString(),
         textAlign = TextAlign.Center,
         color = config.contentColor
     )
@@ -47,7 +48,7 @@ val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
 val DefaultDayOfWeekContent: BasisDayOfWeekContent = { dayOfWeek ->
     val config = LocalBasisEpicCalendarConfig.current
     Text(
-        text = dayOfWeek.localizedBySystem(),
+        text = localizedBySystem(dayOfWeek.isoDayNumber),
         textAlign = TextAlign.Center,
         color = config.contentColor
     )

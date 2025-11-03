@@ -35,7 +35,7 @@ internal fun calculateEpicRangeInfo(
         if (displayDaysOfAdjacentMonths) {
             when (startDate.epicMonth) {
                 gridInfo.currentMonth -> {
-                    gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) + startDate.dayOfMonth - 1
+                    gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) + startDate.day - 1
                 }
 
                 gridInfo.previousMonth -> {
@@ -45,7 +45,7 @@ internal fun calculateEpicRangeInfo(
                 gridInfo.nextMonth -> {
                     gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) +
                             gridInfo.currentMonth.numberOfDays +
-                            startDate.dayOfMonth - 1
+                            startDate.day - 1
                 }
 
                 else -> {
@@ -53,7 +53,7 @@ internal fun calculateEpicRangeInfo(
                 }
             }
         } else {
-            startGridOffset + startDate.dayOfMonth - 1
+            startGridOffset + startDate.day - 1
         }
     } else {
         startGridOffset
@@ -63,7 +63,7 @@ internal fun calculateEpicRangeInfo(
         if (displayDaysOfAdjacentMonths) {
             when (endDate.epicMonth) {
                 gridInfo.currentMonth -> {
-                    gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) + endDate.dayOfMonth - 1
+                    gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) + endDate.day - 1
                 }
 
                 gridInfo.previousMonth -> {
@@ -73,7 +73,7 @@ internal fun calculateEpicRangeInfo(
                 gridInfo.nextMonth -> {
                     gridInfo.currentMonth.atStartDay().dayOfWeek.index(firstDayOfWeek) +
                             gridInfo.currentMonth.numberOfDays +
-                            endDate.dayOfMonth - 1
+                            endDate.day - 1
                 }
 
                 else -> {
@@ -81,7 +81,7 @@ internal fun calculateEpicRangeInfo(
                 }
             }
         } else {
-            startGridOffset + endDate.dayOfMonth - 1
+            startGridOffset + endDate.day - 1
         }
     } else {
         if (displayDaysOfAdjacentMonths) EpicCalendarConstants.GridCellAmount - 1

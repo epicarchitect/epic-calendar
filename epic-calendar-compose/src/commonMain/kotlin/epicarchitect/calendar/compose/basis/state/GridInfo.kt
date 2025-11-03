@@ -36,7 +36,7 @@ internal fun calculateEpicCalendarGridInfo(
             else previousMonthLastDayOfWeek.isoDayNumber + 1
         }
 
-        else -> error("Unexpected firstDayOfWeek: $firstDayOfWeek")
+        else -> 0
     } % EpicCalendarConstants.DayOfWeekAmount
 
     val daysAmountInCurrentMonth = currentMonth.numberOfDays

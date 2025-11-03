@@ -41,7 +41,7 @@ val DefaultDayOfMonthContent: BasisDayOfMonthContent = { date ->
             if (date in basisState.currentMonth) 1.0f
             else 0.5f
         ),
-        text = date.dayOfMonth.toString(),
+        text = date.day.toString(),
         textAlign = TextAlign.Center,
         color = if (isSelected) pickerState.config.selectionContentColor
         else pickerState.config.pagerConfig.basisConfig.contentColor

@@ -3,13 +3,13 @@ package epicarchitect.calendar.compose.basis
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.isoDayNumber
 
-expect fun DayOfWeek.localizedBySystem(): String
+expect fun localizedBySystem(isoDayNumber: Int): String
 
-expect fun firstDayOfWeekBySystem(): DayOfWeek
+expect fun firstDayOfWeekBySystem(): Int
 
 fun daysOfWeekSortedBy(
     firstDayOfWeek: DayOfWeek
-) = DayOfWeek.values().let {
+) = DayOfWeek.entries.toTypedArray().let {
     val n = it.size - firstDayOfWeek.ordinal
     it.takeLast(n) + it.dropLast(n)
 }

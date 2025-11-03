@@ -1,11 +1,17 @@
 package epicarchitect.calendar.compose.basis
 
-import java.time.DayOfWeek
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.toJavaDayOfWeek
+import kotlinx.datetime.toKotlinDayOfWeek
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
 
-actual fun firstDayOfWeekBySystem(): DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek!!
+actual fun firstDayOfWeekBySystem(): Int =
+    WeekFields.of(Locale.getDefault()).firstDayOfWeek!!.toKotlinDayOfWeek().isoDayNumber
 
-actual fun DayOfWeek.localizedBySystem(): String =
-    getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
+actual fun localizedBySystem(isoDayNumber: Int): String {
+    val dayOfWeek = DayOfWeek(isoDayNumber).toJavaDayOfWeek()
+    return dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())!!
+}

@@ -56,7 +56,7 @@ class DefaultEpicDatePickerState(
         when (val mode = selectionMode) {
             is EpicDatePickerState.SelectionMode.Single -> {
                 if (dates.size == mode.maxSize) {
-                    dates.removeFirst()
+                    dates.removeAt(0)
                 }
                 dates.add(date)
             }
