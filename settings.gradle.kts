@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "epic-calendar"
 
 pluginManagement {
@@ -8,6 +10,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version("1.0.0")
+}
+
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
@@ -16,6 +22,10 @@ dependencyResolutionManagement {
 }
 
 include(
-    ":sample",
+    ":sample:shared",
+    ":sample:android",
+    ":sample:desktop",
+    ":sample:web",
+    ":sample:ios",
     ":epic-calendar-compose",
 )

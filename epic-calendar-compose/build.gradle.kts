@@ -1,7 +1,9 @@
-import java.util.Properties
+import org.gradle.api.publish.maven.MavenPublication
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.jetbrains.multiplatform)
     alias(libs.plugins.jetbrains.composeCompiler)
     alias(libs.plugins.jetbrains.compose)
@@ -9,49 +11,45 @@ plugins {
     id("signing")
 }
 
+val libraryVersion = "1.1.0"
+
+@OptIn(ExperimentalWasmDsl::class)
 kotlin {
-    jvmToolchain(17)
-    androidTarget {
-        publishAllLibraryVariants()
-        publishLibraryVariantsGroupedByFlavor = true
+    jvmToolchain(Constants.jvmToolchainVersion)
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
-    jvm()
-    iosX64()
+    android {
+        namespace = "epicarchitect.calendar.compose"
+        compileSdk = Constants.androidCompileSdk
+        minSdk = Constants.androidMinSdk
+    }
     iosArm64()
     iosSimulatorArm64()
 
     js {
         browser()
-        binaries.executable()
+    }
+
+    wasmJs {
+        browser()
     }
 
     sourceSets {
         commonMain.dependencies {
             api(libs.jetbrains.datetime)
-            api(compose.material3)
+            api(libs.jetbrains.composeMaterial3)
+            api(libs.jetbrains.composeUi)
+            api(libs.jetbrains.composeFoundation)
         }
     }
 }
 
-android {
-    namespace = "epicarchitect.calendar.compose"
-    compileSdk = 34
-    defaultConfig.minSdk = 26
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
-
-fun extString(name: String) = ext[name]!!.toString()
-
-project.rootProject.file("local.properties").reader().use {
-    Properties().apply { load(it) }
-}.onEach { (name, value) ->
-    ext[name.toString()] = value
-}
-
-val javadocJar by tasks.registering(Jar::class) {
+val javadocJar = tasks.register<Jar>("javadocJar") {
+    group = "build"
+    description = "Assembles an empty javadoc jar for Maven publication."
     archiveClassifier.set("javadoc")
 }
 
@@ -61,8 +59,10 @@ publishing {
             name = "sonatype"
             setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
-                username = extString("ossrhUsername")
-                password = extString("ossrhPassword")
+                username = providers.gradleProperty("ossrhUsername").orNull
+                    ?: System.getenv("OSSRH_USERNAME")
+                password = providers.gradleProperty("ossrhPassword").orNull
+                    ?: System.getenv("OSSRH_PASSWORD")
             }
             authentication {
                 create<BasicAuthentication>("basic")
@@ -70,10 +70,10 @@ publishing {
         }
     }
 
-    publications.withType<MavenPublication> {
+    publications.withType<MavenPublication>().configureEach {
         artifact(javadocJar)
         groupId = "io.github.epicarchitect"
-        version = "1.0.8"
+        version = libraryVersion
 
         pom {
             name.set("Epic Calendar")
@@ -100,8 +100,15 @@ publishing {
     }
 }
 
-signing {
-    sign(publishing.publications)
+val signingKeyId = providers.gradleProperty("SIGNING_KEY_ID").orNull ?: System.getenv("SIGNING_KEY_ID")
+val signingKey = providers.gradleProperty("SIGNING_KEY").orNull ?: System.getenv("SIGNING_KEY")
+val signingPassword = providers.gradleProperty("SIGNING_PASSWORD").orNull ?: System.getenv("SIGNING_PASSWORD")
+
+if (!signingKeyId.isNullOrBlank() && !signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
+    signing {
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+        sign(publishing.publications)
+    }
 }
 
 tasks.withType<AbstractPublishToMaven> {

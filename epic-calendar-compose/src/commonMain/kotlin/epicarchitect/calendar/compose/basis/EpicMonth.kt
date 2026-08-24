@@ -1,7 +1,6 @@
 package epicarchitect.calendar.compose.basis
 
 import androidx.compose.runtime.Immutable
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
@@ -10,6 +9,7 @@ import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.abs
 import kotlin.math.floor
+import kotlin.time.Clock
 
 @Immutable
 data class EpicMonth(

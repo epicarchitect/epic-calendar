@@ -14,6 +14,7 @@ This library is super experimental!
 - ios
 - jvm
 - js
+- wasmJs
 
 ### Dependencies
 
@@ -21,7 +22,7 @@ The library is published on MavenCentral.
 
 ```Kotlin
 dependencies {
-    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.0.8")
+    commonMainImplementation("io.github.epicarchitect:epic-calendar-compose:1.1.0")
 }
 ```
 
@@ -172,4 +173,11 @@ CompositionLocalProvider(
 
 ### Samples
 
-More examples can be found in the [sample directory](sample).
+More examples can be found in the [shared sample module](sample/shared).
+
+Platform-specific sample apps:
+
+- [sample/android](sample/android) — Android application
+- [sample/desktop](sample/desktop) — Desktop (JVM) application
+- [sample/web](sample/web) — Web application (JS + WASM)
+- [sample/ios](sample/ios) — iOS application
