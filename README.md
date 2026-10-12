@@ -47,8 +47,8 @@ BasisEpicCalendar(
 )
 ```
 
-If you want to change config dynamically, use `rememberMutableBasisEpicCalendarConfig()`.
-If you want to change state dynamically, use `rememberMutableBasisEpicCalendarState()`.
+If you want to change config dynamically, use `rememberMutableBasisEpicCalendarConfig()`. If you
+want to change state dynamically, use `rememberMutableBasisEpicCalendarState()`.
 
 ### Pager calendar setup
 
@@ -64,9 +64,9 @@ EpicCalendarPager(
 )
 ```
 
-The `EpicCalendarPager` is based on a `BasisEpicCalendar` so it accepts a `basisConfig`,
-you can pass it using `rememberEpicCalendarPagerConfig`.
-So you can customize the appearance using `rememberBasisEpicCalendarConfig`.
+The `EpicCalendarPager` is based on a `BasisEpicCalendar` so it accepts a `basisConfig`, you can
+pass it using `rememberEpicCalendarPagerConfig`. So you can customize the appearance using
+`rememberBasisEpicCalendarConfig`.
 
 ### Date picker setup
 
@@ -86,8 +86,8 @@ EpicDatePicker(
 )
 ```
 
-The `EpicDatePicker` is based on a `EpicCalendarPager` so it accepts a `pagerConfig`,
-you can pass it using `rememberEpicDatePickerConfig`.
+The `EpicDatePicker` is based on a `EpicCalendarPager` so it accepts a `pagerConfig`, you can pass
+it using `rememberEpicDatePickerConfig`.
 
 ### Date picker selection mode
 
@@ -142,8 +142,7 @@ EpicCalendarPager(
 
 ### Provide setup globally
 
-At the moment this is a very experimental thing,
-but you can pass the default settings using
+At the moment this is a very experimental thing, but you can pass the default settings using
 `LocalBasisEpicCalendarConfig`, `LocalEpicCalendarPagerConfig`, `LocalEpicDatePickerConfig`
 
 ```kotlin
