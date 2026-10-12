@@ -1,4 +1,3 @@
-import org.gradle.api.publish.maven.MavenPublication
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -58,13 +57,11 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
 publishing {
     repositories {
         maven {
-            name = "central"
+            name = "sonatype"
             setUrl("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
             credentials {
-                username = providers.gradleProperty("centralPortalUsername").orNull
-                    ?: System.getenv("CENTRAL_PORTAL_USERNAME")
-                password = providers.gradleProperty("centralPortalPassword").orNull
-                    ?: System.getenv("CENTRAL_PORTAL_PASSWORD")
+                username = findProperty("sonatype.username") as String?
+                password = findProperty("sonatype.password") as String?
             }
             authentication {
                 create<BasicAuthentication>("basic")
@@ -102,15 +99,9 @@ publishing {
     }
 }
 
-val signingKeyId = providers.gradleProperty("SIGNING_KEY_ID").orNull ?: System.getenv("SIGNING_KEY_ID")
-val signingKey = providers.gradleProperty("SIGNING_KEY").orNull ?: System.getenv("SIGNING_KEY")
-val signingPassword = providers.gradleProperty("SIGNING_PASSWORD").orNull ?: System.getenv("SIGNING_PASSWORD")
-
-if (!signingKeyId.isNullOrBlank() && !signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
-    signing {
-        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        sign(publishing.publications)
-    }
+signing {
+    useGpgCmd()
+    sign(publishing.publications)
 }
 
 tasks.withType<AbstractPublishToMaven> {
