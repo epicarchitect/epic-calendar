@@ -58,13 +58,13 @@ val javadocJar = tasks.register<Jar>("javadocJar") {
 publishing {
     repositories {
         maven {
-            name = "sonatype"
-            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            name = "central"
+            setUrl("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
             credentials {
-                username = providers.gradleProperty("ossrhUsername").orNull
-                    ?: System.getenv("OSSRH_USERNAME")
-                password = providers.gradleProperty("ossrhPassword").orNull
-                    ?: System.getenv("OSSRH_PASSWORD")
+                username = providers.gradleProperty("centralPortalUsername").orNull
+                    ?: System.getenv("CENTRAL_PORTAL_USERNAME")
+                password = providers.gradleProperty("centralPortalPassword").orNull
+                    ?: System.getenv("CENTRAL_PORTAL_PASSWORD")
             }
             authentication {
                 create<BasicAuthentication>("basic")
